@@ -1,4 +1,5 @@
 // Header file for operator
+#include <iostream>
 
 struct ident
 {
@@ -15,9 +16,9 @@ class Operator
 public:
 	Operator();
 	~Operator();
-	int display_ID();
-	ident get_ID();
+	int display_ID(int ID);
 
 protected:
+	ident get_ID(int ID);
 	ident ID;
 };
