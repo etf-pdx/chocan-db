@@ -14,12 +14,12 @@ User::~User()
 		delete My_Service;
 }
 
-int User::Display_Service(Service My_Service)
+int User::Display_Service(Service* My_Service)
 {
 	if (!My_Service)
 		return -1;
 
-	return My_Service->display();
+	return My_Service->Display();
 }
 
 // Implementation of Provider class
@@ -42,6 +42,8 @@ int Provider::Get_Report(int ID)
 
 	display_ID(ID);
 	Display_Service(My_Service);
+        //trent- add meaning to ret code. adding to satisfy ret type of func
+        return 0;
 }
 
 // Implementation of Member class
@@ -64,4 +66,6 @@ int Member::Get_Report(int ID)
 
 	display_ID(ID);
 	Display_Service(My_Service);
+        //trent- add meaning to ret code. adding to satisfy ret type of func
+        return 0;
 }

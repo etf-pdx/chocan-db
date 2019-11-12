@@ -1,5 +1,7 @@
 // Header file for services
 #include <iostream>
+//for strcpy()
+#include <string.h>
 
 const int MAX_NAME = 21;		// MUST be max of 20 characters
 const int MAX_COMMENT = 101;	// MUST be max of 100 characters

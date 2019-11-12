@@ -20,8 +20,14 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 	strcpy(service_name, s_name);
 
 	service_code = code;
-	if (service_code < MAX_SERVICE)
-		continue;
+
+        //trent- need to rm all "continues" that exist outside for/while loop
+        // if service object already exists and we are copying it, do we need these checks?
+        // or would the checks already have happened when the existing object set each if its own data mems
+        // if we decide we need, then i think only way to catch failed copy constructor is to throw an exception
+ 
+//	if (service_code < MAX_SERVICE)
+//		continue;
 
 	provided_date = new char[MAX_DATE];
 	strcpy(provided_date, p_date);
@@ -36,12 +42,12 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 
 	memberID = mID;
 	providerID = pID;
-	if (memberID < MAX_ID && provider_ID < MAX_ID)
-		continue;
+//	if (memberID < MAX_ID && provider_ID < MAX_ID)
+//		continue;
 
 	service_fee = fee;
-	if (service_fee < MAX_FEE)
-		continue;
+//	if (service_fee < MAX_FEE)
+//		continue;
 
 	comments = new char[MAX_COMMENT];
 	strcpy(comments, s_comments);
@@ -62,14 +68,14 @@ Service::~Service()
 
 int Service::Display()
 {
-	cout << "Service Name: " << service_name << endl;
-	cout << "Service ID: " << service_code << endl;
-	cout << "Date Provided: " << provided_date << endl;
-	cout << "Date Logged: " << logged_date << endl;
-	cout << "Member ID: " << memberID << endl;
-	cout << "Provider ID: " << providerID << endl;
-	cout << "Fee: " << service_fee << endl;
-	cout << "Comments: " << comments << endl;
+	std::cout << "Service Name: " << service_name << std::endl;
+	std::cout << "Service ID: " << service_code << std::endl;
+	std::cout << "Date Provided: " << provided_date << std::endl;
+	std::cout << "Date Logged: " << logged_date << std::endl;
+	std::cout << "Member ID: " << memberID << std::endl;
+	std::cout << "Provider ID: " << providerID << std::endl;
+	std::cout << "Fee: " << service_fee << std::endl;
+	std::cout << "Comments: " << comments << std::endl;
 
 	return 0;
 }
