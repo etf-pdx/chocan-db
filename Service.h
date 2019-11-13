@@ -15,8 +15,9 @@ class Service
 public:
 	Service();
 	Service(char*, int, char*, char*, int, int, float, char*);
-	~Service();
-	int Display();
+        Service(const Service&);
+        ~Service();
+        int Display();
 
 protected:
 	char* service_name;
