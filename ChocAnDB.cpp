@@ -63,4 +63,4 @@ char *ServTB = "create table SERVICE\n"
                "    MEMBER_ID        INT\n"
                "        references MEMBER,\n"
                "    FEE              DECIMAL\n"
-               ")"
+               ")";
