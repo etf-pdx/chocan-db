@@ -57,13 +57,13 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 Service::~Service()
 {
 	if (service_name)
-		delete service_name;
+		delete [] service_name;
 	if (provided_date)
-		delete provided_date;
+		delete [] provided_date;
 	if (logged_date)
-		delete logged_date;
+		delete [] logged_date;
 	if (comments)
-		delete comments;
+		delete [] comments;
 }
 
 int Service::Display()

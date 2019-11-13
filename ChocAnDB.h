@@ -1,7 +1,7 @@
 //Database header file
 
 #include "User.h"
-#include "sqlite3.h"
+#include <sqlite3.h>
 #include <iostream>
 
 class ChocAnDB {
