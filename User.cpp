@@ -7,6 +7,12 @@ User::User()
 	My_Service = NULL;
 }
 
+User::User(Service To_add)
+{
+	My_Service = new Service;
+	My_Service = To_Add;
+}
+
 // Destructor
 User::~User()
 {
@@ -19,7 +25,7 @@ int User::Display_Service(Service My_Service)
 	if (!My_Service)
 		return -1;
 
-	return My_Service->display();
+	return My_Service->display(My_Service);
 }
 
 // Implementation of Provider class
@@ -62,6 +68,6 @@ int Member::Get_Report(int ID)
 	if (ID < 0)
 		return 0;
 
-	display_ID(ID);
+	Display_Member(ID);
 	Display_Service(My_Service);
 }

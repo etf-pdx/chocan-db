@@ -13,8 +13,9 @@ class Service
 public:
 	Service();
 	Service(char*, int, char*, char*, int, int, float, char*);
+	Service(Service To_Add)
 	~Service();
-	int Display();
+	int Display(Service* current);
 
 protected:
 	char* service_name;
@@ -25,4 +26,6 @@ protected:
 	int providerID;
 	float service_fee;
 	char* comments;
+
+	Service* next;
 };

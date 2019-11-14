@@ -4,20 +4,37 @@
 
 Operator::Operator()
 {
-	
+	ID.name = NULL;
+	ID.number = 0;
+	ID.address = NULL;
+	ID.city = NULL;
+	ID.state = NULL;
+	ID.zip = 0;
 }
 
 Operator::~Operator()
 {
-
+	if (ID.name)
+		delete[] ID.name;
+	if (ID.address)
+		delete[] ID.address;
+	if (ID.city)
+		delete[] ID.city;
+	if (ID.state)
+		delete[] ID.state;
 }
 
-int Operator::display_ID(int ID)
+int Operator::Display_Member(int ID)
 {
 	if (ID < 0)
 		return -1;
 
 	indent current_ID = get_ID(ID);
+	if (!current_ID)
+	{
+		cout << "Wrong ID Number.\n";
+		return -2;
+	}
 
 	/*
 	 * We might need to make ID a char array so that
@@ -38,4 +55,19 @@ int Operator::display_ID(int ID)
 	cout << "Zip Code: " << current_ID.zip << endl;
 
 	return 0;
+}
+
+indent Operator::get_ID(int IDnumber)
+{
+	/*
+	 * Get ID number here, changes once data structure is
+	 * developed
+	 */
+
+	if (IDnumber > 0)
+		continue;
+	if (ID.number == IDnumber)
+		return ID;
+	
+	return null;
 }

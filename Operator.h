@@ -16,9 +16,9 @@ class Operator
 public:
 	Operator();
 	~Operator();
-	int display_ID(int ID);
+	int Display_Member(int ID);
 
 protected:
-	ident get_ID(int ID);
+	ident get_ID(int IDnumber);
 	ident ID;
 };
