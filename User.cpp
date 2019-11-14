@@ -9,8 +9,7 @@ User::User()
 
 User::User(Service To_add)
 {
-	My_Service = new Service;
-	My_Service = To_Add;
+	My_Service = new Service(To_add);
 }
 
 // Destructor
@@ -40,6 +39,11 @@ Provider::Provider()
 
 }
 
+Provider::Provider(Provider& To_Add)
+{
+	My_Service = new Service(To_Add.My_Service);
+}
+
 // Destructor
 Provider::~Provider()
 {
@@ -60,6 +64,11 @@ int Provider::Get_Report(int ID)
 Member::Member()
 {
 
+}
+
+Member::Member(Member& To_Add)
+{
+	My_Service = new Service(To_Add.My_Service);
 }
 
 //Destructor

@@ -21,7 +21,7 @@ class Provider : public User
 {
 public:
 	Provider();
-	Provider(Service To_Add);
+	Provider(Provider& To_Add);
 	~Provider();
 
 	int Get_Report(int Provider_ID);
@@ -35,7 +35,7 @@ class Member : public User
 {
 public:
 	Member();
-	Member(Service To_Add);
+	Member(Member& To_Add);
 	~Member();
 
 	int Get_Report(int Member_ID);

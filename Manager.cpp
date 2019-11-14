@@ -21,7 +21,7 @@ int Manager::AddProvider(Provider& To_Add)
 	return 0;
 }
 
-int Manager::AddMember()
+int Manager::AddMember(Member& To_Add)
 {
 	// First person in the system
 	if(!person)
