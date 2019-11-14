@@ -19,5 +19,3 @@ protected:
     int OpenDB();
 };
 
-
-#endif //CHOCAN_CS320_07_CHOCANDB_H

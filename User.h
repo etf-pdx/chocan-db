@@ -11,7 +11,7 @@ public:
 	User(Service To_Add);
 	~User();
 protected:
-	int Display_Service(Service);
+	int Display_Service(Service*);
 
 	Service* My_Service;
 };
