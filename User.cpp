@@ -28,6 +28,11 @@ int User::Display_Service(Service My_Service)
 	return My_Service->display(My_Service);
 }
 
+int User::get_ID()
+{
+
+}
+
 // Implementation of Provider class
 // Default Provider constructor
 Provider::Provider()

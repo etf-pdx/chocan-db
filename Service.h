@@ -13,7 +13,7 @@ class Service
 public:
 	Service();
 	Service(char*, int, char*, char*, int, int, float, char*);
-	Service(Service To_Add)
+	Service(const Service& To_Add)
 	~Service();
 	int Display(Service* current);
 

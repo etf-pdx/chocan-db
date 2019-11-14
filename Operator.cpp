@@ -24,12 +24,12 @@ Operator::~Operator()
 		delete[] ID.state;
 }
 
-int Operator::display_ID(int ID)
+int Operator::Display_Member(int IDnumber)
 {
-	if (ID < 0)
+	if (IDnumber < 0)
 		return -1;
 
-	indent current_ID = get_ID(ID);
+	indent current_ID = get_indent(IDnumber);
 
 	/*
 	 * We might need to make ID a char array so that
@@ -52,4 +52,13 @@ int Operator::display_ID(int ID)
 	std::cout << "Zip Code: " << current_ID.zip << std::endl;
 
 	return 0;
+}
+
+indent Operator::get_indent(int IDnumber)
+{
+	// For when we have a data structure to search through
+	if (ID.number != IDnumber)
+		return NULL;
+
+	return ID;
 }

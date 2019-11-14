@@ -48,7 +48,7 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 }
 
 // Copy Constructor
-Service::Service(Service To_Add)
+Service::Service(const Service& To_Add)
 {
 	service_name = new char[MAX_NAME];
 	strcpy(service_name, To_Add.service_name);

@@ -19,6 +19,6 @@ public:
 	int Display_Member(int ID);
 
 protected:
-	ident get_ID(int IDnumber);
+	ident get_indent(int IDnumber);
 	ident ID;
 };
