@@ -54,6 +54,13 @@ int Operator::Display_Member(int IDnumber)
 	return 0;
 }
 
+// Get ID number, mostly for comparison
+int Operator::GetIDnumber()
+{
+	return ID.number;
+}
+
+// Get Member data
 indent Operator::get_indent(int IDnumber)
 {
 	// For when we have a data structure to search through

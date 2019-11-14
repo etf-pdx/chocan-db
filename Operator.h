@@ -17,8 +17,10 @@ public:
 	Operator();
 	~Operator();
 	int Display_Member(int ID);
+	int GetIDnumber();
 
 protected:
 	ident get_indent(int IDnumber);
+
 	ident ID;
 };
