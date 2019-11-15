@@ -11,40 +11,50 @@ Service::Service()
 	providerID = 0;
 	service_fee = 0.0;
 	comments = NULL;
+	next = NULL;
 }
 
-// Copy Constructor
-Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, int pID, float fee, char* s_comments)
-{
-	service_name = new char[MAX_NAME];
-	strcpy(service_name, s_name);
+// Constructor w/ Args
+Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, int pID, float fee, char* s_comments) {
+    service_name = new char[MAX_NAME];
+    strcpy(service_name, s_name);
 
-	service_code = code;
-	if (service_code < MAX_SERVICE)
-		continue;
+    if (code > MAX_SERVICE || code < 0) {
+        // Throw exception
+        service_code = 0;
+    } else service_code = code;
 
-	provided_date = new char[MAX_DATE];
-	strcpy(provided_date, p_date);
-	/*
-		Check date format here
-	*/
-	logged_date = new char[MAX_DATE];
-	strcpy(logged_date, l_date);
-	/*
-		Check date format here
-	*/
+    provided_date = new char[MAX_DATE];
+    strcpy(provided_date, p_date);
+    /*
+        Check date format here
+    */
+    logged_date = new char[MAX_DATE];
+    strcpy(logged_date, l_date);
+    /*
+        Check date format here
+    */
 
-	memberID = mID;
-	providerID = pID;
-	if (memberID < MAX_ID && provider_ID < MAX_ID)
-		continue;
+    if (mID > MAX_ID || mID < 0) {
+        // Throw exception
+        memberID = 0;
+    } else memberID = mID;
 
-	service_fee = fee;
-	if (service_fee < MAX_FEE)
-		continue;
+    if (pID > MAX_ID || pID < 0) {
+        // Throw exception
+        providerID = 0;
+    } else providerID = pID;
+
+    if (fee > MAX_FEE || fee < 0) {
+        //Throw exception
+        service_fee = 0.0;
+    }
+	else service_fee = fee;
 
 	comments = new char[MAX_COMMENT];
 	strcpy(comments, s_comments);
+
+	next = NULL;
 }
 
 // Copy Constructor
@@ -54,8 +64,6 @@ Service::Service(const Service& To_Add)
 	strcpy(service_name, To_Add.service_name);
 
 	service_code = To_Add.service_code;
-	if (service_code < MAX_SERVICE)
-		continue;
 
 	provided_date = new char[MAX_DATE];
 	strcpy(provided_date, To_Add.provided_date);
@@ -70,15 +78,12 @@ Service::Service(const Service& To_Add)
 
 	memberID = To_Add.memberID;
 	providerID = To_Add.providerID;
-	if (memberID < MAX_ID && provider_ID < MAX_ID)
-		continue;
-
 	service_fee = To_Add.service_fee;
-	if (service_fee < MAX_FEE)
-		continue;
 
 	comments = new char[MAX_COMMENT];
 	strcpy(comments, To_Add.comments);
+
+	next = NULL;
 }
 
 // Destructor
@@ -117,4 +122,11 @@ int Service::Display(Service* current)
 	Display(current->next);
 
 	return 0;
+}
+
+Service * Service::getNext() {
+    return next;
+}
+void Service::setNext(const Service * toSet) {
+    next = toSet;
 }

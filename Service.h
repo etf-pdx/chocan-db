@@ -16,6 +16,8 @@ public:
 	Service(const Service& To_Add)
 	~Service();
 	int Display(Service* current);
+	Service * getNext();
+    void setNext(const Service*);
 
 protected:
 	char* service_name;
