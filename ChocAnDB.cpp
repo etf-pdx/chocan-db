@@ -32,7 +32,7 @@ int ChocAnDB::OpenDB()
 char *MembTB = "create table MEMBER\n"
                "(\n"
                "    ID      INT\n"
-               "        primary key,\n"
+               "        primary key,\n"         //Primary ke makes ID's unique
                "    NAME    TEXT,\n"
                "    ADDRESS TEXT,\n"
                "    CITY    TEXT,\n"
@@ -44,7 +44,7 @@ char *MembTB = "create table MEMBER\n"
 char *PrvdTB = "create table PROVIDER\n"
                "(\n"
                "    ID      INT\n"
-               "        primary key,\n"
+               "        primary key,\n"         //Primary ke makes ID's unique
                "    NAME    TEXT,\n"
                "    ADDRESS TEXT,\n"
                "    CITY    TEXT,\n"
