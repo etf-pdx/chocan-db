@@ -5,3 +5,4 @@
 /.vs
 *.sln
 *.vcxproj*
+/Debug
