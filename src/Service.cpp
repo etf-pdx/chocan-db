@@ -19,7 +19,7 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
     service_name = new char[MAX_NAME];
     strcpy(service_name, s_name);
 
-    if (code > MAX_SERVICE || code < 0) {
+    if (code > MAX_SERVICE || code <= 0) {
         // Throw exception
         service_code = 0;
     } else service_code = code;
@@ -35,17 +35,17 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
         Check date format here
     */
 
-    if (mID > MAX_ID || mID < 0) {
+    if (mID > MAX_ID || mID <= 0) {
         // Throw exception
         memberID = 0;
     } else memberID = mID;
 
-    if (pID > MAX_ID || pID < 0) {
+    if (pID > MAX_ID || pID <= 0) {
         // Throw exception
         providerID = 0;
     } else providerID = pID;
 
-    if (fee > MAX_FEE || fee < 0) {
+    if (fee > MAX_FEE || fee <= 0) {
         //Throw exception
         service_fee = 0.0;
     }
@@ -58,30 +58,30 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 }
 
 // Copy Constructor
-Service::Service(const Service& To_Add)
+Service::Service(const Service* To_Add)
 {
 	service_name = new char[MAX_NAME];
-	strcpy(service_name, To_Add.service_name);
+	strcpy(service_name, To_Add->service_name);
 
-	service_code = To_Add.service_code;
+	service_code = To_Add->service_code;
 
 	provided_date = new char[MAX_DATE];
-	strcpy(provided_date, To_Add.provided_date);
+	strcpy(provided_date, To_Add->provided_date);
 	/*
 		Check date format here
 	*/
 	logged_date = new char[MAX_DATE];
-	strcpy(logged_date, To_Add.logged_date);
+	strcpy(logged_date, To_Add->logged_date);
 	/*
 		Check date format here
 	*/
 
-	memberID = To_Add.memberID;
-	providerID = To_Add.providerID;
-	service_fee = To_Add.service_fee;
+	memberID = To_Add->memberID;
+	providerID = To_Add->providerID;
+	service_fee = To_Add->service_fee;
 
 	comments = new char[MAX_COMMENT];
-	strcpy(comments, To_Add.comments);
+	strcpy(comments, To_Add->comments);
 
 	next = NULL;
 }
@@ -110,14 +110,14 @@ int Service::Display(Service* current)
 	if (!current)
 		return 0;
 
-	cout << "Service Name: " << current->service_name << endl;
-	cout << "Service ID: " << current->service_code << endl;
-	cout << "Date Provided: " << current->provided_date << endl;
-	cout << "Date Logged: " << current->logged_date << endl;
-	cout << "Member ID: " << current->memberID << endl;
-	cout << "Provider ID: " << current->providerID << endl;
-	cout << "Fee: " << current->service_fee << endl;
-	cout << "Comments: " << current->comments << endl << endl;
+	std::cout << "Service Name: " << current->service_name << std::endl;
+	std::cout << "Service ID: " << current->service_code << std::endl;
+	std::cout << "Date Provided: " << current->provided_date << std::endl;
+	std::cout << "Date Logged: " << current->logged_date << std::endl;
+	std::cout << "Member ID: " << current->memberID << std::endl;
+	std::cout << "Provider ID: " << current->providerID << std::endl;
+	std::cout << "Fee: " << current->service_fee << std::endl;
+	std::cout << "Comments: " << current->comments << std::endl << std::endl;
 
 	Display(current->next);
 
@@ -128,5 +128,5 @@ Service * Service::getNext() {
     return next;
 }
 void Service::setNext(const Service * toSet) {
-    next = toSet;
+    next = new Service(toSet);
 }
