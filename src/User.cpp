@@ -19,17 +19,12 @@ User::~User()
 		delete My_Service;
 }
 
-int User::Display_Service(Service My_Service)
+int User::Display_Service(Service* My_Service)
 {
 	if (!My_Service)
 		return -1;
 
-	return My_Service->display(My_Service);
-}
-
-int User::get_ID()
-{
-
+	return My_Service->Display(My_Service);
 }
 
 // Implementation of Provider class
@@ -52,11 +47,13 @@ Provider::~Provider()
 
 int Provider::Get_Report(int ID)
 {
+	// Return -1 for error
 	if (ID < 0)
-		return 0;
+		return -1;
 
-	display_ID(ID);
+	Display_Member(ID);
 	Display_Service(My_Service);
+	return 0;
 }
 
 // Implementation of Member class
@@ -79,9 +76,11 @@ Member::~Member()
 
 int Member::Get_Report(int ID)
 {
+	// Return -1 for error
 	if (ID < 0)
-		return 0;
+		return -1;
 
 	Display_Member(ID);
 	Display_Service(My_Service);
+	return 0;
 }

@@ -26,6 +26,7 @@ int Manager::OptionSelect()
 	Case 1:	Get reports
 	Case 2: Ineteractive mode
 	*/
+	return 0;
 }
 
 // When enter interactive mode, we're be doing things to this

@@ -16,11 +16,12 @@ class Operator
 public:
 	Operator();
 	~Operator();
-	int Display_Member(int ID);
+	int Display_Member(int IDnumber);
 	int GetIDnumber();
+	int HashFormula(int IDnumber);
 
 protected:
-	ident get_indent(int IDnumber);
+	ident get_ident(int IDnumber);
 
 	ident ID;
 };

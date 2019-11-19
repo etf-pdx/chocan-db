@@ -29,7 +29,7 @@ int Operator::Display_Member(int IDnumber)
 	if (IDnumber < 0)
 		return -1;
 
-	indent current_ID = get_indent(IDnumber);
+	ident current_ID = get_ident(IDnumber);
 
 	/*
 	 * We might need to make ID a char array so that
@@ -38,9 +38,9 @@ int Operator::Display_Member(int IDnumber)
 	 */
         // trent- thinking int is best for db usage. 
         // and atoi() can be used when a 1st digit check is needed.
-	if (ID < 100000000)	// if we decide to stick with int
+	if (IDnumber < 100000000)	// if we decide to stick with int
 		std::cout << "Manager Name: ";
-	else if (ID < 200000000)
+	else if (IDnumber < 200000000)
 		std::cout << "Provider Name: ";
 	else
 		std::cout << "Member Name: ";
@@ -60,8 +60,13 @@ int Operator::GetIDnumber()
 	return ID.number;
 }
 
+int HashFormula(int IDnumber)
+{
+
+}
+
 // Get Member data
-indent Operator::get_indent(int IDnumber)
+ident Operator::get_ident(int IDnumber)
 {
 	// For when we have a data structure to search through
 	if (ID.number != IDnumber)
