@@ -62,7 +62,7 @@ int Operator::GetIDnumber()
 
 int HashFormula(int IDnumber)
 {
-
+	return 0;
 }
 
 // Get Member data
@@ -70,7 +70,7 @@ ident Operator::get_ident(int IDnumber)
 {
 	// For when we have a data structure to search through
 	if (ID.number != IDnumber)
-		return NULL;
+		throw "Not an existing ID member!";
 
 	return ID;
 }
