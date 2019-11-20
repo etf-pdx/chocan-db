@@ -7,11 +7,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wwritable-strings"
 
-ChocAnDB::ChocAnDB()
+ChocAnDB::ChocAnDB(int &RetInt)
 {
-    DB = NULL;
-    STMT = NULL;
-    OpenDB();
+    DB = nullptr;
+    STMT = nullptr;
+    ErrMsg = nullptr;
+    RetInt = OpenDB();
 }
 
 ChocAnDB::~ChocAnDB()
@@ -24,8 +25,8 @@ ChocAnDB::~ChocAnDB()
     //learn how to handle SQLITE_API objects because sucessful function call rets SQLITE_OK
     sqlite3_finalize(STMT);
     sqlite3_close(DB);
-    DB = NULL;
-    STMT = NULL;
+    DB = nullptr;
+    STMT = nullptr;
 }
 
 
@@ -69,38 +70,26 @@ int ChocAnDB::OpenDB() {
 
     //Open the DB file (new/existing)
     if (sqlite3_open(file, &DB)) {
-        std::cout << "\t-FAILED-\n";
+        std::cout << "\t-FAILED-\n" << "FILE FAILED TO OPEN\n";
         return 1;
     }
 
     //check for member table
-    if (sqlite3_prepare_v2(DB,MembTB,-1,&STMT,NULL)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
-    }
-    if (sqlite3_step(STMT)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
+    if (sqlite3_exec(DB,MembTB,nullptr,nullptr,&ErrMsg)){
+        std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+        return 2;
     }
 
     //check for provider table
-    if (sqlite3_prepare_v2(DB,PrvdTB,-1,&STMT,NULL)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
-    }
-    if (sqlite3_step(STMT)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
+    if (sqlite3_exec(DB,PrvdTB,nullptr,nullptr,&ErrMsg)) {
+        std::cout << "\t-FAILED-\n" <<  "PROVIDER TABLE FAILED:\t" << ErrMsg;
+        return 3;
     }
 
     //check for service table
-    if (sqlite3_prepare_v2(DB,ServTB,-1,&STMT,NULL)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
-    }
-    if (sqlite3_step(STMT)){
-        std::cout << "\t-FAILED-\n";
-        return 1;
+    if (sqlite3_exec(DB,ServTB,nullptr,nullptr,&ErrMsg)){
+        std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
+        return 4;
     }
 
     std::cout << "\t-COMPLETE-\n";

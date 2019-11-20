@@ -26,7 +26,6 @@ int main()
 {
     int ID;
     bool mgr = false;   // True if user is a manager
-    ChocAnDB database;
 
     cout <<"\n\tWelcome to Chocaholics Anonymous.\n";
     cout <<"\nPlease enter your nine digit I.D. number.\n";

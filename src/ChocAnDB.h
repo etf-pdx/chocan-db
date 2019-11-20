@@ -8,7 +8,7 @@
 
 class ChocAnDB {
 public:
-    ChocAnDB();
+    ChocAnDB(int &RetInt);
     ~ChocAnDB();
     int AddUser();
     int ModUser();
@@ -17,7 +17,9 @@ public:
 
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name
+    char* ErrMsg;                           //SQL Error message
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
-    int OpenDB();
+    int OpenDB();                           //DB initializer
+    int RetInt = 0;                         //return error code.
 };
