@@ -1,5 +1,12 @@
 // Main interface for the program
 
+/*
+ * To compile in VS 2019
+ * Open directory in developer command prompt
+ * run "cl /EHsc *.cpp"
+ */
+
+
 //#include "ChocAnDB.h"
 //#include "Manager.h"
 //#include "Operator.h"

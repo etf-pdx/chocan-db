@@ -1,0 +1,85 @@
+﻿  Manager.cpp
+  Operator.cpp
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(6,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(32,2): error C2065: 'indent': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(32,9): error C2146: syntax error: missing ';' before identifier 'current_ID'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(32,9): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(41,9): error C2676: binary '<': 'ident' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(43,14): error C2676: binary '<': 'ident' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(48,15): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(49,30): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(50,28): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(51,27): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(52,31): error C2065: 'current_ID': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(64,18): error C2143: syntax error: missing ';' before 'Operator::get_indent'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(64,28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(65,1): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(65,1): error C2556: 'int Operator::get_indent(int)': overloaded function differs only by return type from 'ident Operator::get_indent(int)'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.h(23): message : see declaration of 'Operator::get_indent'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.cpp(64,18): error C2371: 'Operator::get_indent': redefinition; different basic types
+  Service.cpp
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Operator.h(23): message : see declaration of 'Operator::get_indent'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(6,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(20,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(28,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(33,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(55,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(64,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(69,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(74,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(84,1): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(113,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(113,55): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(114,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(114,53): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(115,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(115,57): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(116,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(116,53): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(117,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(117,48): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(118,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(118,52): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(119,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(119,45): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(120,2): error C2065: 'cout': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(120,47): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(120,55): error C2065: 'endl': undeclared identifier
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(131,17): error C2440: '=': cannot convert from 'const Service *' to 'Service *'
+  User.cpp
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.cpp(131,12): message : Conversion loses qualifiers
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(6,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(23,1): error C2511: 'int User::Display_Service(Service)': overloaded member function not found in 'User'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.h(7): message : see declaration of 'User'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(24,17): error C2678: binary '!': no operator found which takes a left-hand operand of type 'Service' (or there is no acceptable conversion)
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(24,17): message : could be 'built-in C++ operator!(bool)'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(24,17): message : while trying to match the argument list '(Service)'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(24,6): error C2088: '!': illegal for class
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(27,19): error C2819: type 'Service' does not have an overloaded member 'operator ->'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(11): message : see declaration of 'Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(27,19): message : did you intend to use '.' instead?
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(27,28): error C2039: 'display': is not a member of 'Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(11): message : see declaration of 'Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(30,11): error C2039: 'get_ID': is not a member of 'User'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.h(7): message : see declaration of 'User'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(44,45): error C2664: 'Service::Service(const Service &)': cannot convert argument 1 from 'Service *' to 'const Service &'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(44,45): message : Reason: cannot convert from 'Service *' to 'const Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(44,33): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(16,2): message : see declaration of 'Service::Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(58,2): error C3861: 'display_ID': identifier not found
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(71,45): error C2664: 'Service::Service(const Service &)': cannot convert argument 1 from 'Service *' to 'const Service &'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(71,45): message : Reason: cannot convert from 'Service *' to 'const Service'
+C:\Users\tommy\Documents\GitHub\chocan-db\src\User.cpp(71,33): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+  UnitTest.cpp
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Service.h(16,2): message : see declaration of 'Service::Service'
+  Generating Code...
+C:\Users\tommy\Documents\GitHub\chocan-db\test\ManagerTest.h(1,10): fatal error C1083: Cannot open include file: 'gtest/gtest.h': No such file or directory
+C:\Users\tommy\Documents\GitHub\chocan-db\src\Manager.cpp(29): error C4716: 'Manager::OptionSelect': must return a value

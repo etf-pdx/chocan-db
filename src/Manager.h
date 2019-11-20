@@ -6,6 +6,7 @@ public:
 	Manager();
 	~Manager();
 
+	// int AddUser(User*);
 	int OptionSelect();
 	int InteractiveMode();
 

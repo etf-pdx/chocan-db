@@ -1,7 +1,13 @@
 //Database header file
 
 #include "User.h"
+
+#ifdef SQLITE3_H
 #include <sqlite3.h>
+#else
+#include <winsqlite/winsqlite3.h>
+#endif // sqlite3.h
+
 #include <iostream>
 
 class ChocAnDB {

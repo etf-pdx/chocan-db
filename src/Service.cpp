@@ -16,12 +16,15 @@ Service::Service()
 
 // Constructor w/ Args
 Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, int pID, float fee, char* s_comments) {
-    service_name = new char[MAX_NAME];
+	bool isGood = true;
+	
+	service_name = new char[MAX_NAME];
     strcpy(service_name, s_name);
 
-    if (code > MAX_SERVICE || code < 0) {
+    if (code > MAX_SERVICE || code <= 0) {
         // Throw exception
         service_code = 0;
+		isGood = false;
     } else service_code = code;
 
     provided_date = new char[MAX_DATE];
@@ -35,17 +38,19 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
         Check date format here
     */
 
-    if (mID > MAX_ID || mID < 0) {
+    if (mID > MAX_ID || mID <= 0) {
         // Throw exception
         memberID = 0;
+		isGood = false;
     } else memberID = mID;
 
-    if (pID > MAX_ID || pID < 0) {
+    if (pID > MAX_ID || pID <= 0) {
         // Throw exception
         providerID = 0;
+		isGood = false;
     } else providerID = pID;
 
-    if (fee > MAX_FEE || fee < 0) {
+    if (fee > MAX_FEE || fee <= 0) {
         //Throw exception
         service_fee = 0.0;
     }
@@ -55,6 +60,14 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 	strcpy(comments, s_comments);
 
 	next = NULL;
+
+	if (isGood == false)
+	{
+		/*
+		 * delete [] // all char*;
+		 * make this NULL;
+		 */
+	}
 }
 
 // Copy Constructor
