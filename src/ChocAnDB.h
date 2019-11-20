@@ -3,13 +3,7 @@
 
 #include "User.h"
 #include <sys/stat.h>
-
-#ifdef SQLITE3_H
-#include <sqlite3.h>
-#else
-#include <sqlite/sqlite3.h>
-#endif // sqlite3.h
-
+#include "sqlite/sqlite3.h"
 #include <iostream>
 
 class ChocAnDB {
