@@ -7,10 +7,10 @@
  */
 
 
-//#include "ChocAnDB.h"
+#include "ChocAnDB.h"
 //#include "Manager.h"
 //#include "Operator.h"
-#include "Service.h"
+//#include "Service.h"
 #include <iostream>
 using namespace std;
 
@@ -20,10 +20,13 @@ const int UPP_MGR = 199999999;  // Upper bound for manager ID numbers
 // We may want to consolidate constant definitions like these^^
 // and the ones in Service.h into a "params.h" header file...
 
+
+
 int main()
 {
     int ID;
     bool mgr = false;   // True if user is a manager
+    ChocAnDB database;
 
     cout <<"\n\tWelcome to Chocaholics Anonymous.\n";
     cout <<"\nPlease enter your nine digit I.D. number.\n";
