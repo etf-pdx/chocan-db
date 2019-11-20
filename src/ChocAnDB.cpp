@@ -4,8 +4,8 @@
 
 #include "ChocAnDB.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wwritable-strings"
+// #pragma clang diagnostic push
+// #pragma clang diagnostic ignored "-Wwritable-strings"
 
 ChocAnDB::ChocAnDB(int &RetInt)
 {
@@ -96,4 +96,4 @@ int ChocAnDB::OpenDB() {
     return 0;
 }
 
-#pragma clang diagnostic pop
+// #pragma clang diagnostic pop

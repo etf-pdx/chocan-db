@@ -10,10 +10,10 @@ class ChocAnDB {
 public:
     ChocAnDB(int &RetInt);
     ~ChocAnDB();
-    int AddUser();
-    int ModUser();
-    int RmUser();
-    User* GetUser();
+    //int AddUser();
+    //int ModUser();
+    //int RmUser();
+    //User* GetUser();
 
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name
