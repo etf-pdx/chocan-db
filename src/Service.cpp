@@ -122,7 +122,7 @@ Service::~Service()
 int Service::Display(Service* current)
 {
 	if (!current)
-		return 0;
+		return -1;
 
 	std::cout << "Service Name: " << current->service_name << std::endl;
 	std::cout << "Service ID: " << current->service_code << std::endl;
@@ -141,6 +141,10 @@ int Service::Display(Service* current)
 Service * Service::getNext() {
     return next;
 }
-void Service::setNext(const Service * toSet) {
+int Service::setNext(const Service * toSet) {
     next = new Service(toSet);
+	if (!next)
+		return -1;
+
+	return 0;
 }
