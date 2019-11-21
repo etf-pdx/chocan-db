@@ -103,8 +103,8 @@ int ChocAnDB::ChkFrm(char *datetime) {
 
 int ChocAnDB::OpenDB() {
     const char *MembTB = "create table IF NOT EXISTS MEMBER (\n"  //If Table does not exist it will be created
-                         "    ID      INT(9) CHECK (ID < 1999999999)\n" //
-                         "                     primary key,\n"                 //Primary key makes ID's unique
+                         "    ID      INT(9)"// DEFAULT 1000000000 CHECK (ID < 1999999999)\n" //
+                         "                      primary key,\n"                 //Primary key makes ID's unique
                          "    NAME    TEXT(25) NOT NULL ,\n"
                          "    ADDRESS TEXT(25) NOT NULL ,\n"
                          "    CITY    TEXT(14) NOT NULL ,\n"
