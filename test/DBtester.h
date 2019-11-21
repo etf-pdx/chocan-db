@@ -2,16 +2,15 @@
 // Created by CBunt on 11/20/2019.
 // will fix later
 
-#ifndef CHOCANDB_CPP_DBTESTER_H
-#define CHOCANDB_CPP_DBTESTER_H
-
-#include <time.h>
-#include <fsteam>
+#include <ctime>
+#include <fstream>
+#include "../src/ChocAnDB.h"
 #include <iostream>
-#include "..\src\ChocAnDB.h"
+
 class DBtester {
+public:
+	int test();
+
+private:
 
 };
-
-
-#endif //CHOCANDB_CPP_DBTESTER_H
