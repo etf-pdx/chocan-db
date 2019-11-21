@@ -2,11 +2,9 @@
 // Created by CBunt on 11/20/2019.
 //
 
-#include <ctime>
-#include <fstream>
-#include "../src/ChocAnDB.h"
+#include "DBtester.h"
 
-int main(){
+int DBtester::test(){
     int RetInt = 0;
     time_t rawtime;
     struct tm *ptm;
