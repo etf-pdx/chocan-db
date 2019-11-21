@@ -13,9 +13,10 @@ public:
     ~ChocAnDB();
     /*Add User both
      *            */
-    //int AddUser(int type,ident &UserID, int &RetInt);
+    int AddUser(char type,ident &UserID, int &RetInt);
     //int ModUser();
     //int RmUser();
+    int MkServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt);
     //User* GetUser();
 
 protected:
@@ -25,4 +26,5 @@ protected:
     sqlite3_stmt* STMT;                     //DB statement
     int OpenDB();                           //DB initializer
     int RetInt = 0;                         //return error code.
+    int ChkFrm(char* datetime);             //This will check formatting return 0 if correct
 };

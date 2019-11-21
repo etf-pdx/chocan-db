@@ -1,5 +1,5 @@
-#include "ServiceTest.h"
-//#include "DBtester.h"
+//#include "ServiceTest.h"
+#include "DBtester.h"
 
 /*
  * To compile for VS2019
@@ -11,12 +11,12 @@ int main()
 {
 
 	// Testing Service
-	ServiceTest servicetest;
-	servicetest.StartTest();
+	//ServiceTest servicetest;
+	//servicetest.StartTest();
 	
 	// Testing Database
-	//DBtester databaseTest;
-	//databaseTest.test();
+	DBtester databaseTest;
+	databaseTest.test();
 
 	return 0;
 }
