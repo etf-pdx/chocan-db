@@ -74,6 +74,9 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 // Copy Constructor
 Service::Service(const Service* To_Add)
 {
+	if (!To_Add)
+		return;
+
 	service_name = new char[MAX_NAME];
 	strcpy(service_name, To_Add->service_name);
 
@@ -122,7 +125,7 @@ Service::~Service()
 int Service::Display(Service* current)
 {
 	if (!current)
-		return 0;
+		return -1;
 
 	std::cout << "Service Name: " << current->service_name << std::endl;
 	std::cout << "Service ID: " << current->service_code << std::endl;
@@ -141,6 +144,10 @@ int Service::Display(Service* current)
 Service * Service::getNext() {
     return next;
 }
-void Service::setNext(const Service * toSet) {
+int Service::setNext(const Service * toSet) {
     next = new Service(toSet);
+	if (!next)
+		return -1;
+
+	return 0;
 }

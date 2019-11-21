@@ -9,7 +9,5 @@ public:
 	~ServiceTest();
 
 	int StartTest();
-	int DoTest(Service*);
 private:
-
 };
