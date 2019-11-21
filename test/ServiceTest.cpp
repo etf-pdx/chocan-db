@@ -19,7 +19,9 @@ int ServiceTest::StartTest()
 	//std::cout << "Setting Next Node\n";
 	assert(!GoodData->setNext(NextData));
 	assert(!GoodData->Display(GoodData));
+	assert(GoodData->setNext(EmptyData));
 
+	// Cleaning Up
 	if (!GoodData)
 		delete[] GoodData;
 	if (!NextData)
