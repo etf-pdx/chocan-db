@@ -3,10 +3,8 @@
 //
 
 #include "ChocAnDB.h"
-
-// #pragma clang diagnostic push
-// #pragma clang diagnostic ignored "-Wwritable-strings"
-
+#define SQLITE_OK           0   // Successful result
+ChocAnDB::ChocAnDB(){ ChocAnDB(RetInt); }
 ChocAnDB::ChocAnDB(int &RetInt)
 {
     DB = nullptr;
@@ -29,6 +27,7 @@ ChocAnDB::~ChocAnDB()
     STMT = nullptr;
 }
 
+//int ChocAnDB::AddUser(int type,ident &UserID, int &RetInt) {}
 
 
 int ChocAnDB::OpenDB() {
@@ -63,31 +62,35 @@ int ChocAnDB::OpenDB() {
                          "    FOREIGN KEY(MEMBER_ID)\n"           //Foreign key links to a primary key
                          "        references MEMBER\n"
                          ")";
-
+    int exit = 0;
     std::cout << "PREPARING DATABASE:";
     //trent- error checking? possible ret values for this open func?.
     //learn how to handle return val in meaningful way for errors
 
     //Open the DB file (new/existing)
-    if (sqlite3_open(file, &DB)) {
+    exit = sqlite3_open(file, &DB);
+    if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" << "FILE FAILED TO OPEN\n";
         return 1;
     }
 
     //check for member table
-    if (sqlite3_exec(DB,MembTB,nullptr,nullptr,&ErrMsg)){
+    exit = sqlite3_exec(DB,MembTB,nullptr,nullptr,&ErrMsg);
+    if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
         return 2;
     }
 
     //check for provider table
-    if (sqlite3_exec(DB,PrvdTB,nullptr,nullptr,&ErrMsg)) {
+    sqlite3_exec(DB,PrvdTB,nullptr,nullptr,&ErrMsg);
+    if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" <<  "PROVIDER TABLE FAILED:\t" << ErrMsg;
         return 3;
     }
 
     //check for service table
-    if (sqlite3_exec(DB,ServTB,nullptr,nullptr,&ErrMsg)){
+    sqlite3_exec(DB,ServTB,nullptr,nullptr,&ErrMsg);
+    if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
         return 4;
     }
@@ -95,5 +98,3 @@ int ChocAnDB::OpenDB() {
     std::cout << "\t-COMPLETE-\n";
     return 0;
 }
-
-// #pragma clang diagnostic pop

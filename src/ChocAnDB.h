@@ -8,9 +8,12 @@
 
 class ChocAnDB {
 public:
+    ChocAnDB();
     ChocAnDB(int &RetInt);
     ~ChocAnDB();
-    //int AddUser();
+    /*Add User both
+     *            */
+    //int AddUser(int type,ident &UserID, int &RetInt);
     //int ModUser();
     //int RmUser();
     //User* GetUser();

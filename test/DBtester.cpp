@@ -18,6 +18,8 @@ int DBtester::test(){
     if (RetInt == 0){
         fprintf(log,"PASSED DATABASE FILE OPENED: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     }
+    else
+        fprintf(log,"FAILED DATABASE FILE OPENED: %02d:%02d:%02d\t ERRORCODE: \n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     fclose(log);
