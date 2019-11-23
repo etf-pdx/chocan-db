@@ -103,9 +103,12 @@ Service::Service(const Service* To_Add)
 	next = NULL;
 }
 
+// TODO: Test this destructor... hoping to make sure the entire service list is deallocated, not sure if this is the best way...
 // Destructor
 Service::~Service()
 {
+    destroy(this);
+    /*
 	if (service_name)
 		delete [] service_name;
 	if (provided_date)
@@ -114,6 +117,23 @@ Service::~Service()
 		delete [] logged_date;
 	if (comments)
 		delete [] comments;
+    */
+}
+// Destroyer
+void Service::destroy(Service* current)
+{
+    if (current->service_name)
+        delete [] current->service_name;
+    if (current->provided_date)
+        delete [] current->provided_date;
+    if (current->logged_date)
+        delete [] current->logged_date;
+    if (current->comments)
+        delete [] current->comments;
+    if (current->next) {
+        destroy(next);
+        delete (current->next);
+    }
 }
 
 // Display all services in the list
@@ -136,7 +156,9 @@ int Service::Display(Service* current)
 	std::cout << "Fee: " << current->service_fee << std::endl;
 	std::cout << "Comments: " << current->comments << std::endl << std::endl;
 
-	Display(current->next);
+	if (current->next)
+	    Display(current->next);
+	else std::cout << endl;
 
 	return 0;
 }
