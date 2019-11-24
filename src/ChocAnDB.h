@@ -19,13 +19,18 @@ public:
      * 'm' - Member
      * 'p' - provider
      * 'g' - manager
-     * provided userdate in an ident struct with no ID number. The assigned ID number
+     * provide userdata in an ident struct with no ID number. The assigned ID number
      * will be printed and returned.
      */
 
     //int ModUser();
     //int RmUser();
-    int AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt);
+    int AddServ(int ServCD, char* ServNm, float fee, int &RetInt);
+    int AddRecd(ident &UserID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
+    /*Add a sevice to a memeber
+     * Date of service format should be "YYYY-MM-DD"
+     *
+     */
     //ident* GetUser(int IDnum);
 
     //TODO: return reports.

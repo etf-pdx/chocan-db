@@ -69,14 +69,9 @@ char* ChocAnDB::prepUser(char type, ident UserID){
                   "     STATE,"
                   "     ZIP"
                   "    )"
-                  "VALUES"
-                  "       ("
-                  "        '%s',"
-                  "        '%s',"
-                  "        '%s',"
-                  "        '%s',"
-                  "        '%d'"
-                  "       );",UserID.name,UserID.address,UserID.city,UserID.state,UserID.zip);
+                  "        VALUES ("
+                  "        '%s','%s','%s','%s','%d');",
+                  UserID.name,UserID.address,UserID.city,UserID.state,UserID.zip);
     switch (type) {
         case 'm' :
             ret = new char[strlen(Stmt)+19];
@@ -100,37 +95,50 @@ char* ChocAnDB::prepUser(char type, ident UserID){
     return ret;
 }
 
+int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
+    RetInt = 0;
+    char Buff[1024];
+    char *Stmt = nullptr;
+    std::cout << "UPDATING DATABASE:";
+    sprintf(Buff, "INSERT OR IGNORE INTO SERVICE ("
+                  "SERVICE_CODE, SERVICE_NAME, FEE)"
+                  "VALUES ( '%d','%s',ROUND('%f',2)"
+                  ");",ServCD,ServNm,fee);
+    Stmt = new char[strlen(Buff)+1];
+    strcpy(Stmt,Buff);
+    RetInt = sqlite3_exec(DB,Stmt,nullptr,nullptr,&ErrMsg);
+    if (RetInt != SQLITE_OK){
+        std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
+        return 5;
+    }
+    int SVnum = sqlite3_last_insert_rowid(DB);
+    std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << SVnum << std::endl;
+
+    return SVnum;
+}
+
 //add a service to a member
-int ChocAnDB::AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt){
+int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt){
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
     RetInt = ChkFrm(datetime);
     if (RetInt)
         return -1;
-    sprintf(Buff, "INSERT INTO SERVICE"
-                  "("
+    std::cout << "UPDATING DATABASE:";
+    sprintf(Buff, "INSERT INTO RECORD ("
                   "SERVICE_PROVIDED,"
                   "SERVICE_LOGGED,"
-                  "SERVICE_NAME,"
+                  "SERVICE_CODE,"
                   "PROVIDER_ID,"
                   "MEMBER_NAME,"
                   "MEMBER_ID,"
-                  "FEE,"
-                  "COMMENT"
-                  ")"
-                  "VALUES"
-                  "("
+                  "COMMENT)"
+                  "VALUES ("
                   "DATETIME('%s'),"
                   "CURRENT_TIMESTAMP,"
-                  "'%s',"
-                  "'%d',"
-                  "'%s',"
-                  "'%d',"
-                  "ROUND('%f',2),"
-                  "'%s'"
-                  ");",
-            datetime, ServNm, ProvID, UserID.name, UserID.number, fee, comm);
+                  "'%d','%d','%s','%d','%s');",
+            datetime, ServCD, ProvID, UserID.name, UserID.number, comm);
     Stmt = new char[strlen(Buff)+1];
     strcpy(Stmt,Buff);
     RetInt = sqlite3_exec(DB,Stmt,nullptr,nullptr,&ErrMsg);
@@ -138,6 +146,9 @@ int ChocAnDB::AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* 
         std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
         return 4;
     }
+
+    std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << ServCD << std::endl;
+
     return 0;
 }
 
@@ -158,13 +169,13 @@ int ChocAnDB::OpenDB() {
                          "    ZIP     INT(5) NOT NULL "
                          "); INSERT OR IGNORE INTO MEMBER"
                          "(ID,NAME,ADDRESS,CITY,STATE,ZIP) "
-                         "VALUES ("
-                         "100000000,"
-                         "'NAME',"
-                         "'ADDRESS',"
-                         "'CITY',"
-                         "'AA',"
-                         "00000);";
+                         "        VALUES ("
+                         "        100000000,"
+                         "        'NAME',"
+                         "        'ADDRESS',"
+                         "        'CITY',"
+                         "        'AA',"
+                         "        00000);";
 
     const char *PrvdTB = "create table IF NOT EXISTS PROVIDER ("//If Table does not exist it will be created
                          "    ID      INTEGER CHECK (ID < 299999999)"
@@ -176,39 +187,61 @@ int ChocAnDB::OpenDB() {
                          "    ZIP     INT(5) NOT NULL "
                          "); INSERT OR IGNORE INTO PROVIDER"
                          "(ID,NAME,ADDRESS,CITY,STATE,ZIP)"
-                         "VALUES ("
-                         "200000000,"
-                         "'NAME',"
-                         "'ADDRESS',"
-                         "'CITY',"
-                         "'AA',"
-                         "00000);";
+                         "        VALUES ("
+                         "        200000000,"
+                         "        'NAME',"
+                         "        'ADDRESS',"
+                         "        'CITY',"
+                         "        'AA',"
+                         "        00000);";
 
-    //TODO: Add managers database
-    //TODO: Add active vs suspended members
+    const char *MgmrTB = "create table MANAGER ("
+                         "    ID      INTEGER"
+                         "        primary key autoincrement,"
+                         "    NAME    CHARACTER(25) not null,"
+                         "    ADDRESS CHARACTER(25),"
+                         "    CITY    CHARACTER(14),"
+                         "    STATE   CHARACTER(2),"
+                         "    ZIP     INT(5),"
+                         "    check (ID < 99999999)"
+                         ");INSERT OR IGNORE INTO MANAGER"
+                         "(ID,NAME,ADDRESS,CITY,STATE,ZIP)"
+                         "        VALUES ("
+                         "        0,"
+                         "        'NAME',"
+                         "        'ADDRESS',"
+                         "        'CITY',"
+                         "        'AA',"
+                         "        00000);";
+    //TODO: Maintenance active vs suspended members
 
     const char *actvTB = "create table IF NOT EXISTS ACTIVE("
                          "    START_DATE DATE NOT NULL, "
                          "    MONTHS_PAID INT,"
                          "    MEMBER_ID INT(9) NOT NULL, "
                          "    FOREIGN KEY (MEMBER_ID)"
-                         "        REFERENCES MEMBER"
-                         ");";
+                         "        REFERENCES MEMBER);";
 
 
-    const char *ServTB = "create table IF NOT EXISTS SERVICE (" //If Table does not exist it will be created
+    const char *RecdTB = "create table IF NOT EXISTS RECORD (" //If Table does not exist it will be created
                          "    SERVICE_PROVIDED DATE NOT NULL ,"
                          "    SERVICE_LOGGED   DATE NOT NULL ,"
-                         "    SERVICE_NAME     TEXT(20) NOT NULL ,"
+                         "    SERVICE_CODE     INT(6) NOT NULL,"
                          "    PROVIDER_ID      INT(9) NOT NULL ,"
                          "    MEMBER_NAME      TEXT(25) NOT NULL ,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
-                         "    FEE              REAL CHECK (FEE < 1000),"
                          "    COMMENT          TEXT(100),"
                          //Foreign key links to a primary key
                          "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
-                         "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER"
-                         ");";
+                         "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"
+                         "    FOREIGN KEY(SERVICE_CODE)     REFERENCES SERVICE);";
+
+    const char *ServTB = "create table IF NOT EXISTS SERVICE ("
+                         "    SERVICE_CODE INTEGER NOT NULL "
+                         "        primary key,"
+                         "    SERVICE_NAME TEXT(20) NOT NULL, "
+                         "    FEE          REAL CHECK (FEE < 1000));";
+
     int exit = 0;
     std::cout << "PREPARING DATABASE:";
     //trent- error checking? possible ret values for this open func?.
@@ -221,25 +254,38 @@ int ChocAnDB::OpenDB() {
         return 1;
     }
 
-    //check for member table
+    //initialize member table
     exit = sqlite3_exec(DB,MembTB,nullptr,nullptr,&ErrMsg);
     if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
         return 2;
     }
 
-    //check for provider table
+    //initialize provider table
     exit = sqlite3_exec(DB,PrvdTB,nullptr,nullptr,&ErrMsg);
     if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" <<  "PROVIDER TABLE FAILED:\t" << ErrMsg;
         return 3;
     }
 
-    //check for service table
-    exit = sqlite3_exec(DB,ServTB,nullptr,nullptr,&ErrMsg);
+    //initialize manager table
+    exit = sqlite3_exec(DB,MgmrTB,nullptr,nullptr,&ErrMsg);
     if (exit != SQLITE_OK){
         std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
         return 4;
+    }
+
+    //initialize service table
+    exit = sqlite3_exec(DB,ServTB,nullptr,nullptr,&ErrMsg);
+    if (exit != SQLITE_OK){
+        std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
+        return 5;
+    }
+
+    exit = sqlite3_exec(DB,RecdTB,nullptr,nullptr,&ErrMsg);
+    if (exit != SQLITE_OK){
+        std::cout << "\t-FAILED-\n" <<  "RECORD TABLE FAILED:\t" << ErrMsg;
+        return 6;
     }
 
     std::cout << "\t-COMPLETE-\n";
