@@ -18,5 +18,8 @@ int main()
 	DBtester databaseTest;
 	databaseTest.test();
 
+	//Manager unit test 
+
+
 	return 0;
 }

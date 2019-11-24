@@ -18,6 +18,7 @@ public:
 	int Display(Service* current);
 	Service * getNext();
     int setNext(const Service*);
+    void destroy(Service* current);
 
 protected:
 	char* service_name;
