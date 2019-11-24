@@ -12,13 +12,23 @@ public:
     ChocAnDB();
     ChocAnDB(int &RetInt);
     ~ChocAnDB();
-    /*Add User both
-     *            */
+
     int AddUser(char type, ident UserID, int &RetInt);
+    /*Add Members, providers, and managers
+     *type char switch
+     * 'm' - Member
+     * 'p' - provider
+     * 'g' - manager
+     * provided userdate in an ident struct with no ID number. The assigned ID number
+     * will be printed and returned.
+     */
+
     //int ModUser();
     //int RmUser();
-    int MkServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt);
-    //User* GetUser();
+    int AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt);
+    //ident* GetUser(int IDnum);
+
+    //TODO: return reports.
 
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name

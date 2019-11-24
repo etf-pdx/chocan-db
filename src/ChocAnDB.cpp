@@ -26,24 +26,43 @@ ChocAnDB::~ChocAnDB()
     DB = nullptr;
     STMT = nullptr;
 }
-//TODO: Repeat for providers
+
+
 int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     RetInt = 0;
     char *Stmt = prepUser(type, UserID);
-    std::cout << "PREPARING DATABASE:";
+    std::cout << "UPDATING DATABASE:";
 
-    RetInt = sqlite3_exec(DB,Stmt,nullptr,nullptr,&ErrMsg);
-    if (RetInt != SQLITE_OK){
-        std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
-        return RetInt = 2;
+    switch (type) {
+        case 'm' :
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != SQLITE_OK) {
+                std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = 2;
+            } break;
+
+        case 'p' :
+            RetInt = sqlite3_exec(DB,Stmt,nullptr,nullptr,&ErrMsg);
+            if (RetInt != SQLITE_OK){
+                std::cout << "\t-FAILED-\n" <<  "PROVIDER TABLE FAILED:\t" << ErrMsg;
+                return 3;
+            } break;
+        case 'g':
+            //TODO: fill in manager
+        default:
+            return -1;
     }
-    return sqlite3_last_insert_rowid(DB);
+
+    int IDnum = sqlite3_last_insert_rowid(DB);
+    std::cout << "\t-UPDATE SUCCESSFUL-\n\tID NUMBER:\t" << IDnum;
+
+    return IDnum;
 }
 
 char* ChocAnDB::prepUser(char type, ident UserID){
     char *Stmt = nullptr;
-    sprintf(Stmt, "INSERT INTO MEMBER"
-                  "    ("
+    char *ret = nullptr;
+    sprintf(Stmt, "    ("
                   "     NAME,"
                   "     ADDRESS,"
                   "     CITY,"
@@ -58,11 +77,28 @@ char* ChocAnDB::prepUser(char type, ident UserID){
                   "        '%s',"
                   "        '%d'"
                   "       )\n",UserID.name,UserID.address,UserID.city,UserID.state,UserID.zip);
-    return Stmt;
+    switch (type) {
+        case 'm' :
+            strcpy(ret, "INSERT INTO MEMBER");
+            strcat(ret, Stmt);
+            break;
+        case 'p' :
+            strcpy(ret, "INSERT INTO PROVIDER");
+            strcat(ret, Stmt);
+            break;
+        case 'g' :
+            strcpy(ret, "INSERT INTO MANAGER");
+            strcat(ret, Stmt);
+            break;
+        default:
+            return nullptr;
+    }
+
+    return ret;
 }
 
 //add a service to a member
-int ChocAnDB::MkServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt){
+int ChocAnDB::AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt){
     RetInt = 0;
     char *Stmt = nullptr;
     RetInt = ChkFrm(datetime);
@@ -82,12 +118,12 @@ int ChocAnDB::MkServ(ident &UserID, int ProvID, char* ServNm, float fee, char* c
                   "VALUES"
                   "("
                   "DATETIME('%s'),"
-                  "CURRENT_DATE,"
+                  "CURRENT_TIMESTAMP,"
                   "'%s',"
                   "'%d',"
                   "'%s',"
                   "'%d',"
-                  "'%f',"
+                  "ROUND('%f',2),"
                   "'%s'"
                   ")\n",
             datetime, ServNm, ProvID, UserID.name, UserID.number, fee, comm);
@@ -124,30 +160,48 @@ int ChocAnDB::OpenDB() {
                          "'CITY',"
                          "'AA',"
                          "00000);";
-//TODO: rewrite providers to work like members
-    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER (\n"//If Table does not exist it will be created
-                         "    ID      INT(9) CHECK (ID > 200000000) CHECK (ID < 299999999)\n"
-                         "                     NOT NULL primary key,\n"                 //Primary key makes ID's unique
-                         "    NAME    TEXT(25) NOT NULL ,\n"
-                         "    ADDRESS TEXT(25) NOT NULL ,\n"
-                         "    CITY    TEXT(14) NOT NULL ,\n"
-                         "    STATE   TEXT(2) NOT NULL ,\n"
-                         "    ZIP     INT(5) NOT NULL \n"
-                         ")";
 
-    //Probably need to make manger table
+    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER ("//If Table does not exist it will be created
+                         "    ID      INTEGER CHECK (ID < 299999999)"
+                         "                      primary key AUTOINCREMENT,"                 //Primary key makes ID's unique
+                         "    NAME    CHARACTER(25) NOT NULL ,"
+                         "    ADDRESS CHARACTER(25) NOT NULL ,"
+                         "    CITY    CHARACTER(14) NOT NULL ,"
+                         "    STATE   CHARACTER(2) NOT NULL ,"
+                         "    ZIP     INT(5) NOT NULL "
+                         "); INSERT OR IGNORE INTO PROVIDER"
+                         "(ID,NAME,ADDRESS,CITY,STATE,ZIP)"
+                         "VALUES ("
+                         "200000000,"
+                         "'NAME',"
+                         "'ADDRESS',"
+                         "'CITY',"
+                         "'AA',"
+                         "00000);";
 
-    const char *ServTB = "create table IF NOT EXISTS SERVICE (\n" //If Table does not exist it will be created
-                         "    SERVICE_PROVIDED DATE NOT NULL ,\n"
-                         "    SERVICE_LOGGED   DATE NOT NULL ,\n"
-                         "    SERVICE_NAME     TEXT(20) NOT NULL ,\n"
-                         "    PROVIDER_ID      INT(9) NOT NULL ,\n"
-                         "    MEMBER_NAME      TEXT(25) NOT NULL ,\n"
-                         "    MEMBER_ID        INT(9) NOT NULL ,\n"
-                         "    FEE              DECIMAL CHECK (FEE < 1000),\n"
+    //TODO: Add managers database
+    //TODO: Add active vs suspended members
+
+    const char *actvTB = "create table IF NOT EXISTS ACTIVE("
+                         "    START_DATE DATE NOT NULL, "
+                         "    MONTHS_PAID INT,"
+                         "    MEMBER_ID INT(9) NOT NULL, "
+                         "    FOREIGN KEY (MEMBER_ID)"
+                         "        REFERENCES MEMBER"
+                         ");";
+
+
+    const char *ServTB = "create table IF NOT EXISTS SERVICE (" //If Table does not exist it will be created
+                         "    SERVICE_PROVIDED DATE NOT NULL ,"
+                         "    SERVICE_LOGGED   DATE NOT NULL ,"
+                         "    SERVICE_NAME     TEXT(20) NOT NULL ,"
+                         "    PROVIDER_ID      INT(9) NOT NULL ,"
+                         "    MEMBER_NAME      TEXT(25) NOT NULL ,"
+                         "    MEMBER_ID        INT(9) NOT NULL ,"
+                         "    FEE              REAL CHECK (FEE < 1000),"
                          "    COMMENT          TEXT(100),"
-                         "    FOREIGN KEY(MEMBER_ID)\n"           //Foreign key links to a primary key
-                         "        REFERENCES MEMBER\n"
+                         "    FOREIGN KEY(MEMBER_ID)"           //Foreign key links to a primary key
+                         "        REFERENCES MEMBER"
                          ")";
     int exit = 0;
     std::cout << "PREPARING DATABASE:";

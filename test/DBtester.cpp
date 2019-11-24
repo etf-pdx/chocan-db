@@ -49,6 +49,11 @@ int DBtester::test(){
     }
     else
         fprintf(log,"FAILED DATABASE ADD MEMBER: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
+    //TODO:write test for providers
+
+    //TODO:write test for service
+
+
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     fclose(log);
