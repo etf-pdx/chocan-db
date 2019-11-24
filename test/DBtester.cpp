@@ -4,6 +4,7 @@
 
 #include "DBtester.h"
 DBtester::DBtester() {
+    HappyID.number = NULL;
     HappyID.name = "Happy";
     HappyID.address = "777 Lucky lane";
     HappyID.city = "Disney";
@@ -42,7 +43,7 @@ int DBtester::test(){
     else
         fprintf(log,"FAILED DATABASE FILE OPENED: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
     //Add member
-    Scratch = DB->AddUser('M',HappyID,RetInt);
+    Scratch = DB->AddUser('m',HappyID,RetInt);
     if (RetInt == 0){
         fprintf(log,"PASSED DATABASE ADD MEMBER: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
         fprintf(log, "\t--USER WAS ASSINGED ID NUMBER: %d\n",Scratch);
@@ -50,9 +51,21 @@ int DBtester::test(){
     else
         fprintf(log,"FAILED DATABASE ADD MEMBER: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
     //TODO:write test for providers
-
+    //Add provider
+    Scratch = DB->AddUser('p',HappyID,RetInt);
+    if (RetInt == 0){
+        fprintf(log,"PASSED DATABASE ADD PROVIDER: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
+        fprintf(log, "\t--USER WAS ASSINGED ID NUMBER: %d\n",Scratch);
+    }
+    else
+        fprintf(log,"FAILED DATABASE ADD PROVIDER: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
+    //TODO:write manager test
     //TODO:write test for service
-
+    DB->AddServ(HappyID,200000001,"Massage",75.50,"Relaxing","2019-11-11",RetInt);
+    if (RetInt == 0)
+        fprintf(log,"PASSED DATABASE ADD SERVICE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
+    else
+        fprintf(log,"FAILED DATABASE ADD MEMBER: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);

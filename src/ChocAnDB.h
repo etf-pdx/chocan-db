@@ -2,7 +2,7 @@
 //Download SQLite from the developer at https://sqlite.org/download.html
 
 #include "User.h"
-#include <string.h>
+#include <cstring>
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
 #include <iostream>

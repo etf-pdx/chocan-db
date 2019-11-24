@@ -54,13 +54,13 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     }
 
     int IDnum = sqlite3_last_insert_rowid(DB);
-    std::cout << "\t-UPDATE SUCCESSFUL-\n\tID NUMBER:\t" << IDnum;
+    std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tID NUMBER:\t" << IDnum << std::endl;
 
     return IDnum;
 }
 
 char* ChocAnDB::prepUser(char type, ident UserID){
-    char *Stmt = nullptr;
+    char Stmt[1024];
     char *ret = nullptr;
     sprintf(Stmt, "    ("
                   "     NAME,"
@@ -76,17 +76,20 @@ char* ChocAnDB::prepUser(char type, ident UserID){
                   "        '%s',"
                   "        '%s',"
                   "        '%d'"
-                  "       )\n",UserID.name,UserID.address,UserID.city,UserID.state,UserID.zip);
+                  "       );",UserID.name,UserID.address,UserID.city,UserID.state,UserID.zip);
     switch (type) {
         case 'm' :
+            ret = new char[strlen(Stmt)+19];
             strcpy(ret, "INSERT INTO MEMBER");
             strcat(ret, Stmt);
             break;
         case 'p' :
+            ret = new char[strlen(Stmt)+21];
             strcpy(ret, "INSERT INTO PROVIDER");
             strcat(ret, Stmt);
             break;
         case 'g' :
+            ret = new char[strlen(Stmt)+20];
             strcpy(ret, "INSERT INTO MANAGER");
             strcat(ret, Stmt);
             break;
@@ -100,11 +103,12 @@ char* ChocAnDB::prepUser(char type, ident UserID){
 //add a service to a member
 int ChocAnDB::AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* comm, char* datetime, int &RetInt){
     RetInt = 0;
+    char Buff[1024];
     char *Stmt = nullptr;
     RetInt = ChkFrm(datetime);
     if (RetInt)
         return -1;
-    sprintf(Stmt, "INSERT INTO SERVICE"
+    sprintf(Buff, "INSERT INTO SERVICE"
                   "("
                   "SERVICE_PROVIDED,"
                   "SERVICE_LOGGED,"
@@ -125,9 +129,10 @@ int ChocAnDB::AddServ(ident &UserID, int ProvID, char* ServNm, float fee, char* 
                   "'%d',"
                   "ROUND('%f',2),"
                   "'%s'"
-                  ")\n",
+                  ");",
             datetime, ServNm, ProvID, UserID.name, UserID.number, fee, comm);
-
+    Stmt = new char[strlen(Buff)+1];
+    strcpy(Stmt,Buff);
     RetInt = sqlite3_exec(DB,Stmt,nullptr,nullptr,&ErrMsg);
     if (RetInt != SQLITE_OK){
         std::cout << "\t-FAILED-\n" <<  "SERVICE TABLE FAILED:\t" << ErrMsg;
@@ -200,9 +205,10 @@ int ChocAnDB::OpenDB() {
                          "    MEMBER_ID        INT(9) NOT NULL ,"
                          "    FEE              REAL CHECK (FEE < 1000),"
                          "    COMMENT          TEXT(100),"
-                         "    FOREIGN KEY(MEMBER_ID)"           //Foreign key links to a primary key
-                         "        REFERENCES MEMBER"
-                         ")";
+                         //Foreign key links to a primary key
+                         "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
+                         "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER"
+                         ");";
     int exit = 0;
     std::cout << "PREPARING DATABASE:";
     //trent- error checking? possible ret values for this open func?.
