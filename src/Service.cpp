@@ -103,7 +103,7 @@ Service::Service(const Service* To_Add)
 	next = NULL;
 }
 
-// TODO: Test this destructor... hoping to make sure the entire service list is deallocated, not sure if this is the best way...
+// TODO: Test this destructor... hoping to use destroy() to make sure the entire service list is deallocated
 // Destructor
 Service::~Service()
 {
@@ -119,7 +119,7 @@ Service::~Service()
 		delete [] comments;
     */
 }
-// Destroyer
+// Destroyer, helper of destructor
 void Service::destroy(Service* current)
 {
     if (current->service_name)
@@ -142,7 +142,7 @@ void Service::destroy(Service* current)
  * displaying, change type to Service and return it to a static
  * object
  */
-int Service::Display(Service* current)
+int Service::display(Service* current)
 {
 	if (!current)
 		return -1;
@@ -174,12 +174,8 @@ int Service::setNext(const Service * toSet) {
 	return 0;
 }
 
-int Service::HashIndex(int IDnum)
-{
-	if (IDnum <= 0 || IDnum > MAX_SERVICE)
-		return -1;
-
-	int index = 0;
-
-
+char* getName(int code) {
+    if (code == service_code)
+        return service_name;
+    return nullptr;
 }

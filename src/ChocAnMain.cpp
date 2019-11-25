@@ -6,51 +6,42 @@
  * run "cl /EHsc .\sqlite\sqlite3.c *.cpp"
  */
 
-
-#include "ChocAnDB.h"
-//#include "Manager.h"
-//#include "Operator.h"
-//#include "Service.h"
+#include <cctype>
 #include <iostream>
+#include <time.h>
+#include "ChocAnDB.h"
 using namespace std;
 
-// Manager ID#s begin with 1
-// Provider ID#s begin with 2
-// All other ID#s belong to members
-// No ID # begins with 0.
-
-const int LOW_MGR = 100000000;  // Lower bound for manager ID numbers
-const int UPP_MGR = 199999999;  // Upper bound for manager ID numbers
-const int UPP_PRV = 299999999;  // Upper bound for provider ID numbers
-
-// We may want to consolidate constant definitions like these^^
-// and the ones in Service.h into a "params.h" header file...
-
-int checkInMember();    // @ Provider terminal
-int logService();       // @ Provider terminal
-bool yesorno();         // Obtain valid response to yes/no question
+// These functions will call
+int checkInMember();                // @ Provider terminal
+int logService(int provID);         // @ Provider terminal
+int validateMemberID(int memID);    // Return status of member ID
+void displayProviderDirectory();    // Services, service codes and fees
+bool yesorno();                     // Obtain valid response to yes/no question
 
 int main()
 {
     int ID;                     // User's ID number
     bool mgr = false;           // True if user is a manager
-    int choice;                 // User's menu selection
+    char choice;                 // User's menu selection
 
-    // Welcome the user:
+    // Welcome the user
     cout << "\n\tWelcome to Chocaholics Anonymous.\n";
-    cout << "\nPlease enter your nine digit I.D. number.\n";
-    cin >> ID;
-    cin.ignore(100, '\n');
 
-    // Ensure valid ID number:
-    while (ID < LOW_MGR || ID > UPP_PRV) {
-        cout << "\nInvalid.\nPlease enter a valid nine digit I.D. number\n";
+    // Obtain a valid ID number:
+    cout << "\nPlease enter your nine digit I.D. number.\n";
+    do {
+        // TODO: Fix integer wraparound bug. Infinite loop occurs when ID > 2147483647
         cin >> ID;
         cin.ignore(100, '\n');
-    }
+        if (ID < MIN_MANAGER || ID > MAX_PROVIDER)
+            cout << "\nInvalid.\nPlease enter a valid nine digit I.D. number\n";
+    } while (ID < MIN_MANAGER || ID > MAX_PROVIDER);
 
-    if (ID <= UPP_MGR)
+    if (ID <= MAX_MANAGER) {
         mgr = true;
+        //Manager current_manager;
+    }
 
     //  SIMULATE PROVIDER TERMINAL  //
     if (!mgr)
@@ -83,11 +74,11 @@ int main()
                 if (!checkInMember()) continue;
             }
             if (choice == 'S') {    // Log a service
-                if (!logService()) continue;
+                if (!logService(ID)) continue;
             }
             if (choice == 'D') {    // Provider directory
+                displayProviderDirectory();
             }
-
         } while (choice != 'X');
     }
 
@@ -132,8 +123,9 @@ int main()
 	return 0;
 }
 
+// Return the response to a yes or no question.
 bool yesorno() {
-    int response;
+    char response;
 
     cin >>response;
     cin.ignore(100, '\n');
@@ -146,11 +138,14 @@ bool yesorno() {
         response = toupper(response);
     }
 
-    if (response == 'Y')
-        return true;
-    return false;
+    return response == 'Y';
 }
 
+// checkInMember() obtains a member ID via user input.
+// It returns the valid member I.D. number.
+// It returns 0 if the number is invalid
+// or if the member is inactive or suspended,
+// communicating member status to the user.
 int checkInMember() {
     int memID, memCheck;
 
@@ -165,7 +160,7 @@ int checkInMember() {
 // Validate the member's ID:
     cout << "\nContacting Chocaholics Anonymous...\n";
     memCheck = validateMemberID(memID);
-// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
+// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, memberID==valid
     if (memCheck < 0) {
         cout << "\nInvalid Member ID\n";
         return 0;
@@ -175,14 +170,23 @@ int checkInMember() {
         return 0;
     }
     cout << "\nValidated\n";
-    return 1;
+    return memCheck;
 }
 
-int logService() {
-    char serviceDate[MAX_DATE];
-    int serviceCode;
+// logService() obtains the necessary info to
+// log a service from the provider terminal.
+// It returns 0 on failure, 1 on success.
+// TODO: Implement the provider directory to finish this function!
+int logService(int provID) {
+    int memberID = 0;
+    int serviceCode = 0;
+    char* serviceDate = NULL;
+    char* serviceName = NULL;
+    char* comments = NULL;
+    float fee = 0.0;
 
-    if (!checkInMember())
+    memberID = checkInMember();
+    if (!memberID)
         return 0;
 
 // Get the service date:
@@ -191,17 +195,52 @@ int logService() {
     cin.ignore(100, '\n');
 
 // Get the service code:
-    cout << "\nRetrieving provider directory...\n\n";
-    displayProviderDirectory();
-// TODO: Implement provider directory
-    cout << "\nPlease enter the six digit service code.\n";
-    cin >> serviceCode;
-    cin.ignore(100, '\n');
+    do {
+        cout << "\nPlease enter the six digit service code.\n";
+        cin >> serviceCode;
+        cin.ignore(100, '\n');
 
-// Verify service code:
+        // Verify the service code:
+        while (serviceCode < 0 || serviceCode > MAX_SERVICE) {
+            cout << "\nInvalid.\nPlease enter a valid six digit service code.\n";
+            cin >> serviceCode;
+            cin.ignore(100, '\n');
+        }
+        // TODO: Search provider directory for matching service name
+
+        // Confirm the service is correct:
+        cout << "\nYou entered " << serviceCode << ": " << serviceName << endl;
+        cout << "\nIs that correct? Y/N\n";
+    } while (!yesorno());
+
 // Get comments:
+    cout << "\nWould you like to record comments on this service? Y/N\n";
+    if (yesorno()) {
+        cout << "\nEnter your comments (" << MAX_COMMENT - 1 << " characters max)\n";
+        cin.get(comments, MAX_COMMENT, '\n');
+        cin.ignore(100, '\n');
+    }
+
 // Record service:
-// Display fee:
+    char* logDate = NULL;
+    getdate(logDate);   // test this...
+/*
+    Service consultation = new Service(serviceName, serviceCode, serviceDate,
+                                      logDate, memberID, provID, fee, comments);
+*/
+
+// Display fee (from provider directory):
 
     return 1;
 }
+
+int validateMemberID(int memID) {
+
+    return 0;
+// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
+}
+
+void displayProviderDirectory() {
+// TODO: Implement provider directory: service names, service codes, fees
+}
+

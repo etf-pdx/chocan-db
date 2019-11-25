@@ -12,6 +12,17 @@ Operator::Operator()
 	ID.zip = 0;
 }
 
+Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
+{
+	ID.name = aName;
+	ID.number = aNumber;
+	ID.address = aAddress;
+	ID.city = aCity;
+	ID.state = aState;
+	ID.zip = aZip;
+
+}
+
 Operator::~Operator()
 {
 	if (ID.name)
@@ -24,23 +35,17 @@ Operator::~Operator()
 		delete[] ID.state;
 }
 
-int Operator::Display_Member(int IDnumber)
+int Operator::displayID(int IDnumber)
 {
-	if (IDnumber < 0)
+	if (IDnumber < LOW_MGR)
 		return -1;
 
 	ident current_ID = get_ident(IDnumber);
 
-	/*
-	 * We might need to make ID a char array so that
-	 * we can see if the first number is a certain number
-	 * to identify is it a member, provider, or manager
-	 */
-        // trent- thinking int is best for db usage. 
-        // and atoi() can be used when a 1st digit check is needed.
-	if (IDnumber < 100000000)	// if we decide to stick with int
+	// Alex: changed these bounds--see Operator.h
+	if (IDnumber < MAX_MANAGER)
 		std::cout << "Manager Name: ";
-	else if (IDnumber < 200000000)
+	else if (IDnumber < MAX_PROVIDER)
 		std::cout << "Provider Name: ";
 	else
 		std::cout << "Member Name: ";
@@ -54,10 +59,35 @@ int Operator::Display_Member(int IDnumber)
 	return 0;
 }
 
+char* Operator::getName()
+{
+	return ID.name;
+}
+
 // Get ID number, mostly for comparison
 int Operator::GetIDnumber()
 {
 	return ID.number;
+}
+
+char* Operator::getAdress()
+{
+	return ID.address;
+}
+
+char* Operator::getCity()
+{
+	return ID.city;
+}
+
+char* Operator::getState()
+{
+	return ID.state;
+}
+
+int Operator::getZip()
+{
+	return ID.zip;
 }
 
 int HashFormula(int IDnumber)
