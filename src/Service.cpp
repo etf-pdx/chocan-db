@@ -163,7 +163,7 @@ int Service::display(Service* current)
 	return 0;
 }
 
-Service * Service::getNext() {
+Service* Service::getNext() {
     return next;
 }
 int Service::setNext(const Service * toSet) {
@@ -174,7 +174,7 @@ int Service::setNext(const Service * toSet) {
 	return 0;
 }
 
-char* getName(int code) {
+char* Service::getName(int code) {
     if (code == service_code)
         return service_name;
     return nullptr;

@@ -18,11 +18,9 @@ public:
 
 	int display(Service* current);
 
-	Service * getNext();
+	Service* getNext();
     int setNext(const Service*);
-    char* getName();
-
-	int HashIndex(int IDnum);
+    char* getName(int code);
 
 protected:
 	char* service_name;

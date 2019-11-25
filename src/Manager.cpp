@@ -18,32 +18,32 @@ Manager::~Manager()
 		delete person;
 }
 
-char* Manager::getName()
+char* Manager::getName(Operator* person)
 {
 	return person->getName();
 }
 
-int Manager::getID()
+int Manager::getID(Operator* person)
 {
 	return person->GetIDnumber();
 }
 
-char* Manager::getAddress()
+char* Manager::getAddress(Operator* person)
 {
 	return person->getAdress();
 }
 
-char* Manager::getCity()
+char* Manager::getCity(Operator* person)
 {
 	return person->getCity();
 }
 
-char* Manager::getState()
+char* Manager::getState(Operator* person)
 {
 	return person->getState();
 }
 
-int Manager::getZip()
+int Manager::getZip(Operator* person)
 {
 	return person->getZip();
 }
@@ -51,16 +51,39 @@ int Manager::getZip()
 // List of options available to manager
 int Manager::OptionSelect()
 {
-	/*
-	char Input [1001];
-	std::cout << "List options of things to do here.\n";
-	std::cin.get(input, 10001, \n);
-	std::cin.ignore(1000);
+	int choice;
 
-	// Identifying input here
-	Case 1:	Get reports
-	Case 2: Interactive mode
-	*/
+	std::cout << "\n\tGenerate Report\t\t(Enter'R')\n";
+	std::cout << "\tEnter Interactive Mode (Manager Only)\t\t(Enter 'I')\n";
+	std::cout << "$";	// To prompt user to enter, common practice for command or console program
+
+	std::cin >> choice;
+	std::cin.ignore(100, '\n');
+	choice = toupper(choice);
+
+	while (choice != 'R' && choice != 'I') {
+		std::cout << "\nPlease select from the above options.\n";
+		std::cin >> choice;
+		std::cin.ignore(100, '\n');
+		choice = toupper(choice);
+	}
+
+	switch (choice)
+	{
+	case 'R':
+		/* Generate Report Here
+		 *	1. Get operator ID Number
+		 *	2. Run that class's report
+		 *	3. ???
+		 *	4. Profit
+		 */
+		break;
+	case 'I':
+		InteractiveMode();
+		break;
+	default:
+		break;
+	}
 	return 0;
 }
 
@@ -68,85 +91,144 @@ int Manager::OptionSelect()
 int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented in ChocAnMain.cpp.
 {                                   //       Very little should be going on in this file.
 	int choice;                     //       For interactive mode stuff, main() should be calling DB
+	bool isInteractive == true;
 	/*                              //       and DB should be calling methods of Provider and Member classes.
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
 	 */
-	std::cout << " You can:\n";
-	std::cout << "\tAdd a user\t\t(Enter'A')\n";
-	std::cout << "\tEdit a user\t\t(Enter 'E')\n";
-	std::cout << "\tRemove a user\t\t(Enter 'R')\n";
-	std::cout << "\tExit interactive mode\t\t(Enter 'X')\n";
+	std::cout << " You can:";
+	while (isInteractive == true)
+	{
+		std::cout << "\n\tAdd a user\t\t(Enter'A')\n";
+		std::cout << "\tEdit a user\t\t(Enter 'E')\n";
+		std::cout << "\tRemove a user\t\t(Enter 'R')\n";
+		std::cout << "\tExit interactive mode\t\t(Enter 'X')\n";
+		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
-	std::cin >> choice;
-	std::cin.ignore(100, '\n');
-	choice = toupper(choice);
-
-	while (choice != 'A' && choice != 'E' 
-		&& choice != 'R' && choice != 'X') {
-		std::cout << "\nPlease select from the above options.\n";
 		std::cin >> choice;
 		std::cin.ignore(100, '\n');
 		choice = toupper(choice);
-	}
-	// Option for Add a user
-	/*
-	if(choice == 'A')
-	{
-		// GetInformation();
-		// Compare IDnumber inputted to see if it's a
-		// Provider or a Member.
-		if(Provider)
-		{
-			if(AddProvider(To_Add)
-			{
-				std::cout << "Add Provider failed\n";
-				return -1;
-			}
+
+		while (choice != 'A' && choice != 'E'
+			&& choice != 'R' && choice != 'X') {
+			std::cout << "\nPlease select from the above options.\n";
+			std::cin >> choice;
+			std::cin.ignore(100, '\n');
+			choice = toupper(choice);
 		}
-		else if(Member)
+
+
+		switch (choice)
 		{
-			if(AddMember(To_Add)
+		case 'A':				// Someone put in checks plz, it's 3am, I'm tired...
+			ident UserData;
+			std::cout << "NAME: ";
+			std::cin.get(UserData.name);
+			std::cin.ignore(100, '\n');
+			std::cout << "ID: ";
+			std::cin >> UserData.number;
+			std::cin.ignore(100, '\n');
+			std::cout << "ADDRESS: ";
+			std::cin.get(UserData.address);
+			std::cin.ignore(100, '\n');
+			std::cout << "CITY: ";
+			std::cin.get(UserData.city);
+			std::cin.ignore(100, '\n');
+			std::cout << "STATE: ";
+			std::cin.get(UserData.state);
+			std::cin.ignore(100, '\n');
+			std::cout << "ZIP CODE: ";
+			std::cin >> UserData.zip;
+			std::cin.ignore(100, '\n');
+
+			if (UserData.number > MAX_MANAGER&& UserData.number <= MAX_PROVIDER)	// Add a Provider
+				AddProvider(To_Add);
+			else if (UserData.number > MAX_PROVIDER&& UserData.number <= MAX_ID)	// Add a Member
+				AddMember(To_Add);
+			break;
+		case 'E':
+			int IDnum = 0;
+		wrongEditID:
+			std::cout << "Enter an ID for edit: ";
+			while (!isdigit(std::cin.peek()))
 			{
-				std::cout << "Add Member failed\n";
-				return -1;
+				std::cout << "Is not a number.\n";
+				std::cin.ignore(100, '\n');
 			}
+			std::cin >> IDnum;
+			std::cin.ignore(100, '\n');
+			if (IDnum <= 0 || IDnum > MAX_ID)
+			{
+				std::cout << "Invalid ID Number.\n";
+				goto wrongEditID;
+			}
+			// Edit shenanigans here
+			break;
+		case 'R':
+			int IDnum = 0;
+		wrongRemoveID:
+			std::cout << "Enter an ID to be remove: ";
+			while (!isdigit(std::cin.peek()))
+			{
+				std::cout << "Is not a number.\n";
+				std::cin.ignore(100, '\n');
+			}
+			std::cin >> IDnum;
+			std::cin.ignore(100, '\n');
+			if (IDnum <= 0 || IDnum > MAX_ID)
+			{
+				std::cout << "Invalid ID Number.\n";
+				goto wrongRemoveID;
+			}
+			// Remove shenanigans here
+			break;
+		case 'X':
+			std::cout << "Exiting Interactive Mode. . .\n\n";
+			isInteractive = false;
+			break;
+		default:
+			std::cout << "If you this prompt, please let the dev team know\n\n";
+			break;
 		}
 	}
 
-	// Option for edit a member
-	if(choice == 'E')
-	{
-
-	}
-	// Option for remove a member
-	if(choice == 'R')
-	{
-
-	}
-	while(choice != 'X');
-	 */
 	return 0;
 }
 
 // Create new instance of provider
-int Manager::AddProvider(Provider& To_Add)
+int Manager::AddProvider(ident& To_Add)
 {
-	// First person in the system
-	if(!person)
-		person = new Provider(To_Add);
+	if (!To_Add)
+		return -1;
 
+	int index = HashIndex(To_Add.GetIDnumber);
+	Operator* NewProvider = new Provider(To_Add);
+
+	// First person in the system
+	if (!person[index])
+		person[index] = new Provider(NewProvider);
+	else
+		person[index]->AddUser(person[index]->next, NewProvider);
+
+	delete[] NewProvider;
 	return 0;
 }
 
 // Create new instance of member
-int Manager::AddMember(Member& To_Add)
+int Manager::AddMember(ident& To_Add)
 {
-	// First person in the system
-	if(!person)
-		person = new Member(To_Add);
-
-	if (!person)
+	if (!To_Add)
 		return -1;
+	
+	int index = HashIndex(To_Add.GetIDnumber);
+	Operator* NewMember = new Member(To_Add);
+
+	// First person in the system
+	if (!person[index])
+		person[index] = new Member(NewMember);
+	else
+		person[index]->AddUser(person[index]->next, NewMember);
+	
+	delete[] NewMember;
 	return 0;
 }
