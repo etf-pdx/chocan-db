@@ -37,21 +37,21 @@ int Manager::InteractiveMode()
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
 	 */
-	cout << " You can:\n";
-	cout << "\tAdd a user\t\t(Enter'A')\n";
-	cout << "\tEdit a user\t\t(Enter 'E')\n";
-	cout << "\tRemove a user\t\t(Enter 'R')\n";
-	cout << "\tExit interactive mode\t\t(Enter 'X')\n";
+	std::cout << " You can:\n";
+	std::cout << "\tAdd a user\t\t(Enter'A')\n";
+	std::cout << "\tEdit a user\t\t(Enter 'E')\n";
+	std::cout << "\tRemove a user\t\t(Enter 'R')\n";
+	std::cout << "\tExit interactive mode\t\t(Enter 'X')\n";
 
-	cin >> choice;
-	cin.ignore(100, '\n');
+	std::cin >> choice;
+	std::cin.ignore(100, '\n');
 	choice = toupper(choice);
 
 	while (choice != 'A' && choice != 'E' 
 		&& choice != 'R' && choice != 'X') {
-		cout << "\nPlease select from the above options.\n";
-		cin >> choice;
-		cin.ignore(100, '\n');
+		std::cout << "\nPlease select from the above options.\n";
+		std::cin >> choice;
+		std::cin.ignore(100, '\n');
 		choice = toupper(choice);
 	}
 	// Option for Add a user

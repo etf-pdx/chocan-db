@@ -158,7 +158,7 @@ int Service::Display(Service* current)
 
 	if (current->next)
 	    Display(current->next);
-	else std::cout << endl;
+	else std::cout << std::endl;
 
 	return 0;
 }
