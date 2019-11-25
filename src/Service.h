@@ -20,6 +20,8 @@ public:
     int setNext(const Service*);
     void destroy(Service* current);
 
+	int HashIndex(int IDnum);
+
 protected:
 	char* service_name;
 	int service_code;

@@ -173,3 +173,13 @@ int Service::setNext(const Service * toSet) {
 
 	return 0;
 }
+
+int Service::HashIndex(int IDnum)
+{
+	if (IDnum <= 0 || IDnum > MAX_SERVICE)
+		return -1;
+
+	int index = 0;
+
+
+}
