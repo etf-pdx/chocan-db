@@ -18,6 +18,35 @@ Manager::~Manager()
 		delete person;
 }
 
+char* Manager::getName()
+{
+	return person->getName();
+}
+
+int Manager::getID()
+{
+	return person->GetIDnumber();
+}
+
+char* Manager::getAddress()
+{
+	return person->getAdress();
+}
+
+char* Manager::getCity()
+{
+	return person->getCity();
+}
+
+char* Manager::getState()
+{
+	return person->getState();
+}
+
+int Manager::getZip()
+{
+	return person->getZip();
+}
 
 // List of options available to manager
 int Manager::OptionSelect()

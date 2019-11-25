@@ -25,7 +25,7 @@ int main()
     bool mgr = false;           // True if user is a manager
     char choice;                 // User's menu selection
 
-    // Welcome the user:
+    // Welcome the user
     cout << "\n\tWelcome to Chocaholics Anonymous.\n";
 
     // Obtain a valid ID number:
