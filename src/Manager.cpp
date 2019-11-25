@@ -8,7 +8,7 @@ Manager::Manager()
 
 Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
 {
-	person = new Operator(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
+	person = new Operator(aName, aID, aAddress, aCity, aState,aZip);
 }
 
 // Destructor

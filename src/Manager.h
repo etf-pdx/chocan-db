@@ -7,7 +7,7 @@ public:
 	Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
 	~Manager();
 
-	char
+
 	// int AddUser(User*);
 	int OptionSelect();
 	int InteractiveMode();
