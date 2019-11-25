@@ -8,9 +8,6 @@
 
 
 #include "ChocAnDB.h"
-//#include "Manager.h"
-//#include "Operator.h"
-//#include "Service.h"
 #include <iostream>
 using namespace std;
 
@@ -34,7 +31,7 @@ int main()
 {
     int ID;                     // User's ID number
     bool mgr = false;           // True if user is a manager
-    int choice;                 // User's menu selection
+    char choice;                 // User's menu selection
 
     // Welcome the user:
     cout << "\n\tWelcome to Chocaholics Anonymous.\n";
@@ -164,7 +161,7 @@ int checkInMember() {
 
 // Validate the member's ID:
     cout << "\nContacting Chocaholics Anonymous...\n";
-    memCheck = validateMemberID(memID);
+	memCheck = 1; // validateMemberID(memID);
 // TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
     if (memCheck < 0) {
         cout << "\nInvalid Member ID\n";
@@ -192,7 +189,7 @@ int logService() {
 
 // Get the service code:
     cout << "\nRetrieving provider directory...\n\n";
-    displayProviderDirectory();
+    //displayProviderDirectory();
 // TODO: Implement provider directory
     cout << "\nPlease enter the six digit service code.\n";
     cin >> serviceCode;

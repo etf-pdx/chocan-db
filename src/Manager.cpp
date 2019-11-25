@@ -6,12 +6,18 @@ Manager::Manager()
 	person = NULL;
 }
 
+Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
+{
+	person = new Operator(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
+}
+
 // Destructor
 Manager::~Manager()
 {
 	if (person)
 		delete person;
 }
+
 
 // List of options available to manager
 int Manager::OptionSelect()
@@ -24,7 +30,7 @@ int Manager::OptionSelect()
 
 	// Identifying input here
 	Case 1:	Get reports
-	Case 2: Ineteractive mode
+	Case 2: Interactive mode
 	*/
 	return 0;
 }
@@ -32,7 +38,7 @@ int Manager::OptionSelect()
 // When enter interactive mode, we're be doing things to this
 int Manager::InteractiveMode()
 {
-	int choice;
+	char choice;
 	/*
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
