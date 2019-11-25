@@ -30,10 +30,10 @@ int Manager::OptionSelect()
 }
 
 // When enter interactive mode, we're be doing things to this
-int Manager::InteractiveMode()
-{
-	int choice;
-	/*
+int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented in ChocAnMain.cpp.
+{                                   //       Very little should be going on in this file.
+	int choice;                     //       For interactive mode stuff, main() should be calling DB
+	/*                              //       and DB should be calling methods of Provider and Member classes.
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
 	 */

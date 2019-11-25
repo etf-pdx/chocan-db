@@ -1,6 +1,6 @@
 #include "User.h"
 
-class Manager
+class Manager: public Operator
 {
 public:
 	Manager();
@@ -14,5 +14,5 @@ protected:
 	int AddProvider(Provider& To_Add);
 	int AddMember(Member& To_Add);
 
-	Operator* person;
+	Operator* person;   // Not sure what this is doing...
 };
