@@ -1,2 +1,6 @@
 # ninja log v5
 5	455	596241164	CMakeFiles/UnitTests.dir/test/UnitTest.cpp.obj	8ea7e2b177435ba7
+5	987	596369194	CMakeFiles/UnitTests.dir/test/UnitTest.cpp.obj	8ea7e2b177435ba7
+1	990	596369194	CMakeFiles/ChocAn.dir/src/ChocAnMain.cpp.obj	b95d45388d458538
+991	2585	596369195	ChocAn.exe	e6928bfa4f10544
+1	491	596369286	CMakeFiles/UnitTests.dir/test/UnitTest.cpp.obj	8ea7e2b177435ba7

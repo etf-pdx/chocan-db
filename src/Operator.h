@@ -31,6 +31,7 @@ class Operator
 {
 public:
 	Operator();
+	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip);
 	~Operator();
 	int displayID(int IDnumber);    // Used to be "Display_Member()". Renamed since it displays ID of mgr, prov etc.
 	int GetIDnumber();

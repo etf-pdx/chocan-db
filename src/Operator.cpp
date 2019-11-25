@@ -12,6 +12,17 @@ Operator::Operator()
 	ID.zip = 0;
 }
 
+Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
+{
+	ID.name = aName;
+	ID.number = aNumber;
+	ID.address = aAddress;
+	ID.city = aCity;
+	ID.state = aState;
+	ID.zip = aZip;
+
+}
+
 Operator::~Operator()
 {
 	if (ID.name)
