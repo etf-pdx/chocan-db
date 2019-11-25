@@ -23,17 +23,18 @@ int main()
 	// Step 1: Arrange
 	/*
 
-	Manager* goodData = new Manager("Name", 1234567, "Address", "City", "State", 333);
-	Manager* badData = new Manager("Name", 1234567, "Address", "City", "State", 333);
+	Manager* goodData = new Manager("Name", 123456789, "Address", "City", "State", 333);
+	Manager* badData = new Manager("Name", 1234, "Address", "City", "State", "badData");
 	Manager* emptyData = new Manager();
 
 	// Step 2: Act
 
 
 	// Step 3: Assert
-	Assert::AreEqual(myName, goodData->getName());
-			Assert::AreEqual(myAddress, goodData->getAddress());
-			Assert::AreEqual(myNumber, goodData->getNumber());
+			Assert::AreEqual("Name", goodData->getName());
+			Assert::AreEqual("123456789", goodData->getID());
+			Assert::AreEqual("Address, goodData->getAddress());
+			Assert::AreEqual, goodData->getNumber());
 	
 
 	// Cleaning Up

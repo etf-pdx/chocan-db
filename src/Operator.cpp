@@ -65,10 +65,35 @@ int Operator::Display_Member(int IDnumber)
 	return 0;
 }
 
+char* Operator::getName()
+{
+	return ID.name;
+}
+
 // Get ID number, mostly for comparison
 int Operator::GetIDnumber()
 {
 	return ID.number;
+}
+
+char* Operator::getAdress()
+{
+	return ID.address;
+}
+
+char* Operator::getCity()
+{
+	return ID.city;
+}
+
+char* Operator::getState()
+{
+	return ID.state;
+}
+
+int Operator::getZip()
+{
+	return ID.zip;
 }
 
 int HashFormula(int IDnumber)
