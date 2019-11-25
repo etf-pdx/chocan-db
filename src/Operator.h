@@ -43,7 +43,6 @@ public:
 	char* getState();
 	int getZip();
 
-	int Display_Member(int IDnumber);
 	int HashFormula(int IDnumber);
 
 protected:
