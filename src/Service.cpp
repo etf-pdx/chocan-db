@@ -17,15 +17,12 @@ Service::Service()
 
 // Constructor w/ Args
 Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, int pID, float fee, char* s_comments) {
-	bool isGood = true;
-	
 	service_name = new char[MAX_NAME];
     strcpy(service_name, s_name);
 
     if (code > MAX_SERVICE || code <= 0) {
         // Throw exception
         service_code = 0;
-		isGood = false;
     } else service_code = code;
 
     provided_date = new char[MAX_DATE];
@@ -42,13 +39,11 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
     if (mID > MAX_ID || mID <= 0) {
         // Throw exception
         memberID = 0;
-		isGood = false;
     } else memberID = mID;
 
     if (pID > MAX_ID || pID <= 0) {
         // Throw exception
         providerID = 0;
-		isGood = false;
     } else providerID = pID;
 
     if (fee > MAX_FEE || fee <= 0) {
@@ -61,14 +56,6 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 	strcpy(comments, s_comments);
 
 	next = NULL;
-
-	if (isGood == false)
-	{
-		/*
-		 * delete [] // all char*;
-		 * make this NULL;
-		 */
-	}
 }
 
 // Copy Constructor
@@ -122,23 +109,51 @@ Service::~Service()
  * displaying, change type to Service and return it to a static
  * object
  */
-int Service::Display(Service* current)
+int Service::DisplayAll(Service* current)
 {
 	if (!current)
 		return -1;
 
-	std::cout << "Service Name: " << current->service_name << std::endl;
-	std::cout << "Service ID: " << current->service_code << std::endl;
-	std::cout << "Date Provided: " << current->provided_date << std::endl;
-	std::cout << "Date Logged: " << current->logged_date << std::endl;
-	std::cout << "Member ID: " << current->memberID << std::endl;
-	std::cout << "Provider ID: " << current->providerID << std::endl;
-	std::cout << "Fee: " << current->service_fee << std::endl;
-	std::cout << "Comments: " << current->comments << std::endl << std::endl;
+	current->Display();
+	
+	return current->DisplayAll(next);
+}
 
-	Display(current->next);
+int Service::Display()
+{
+	if (!this)
+		return -1;
+
+	std::cout << "Service Name: " << this->service_name << std::endl;
+	std::cout << "Service ID: " << this->service_code << std::endl;
+	std::cout << "Date Provided: " << this->provided_date << std::endl;
+	std::cout << "Date Logged: " << this->logged_date << std::endl;
+	std::cout << "Member ID: " << this->memberID << std::endl;
+	std::cout << "Provider ID: " << this->providerID << std::endl;
+	std::cout << "Fee: " << this->service_fee << std::endl;
+	std::cout << "Comments: " << this->comments << std::endl << std::endl;
 
 	return 0;
+}
+
+int Service::FindService(int sID)
+{
+	if (sID <= 0 || sID > MAX_SERVICE)
+		return -1;
+
+	Service* holder = FindService(this, sID);
+	holder->Display();
+}
+
+Service* Service::FindService(Service* current, int sID)
+{
+	if (!current)
+		return NULL;
+
+	if (current->service_code == sID)
+		return current;
+
+	return current->FindService(next, sID);
 }
 
 Service * Service::getNext() {

@@ -15,11 +15,17 @@ public:
 	Service(char*, int, char*, char*, int, int, float, char*);
 	Service(const Service* To_Add);
 	~Service();
-	int Display(Service* current);
-	Service * getNext();
+	int DisplayAll(Service* current);
+	int Display();
     int setNext(const Service*);
+	int FindService(int sID);
 
 protected:
+	// Functions
+	Service* getNext();
+	Service* FindService(Service*, int sID);
+
+	// Data
 	char* service_name;
 	int service_code;
 	char* provided_date;
