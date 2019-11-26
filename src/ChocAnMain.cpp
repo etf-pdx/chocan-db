@@ -223,7 +223,7 @@ int logService(int provID) {
 
 // Record service:
     char* logDate = NULL;
-    getdate(logDate);   // test this...
+    //getdate(logDate);   // test this...
 /*
     Service consultation = new Service(serviceName, serviceCode, serviceDate,
                                       logDate, memberID, provID, fee, comments);

@@ -30,7 +30,7 @@ int Manager::getID(Operator* person)
 
 char* Manager::getAddress(Operator* person)
 {
-	return person->getAdress();
+	return person->getAddress();
 }
 
 char* Manager::getCity(Operator* person)
@@ -90,7 +90,8 @@ int Manager::OptionSelect()
 // When enter interactive mode, we're be doing things to this
 int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented in ChocAnMain.cpp.
 {                                   //       Very little should be going on in this file.
-	int choice;                     //       For interactive mode stuff, main() should be calling DB
+	char choice;                     //       For interactive mode stuff, main() should be calling DB
+	int IDnum;
 	bool isInteractive == true;
 	/*                              //       and DB should be calling methods of Provider and Member classes.
 	 * Entering interactive mode
@@ -121,33 +122,39 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 		switch (choice)
 		{
 		case 'A':				// Someone put in checks plz, it's 3am, I'm tired...
-			ident UserData;
-			std::cout << "NAME: ";
-			std::cin.get(UserData.name);
+	
+			ident To_Add;
+			std::cout << "Enter User's NAME: ";
+			std::cin.get(To_Add.name);
 			std::cin.ignore(100, '\n');
-			std::cout << "ID: ";
-			std::cin >> UserData.number;
+			
+			std::cout << "Enter User's ID: ";
+			std::cin >> To_Add.number);
 			std::cin.ignore(100, '\n');
-			std::cout << "ADDRESS: ";
-			std::cin.get(UserData.address);
+			
+			std::cout << "Enter User's ADDRESS: ";
+			std::cin.get(To_Add.address);
 			std::cin.ignore(100, '\n');
-			std::cout << "CITY: ";
-			std::cin.get(UserData.city);
+			
+			std::cout << "Enter user's CITY: ";
+			std::cin.get(To_Add.city);
 			std::cin.ignore(100, '\n');
-			std::cout << "STATE: ";
-			std::cin.get(UserData.state);
+			
+			std::cout << "Enter User's STATE: ";
+			std::cin.get(To_Add.state);
 			std::cin.ignore(100, '\n');
-			std::cout << "ZIP CODE: ";
-			std::cin >> UserData.zip;
+			
+			std::cout << "Enter User's ZIP CODE: ";
+			std::cin >> To_Add.zip;
 			std::cin.ignore(100, '\n');
 
-			if (UserData.number > MAX_MANAGER&& UserData.number <= MAX_PROVIDER)	// Add a Provider
+			if (To_Add.number > MAX_MANAGER&& To_Add.number <= MAX_PROVIDER)	// Add a Provider
 				AddProvider(To_Add);
-			else if (UserData.number > MAX_PROVIDER&& UserData.number <= MAX_ID)	// Add a Member
+			else if (To_Add.number > MAX_PROVIDER&& To_Add.number <= MAX_ID)	// Add a Member
 				AddMember(To_Add);
 			break;
 		case 'E':
-			int IDnum = 0;
+			IDnum = 0;
 		wrongEditID:
 			std::cout << "Enter an ID for edit: ";
 			while (!isdigit(std::cin.peek()))
@@ -163,9 +170,10 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 				goto wrongEditID;
 			}
 			// Edit shenanigans here
+			
 			break;
 		case 'R':
-			int IDnum = 0;
+			IDnum = 0;
 		wrongRemoveID:
 			std::cout << "Enter an ID to be remove: ";
 			while (!isdigit(std::cin.peek()))
@@ -198,11 +206,11 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 // Create new instance of provider
 int Manager::AddProvider(ident& To_Add)
 {
-	if (!To_Add)
-		return -1;
+	/* if (!To_Add) 
+		return -1;*/
 
-	int index = HashIndex(To_Add.GetIDnumber);
-	Operator* NewProvider = new Provider(To_Add);
+	int index = HashIndex(To_Add.number);
+	Provider* NewProvider = new Provider(To_Add);
 
 	// First person in the system
 	if (!person[index])
@@ -220,7 +228,7 @@ int Manager::AddMember(ident& To_Add)
 	if (!To_Add)
 		return -1;
 	
-	int index = HashIndex(To_Add.GetIDnumber);
+	int index = HashIndex(To_Add.number);
 	Operator* NewMember = new Member(To_Add);
 
 	// First person in the system
