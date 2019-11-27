@@ -10,7 +10,11 @@
 class DBtester {
 public:
 	int test();
+	DBtester();
+	~DBtester();
 
 private:
-
+    ident HappyID;
+    ident SadID;
 };
+

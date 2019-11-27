@@ -1,0 +1,4 @@
+C:/Users/drago/source/repos/etf-pdx/chocan-db/out/build/x64-Debug/CMakeFiles/ChocAn.dir
+C:/Users/drago/source/repos/etf-pdx/chocan-db/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/drago/source/repos/etf-pdx/chocan-db/out/build/x64-Debug/CMakeFiles/UnitTests.dir
+C:/Users/drago/source/repos/etf-pdx/chocan-db/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

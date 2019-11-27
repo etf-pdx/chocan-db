@@ -1,5 +1,6 @@
-#include "ServiceTest.h"
-//#include "DBtester.h"
+//#include "ServiceTest.h"
+
+#include "DBtester.h"
 
 /*
  * To compile for VS2019
@@ -11,12 +12,38 @@ int main()
 {
 
 	// Testing Service
-	ServiceTest servicetest;
-	servicetest.StartTest();
+	//ServiceTest servicetest;
+	//servicetest.StartTest();
 	
 	// Testing Database
-	//DBtester databaseTest;
-	//databaseTest.test();
+	DBtester databaseTest;
+	databaseTest.test();
+	
+	//Manager unit test 
+	// Step 1: Arrange
+	/*
 
+	Manager* goodData = new Manager("Name", 123456789, "Address", "City", "State", 333);
+	Manager* badData = new Manager("Name", 1234, "Address", "City", "State", "badData");
+	Manager* emptyData = new Manager();
+
+	// Step 2: Act
+
+
+	// Step 3: Assert
+			Assert::AreEqual("Name", goodData->getName());
+			Assert::AreEqual("123456789", goodData->getID());
+			Assert::AreEqual("Address, goodData->getAddress());
+			Assert::AreEqual, goodData->getNumber());
+	
+
+	// Cleaning Up
+	if (GoodData)
+		delete GoodData;
+	if (NextData)
+		delete NextData;
+	if (EmptyData)
+		delete EmptyData;
+	*/
 	return 0;
 }

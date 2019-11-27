@@ -7,9 +7,14 @@ User::User()
 	My_Service = NULL;
 }
 
-User::User(Service To_add)
+User::User(Service To_Add)
 {
-	My_Service = new Service(To_add);
+	My_Service = new Service(To_Add);
+}
+
+User::User(User& To_Add)
+{
+	My_Service = new Service(To_Add.My_Service);
 }
 
 // Destructor
@@ -56,6 +61,17 @@ int Provider::Get_Report(int ID)
 	return 0;
 }
 
+int Provider::AddUser(Provider*& root, Provider* To_Add)
+{
+	if (!To_Add)
+		return -1;
+
+	if (!root)
+		AddUser(root->next, To_Add);
+
+	return 0;
+}
+
 // Implementation of Member class
 // Default Member constructor
 Member::Member()
@@ -82,5 +98,16 @@ int Member::Get_Report(int ID)
 
 	Display_Member(ID);
 	Display_Service(My_Service);
+	return 0;
+}
+
+int Member::AddUser(Member*& root, Member* To_Add)
+{
+	if (!To_Add)
+		return -1;
+
+	if (!root)
+		AddUser(root->next, To_Add);
+
 	return 0;
 }

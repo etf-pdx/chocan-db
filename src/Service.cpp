@@ -17,12 +17,15 @@ Service::Service()
 
 // Constructor w/ Args
 Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, int pID, float fee, char* s_comments) {
+	bool isGood = true;
+	
 	service_name = new char[MAX_NAME];
     strcpy(service_name, s_name);
 
     if (code > MAX_SERVICE || code <= 0) {
         // Throw exception
         service_code = 0;
+		isGood = false;
     } else service_code = code;
 
     provided_date = new char[MAX_DATE];
@@ -39,11 +42,13 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
     if (mID > MAX_ID || mID <= 0) {
         // Throw exception
         memberID = 0;
+		isGood = false;
     } else memberID = mID;
 
     if (pID > MAX_ID || pID <= 0) {
         // Throw exception
         providerID = 0;
+		isGood = false;
     } else providerID = pID;
 
     if (fee > MAX_FEE || fee <= 0) {
@@ -56,6 +61,14 @@ Service::Service(char* s_name, int code, char* p_date, char* l_date, int mID, in
 	strcpy(comments, s_comments);
 
 	next = NULL;
+
+	if (isGood == false)
+	{
+		/*
+		 * delete [] // all char*;
+		 * make this NULL;
+		 */
+	}
 }
 
 // Copy Constructor
@@ -90,9 +103,12 @@ Service::Service(const Service* To_Add)
 	next = NULL;
 }
 
+// TODO: Test this destructor... hoping to use destroy() to make sure the entire service list is deallocated
 // Destructor
 Service::~Service()
 {
+    destroy(this);
+    /*
 	if (service_name)
 		delete [] service_name;
 	if (provided_date)
@@ -101,6 +117,23 @@ Service::~Service()
 		delete [] logged_date;
 	if (comments)
 		delete [] comments;
+    */
+}
+// Destroyer, helper of destructor
+void Service::destroy(Service* current)
+{
+    if (current->service_name)
+        delete [] current->service_name;
+    if (current->provided_date)
+        delete [] current->provided_date;
+    if (current->logged_date)
+        delete [] current->logged_date;
+    if (current->comments)
+        delete [] current->comments;
+    if (current->next) {
+        destroy(next);
+        delete (current->next);
+    }
 }
 
 // Display all services in the list
@@ -109,54 +142,28 @@ Service::~Service()
  * displaying, change type to Service and return it to a static
  * object
  */
-int Service::DisplayAll(Service* current)
+int Service::display(Service* current)
 {
 	if (!current)
 		return -1;
 
-	current->Display();
-	
-	return current->DisplayAll(next);
-}
+	std::cout << "Service Name: " << current->service_name << std::endl;
+	std::cout << "Service ID: " << current->service_code << std::endl;
+	std::cout << "Date Provided: " << current->provided_date << std::endl;
+	std::cout << "Date Logged: " << current->logged_date << std::endl;
+	std::cout << "Member ID: " << current->memberID << std::endl;
+	std::cout << "Provider ID: " << current->providerID << std::endl;
+	std::cout << "Fee: " << current->service_fee << std::endl;
+	std::cout << "Comments: " << current->comments << std::endl << std::endl;
 
-int Service::Display()
-{
-	if (!this)
-		return -1;
-
-	std::cout << "Service Name: " << this->service_name << std::endl;
-	std::cout << "Service ID: " << this->service_code << std::endl;
-	std::cout << "Date Provided: " << this->provided_date << std::endl;
-	std::cout << "Date Logged: " << this->logged_date << std::endl;
-	std::cout << "Member ID: " << this->memberID << std::endl;
-	std::cout << "Provider ID: " << this->providerID << std::endl;
-	std::cout << "Fee: " << this->service_fee << std::endl;
-	std::cout << "Comments: " << this->comments << std::endl << std::endl;
+	if (current->next)
+	    Display(current->next);
+	else std::cout << std::endl;
 
 	return 0;
 }
 
-int Service::FindService(int sID)
-{
-	if (sID <= 0 || sID > MAX_SERVICE)
-		return -1;
-
-	Service* holder = FindService(this, sID);
-	holder->Display();
-}
-
-Service* Service::FindService(Service* current, int sID)
-{
-	if (!current)
-		return NULL;
-
-	if (current->service_code == sID)
-		return current;
-
-	return current->FindService(next, sID);
-}
-
-Service * Service::getNext() {
+Service* Service::getNext() {
     return next;
 }
 int Service::setNext(const Service * toSet) {
@@ -165,4 +172,10 @@ int Service::setNext(const Service * toSet) {
 		return -1;
 
 	return 0;
+}
+
+char* Service::getName(int code) {
+    if (code == service_code)
+        return service_name;
+    return nullptr;
 }

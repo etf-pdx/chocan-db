@@ -1,11 +1,11 @@
 // Header file for services
 #include <iostream>
 
-const int MAX_NAME = 21;		// MUST be max of 20 characters
+const int MAX_NAME = 26;		// MUST be max of 25 characters (not 20...)
 const int MAX_COMMENT = 101;	// MUST be max of 100 characters
 const float MAX_FEE = 999.99;	// MUST be less than $999.99
 const int MAX_ID = 999999999;	// MUST be less than 10 digits
-const int MAX_SERVICE = 999999;// MUST be less than 7 digits
+const int MAX_SERVICE = 999999; // MUST be less than 7 digits
 const int MAX_DATE = 11;		// MUST be MM-DD-YYYY format
 
 class Service
@@ -15,17 +15,14 @@ public:
 	Service(char*, int, char*, char*, int, int, float, char*);
 	Service(const Service* To_Add);
 	~Service();
-	int DisplayAll(Service* current);
-	int Display();
+
+	int display(Service* current);
+
+	Service* getNext();
     int setNext(const Service*);
-	int FindService(int sID);
+    char* getName(int code);
 
 protected:
-	// Functions
-	Service* getNext();
-	Service* FindService(Service*, int sID);
-
-	// Data
 	char* service_name;
 	int service_code;
 	char* provided_date;
@@ -36,4 +33,6 @@ protected:
 	char* comments;
 
 	Service* next;
+
+    void destroy(Service* current);
 };
