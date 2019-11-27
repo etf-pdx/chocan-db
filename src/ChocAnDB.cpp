@@ -158,9 +158,29 @@ int ChocAnDB::ChkFrm(char *datetime) {
     return 0;
 }
 
+/*sample string for getting active/suspended back
+ * SELECT julianday('now')
+        - (30 * (SELECT MONTHS_PAID FROM ACTIVE WHERE MEMBER_ID = %d))
+        - ( SELECT START_DATE FROM ACTIVE WHERE MEMBER_ID = %d);
+ *
+ */
+
+
+
+int ChocAnDB::callback(void *data, int argc, char **argv, char **azColName){
+    int i;
+    fprintf(stderr, "%s: ", (const char*)data);
+
+    for(i = 0; i<argc; i++) {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n");
+    return 0;
+}
+
 int ChocAnDB::OpenDB() {
     const char *MembTB = "create table IF NOT EXISTS MEMBER ("  //If Table does not exist it will be created
-                         "    ID      INTEGER CHECK (ID < 199999999)" //
+                         "    ID      INTEGER CHECK (ID < 999999999)" //
                          "                      primary key AUTOINCREMENT ,"                 //Primary key makes ID's unique
                          "    NAME    TEXT(25) NOT NULL ,"
                          "    ADDRESS TEXT(25) NOT NULL ,"
@@ -170,7 +190,7 @@ int ChocAnDB::OpenDB() {
                          "); INSERT OR IGNORE INTO MEMBER"
                          "(ID,NAME,ADDRESS,CITY,STATE,ZIP) "
                          "        VALUES ("
-                         "        100000000,"
+                         "        300000000,"
                          "        'NAME',"
                          "        'ADDRESS',"
                          "        'CITY',"
@@ -196,18 +216,17 @@ int ChocAnDB::OpenDB() {
                          "        00000);";
 
     const char *MgmrTB = "create table MANAGER ("
-                         "    ID      INTEGER"
+                         "    ID      INTEGER CHECK (ID < 199999999)"
                          "        primary key autoincrement,"
                          "    NAME    CHARACTER(25) not null,"
                          "    ADDRESS CHARACTER(25),"
                          "    CITY    CHARACTER(14),"
                          "    STATE   CHARACTER(2),"
                          "    ZIP     INT(5),"
-                         "    check (ID < 99999999)"
                          ");INSERT OR IGNORE INTO MANAGER"
                          "(ID,NAME,ADDRESS,CITY,STATE,ZIP)"
                          "        VALUES ("
-                         "        0,"
+                         "        100000000,"
                          "        'NAME',"
                          "        'ADDRESS',"
                          "        'CITY',"

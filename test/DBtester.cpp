@@ -51,7 +51,6 @@ int DBtester::test(){
     else
         fprintf(log,"FAILED DATABASE ADD MEMBER: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
-    //TODO:write test for providers
     //Add provider
     Scratch = DB->AddUser('p',HappyID,RetInt);
     if (RetInt == 0){
@@ -76,7 +75,6 @@ int DBtester::test(){
         fprintf(log,"PASSED DATABASE ADD RECORD: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     else
         fprintf(log,"FAILED DATABASE ADD RECORD: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
-
 
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
