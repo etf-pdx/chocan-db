@@ -43,4 +43,6 @@ protected:
     int OpenDB();                           //DB initializer
     int ChkFrm(char* datetime);             //This will check formatting return 0 if correct
     char* prepUser(char type,const ident UserID);
+    //this function returns the requested info from the database
+    int callback(void *data, int argc, char **argv, char **azColName);
 };

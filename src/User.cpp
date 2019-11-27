@@ -44,6 +44,16 @@ Provider::Provider(Provider& To_Add)
 	My_Service = new Service(To_Add.My_Service);
 }
 
+Provider::Provider(ident& toAdd)
+{
+	ID.name = toAdd.name;
+	ID.number = toAdd.number;
+	ID.address = toAdd.address;
+	ID.city = toAdd.city;
+	ID.state = toAdd.state;
+	ID.zip = toAdd.zip;
+}
+
 // Destructor
 Provider::~Provider()
 {
