@@ -10,7 +10,7 @@ Operator::Operator()
 	ID.city = NULL;
 	ID.state = NULL;
 	ID.zip = 0;
-
+	
 	next = NULL;
 }
 
