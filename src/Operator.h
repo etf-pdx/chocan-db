@@ -1,5 +1,6 @@
 // Header file for operator
 #include <iostream>
+#include "Definition.h"
 
 // ************************************************ //
 //              RULES FOR I.D. NUMBERS              //
@@ -13,10 +14,7 @@
 //                                                  //
 // ************************************************ //
 
-const int MIN_MANAGER = 100000000;	 // Lower bound for manager ID numbers
-const int MAX_MANAGER = 199999999;	 // Upper bound for manager ID numbers
-const int MAX_PROVIDER = 299999999;  // Upper bound for provider ID numbers
-const int MAX_ID = 999999999;		 // MUST be less than 10 digits
+
 
 struct ident
 {
