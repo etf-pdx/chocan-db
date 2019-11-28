@@ -18,6 +18,8 @@
 
 struct ident
 {
+    ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
+
 	char *name;
 	int number;
 	char *address;
@@ -44,9 +46,6 @@ public:
 	char* getCity();
 	char* getState();
 	int getZip();
-
-	int HashIndex(int IDnum);		// Return index for operator's ID Number
-	int AddUser(Operator*& root, Operator* To_Add);
 
 protected:
 	ident get_ident(int IDnumber);

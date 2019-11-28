@@ -1,10 +1,7 @@
 #include "Manager.h"
 
 // Default Constructor
-Manager::Manager()
-{
-	
-}
+Manager::Manager(){}
 
 Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
 {
@@ -12,10 +9,8 @@ Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState
 }
 
 // Destructor
-Manager::~Manager()
-{
-	
-}
+Manager::~Manager(){}
+
 /* Not needed I think, operator would be called
 char* Manager::getName()
 {
@@ -218,10 +213,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 // Create new instance of provider
 int Manager::AddProvider(ident& To_Add)
 {
-	if (Person)
-		delete[] Person;
-
-	Person = new Provider(To_Add);
+	// ADD PROVIDER TO DATABASE
 
 	return 0;
 }
@@ -229,10 +221,7 @@ int Manager::AddProvider(ident& To_Add)
 // Create new instance of member
 int Manager::AddMember(ident& To_Add)
 {
-	if (Person)
-		delete[] Person;
-
-	Person = new Member(To_Add);
+	// ADD MEMBER TO DATABASE
 
 	return 0;
 }
