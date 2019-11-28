@@ -120,15 +120,25 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			
 			char input[100];
 			ident To_Add;
+		
 			std::cout << "Enter User's NAME: ";
-			std::cin.get(To_Add.name);
+			std::cin.get(To_Add.name,100,'\n');
 			std::cin.ignore(100, '\n');
 
-			
 			std::cout << "Enter User's ID: ";
-			std::cin >> To_Add.number);
+			std::cin >> To_Add.number;
 			std::cin.ignore(100, '\n');
-			
+			while (!cin)
+			{
+				cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
+				cin >> To_Add.number;
+			}
+			while (To_Add.number < 0 || To_Add.number > MAX_ID)
+			{
+				cout << "Invalid ID number. Try again. '\n Enter user's ID: ";
+				cin >> To_Add.number;
+			}
+
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin.get(To_Add.address);
 			std::cin.ignore(100, '\n');

@@ -21,4 +21,6 @@ public:
 protected:
 	int AddProvider(ident& To_Add);
 	int AddMember(ident& To_Add);
+
+	
 };
