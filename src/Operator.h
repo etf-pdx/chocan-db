@@ -19,6 +19,8 @@
 
 struct ident
 {
+    ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
+
 	char *name;
 	int number;
 	char *address;

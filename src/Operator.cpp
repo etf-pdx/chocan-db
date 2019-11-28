@@ -2,6 +2,25 @@
 
 #include "Operator.h"
 
+ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
+{
+    name = new char[strlen(aName) + 1];
+    strcpy(name, aName);
+
+    address = new char[strlen(aAddress) + 1];
+    strcpy(address, aAddress);
+
+    city = new char[strlen(aCity) + 1];
+    strcpy(city, aCity);
+
+    state = new char[strlen(aState) + 1];
+    strcpy(state, aState);
+
+    ID.number = aNumber;
+    zip = aZip;
+    status = aStatus;
+}
+
 Operator::Operator()
 {
 	ID.name = NULL;
