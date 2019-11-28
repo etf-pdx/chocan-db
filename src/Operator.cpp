@@ -2,6 +2,17 @@
 
 #include "Operator.h"
 
+ident::ident()
+{
+    name = NULL;
+    number = 0;
+    address = NULL;
+    city = NULL;
+    state = NULL;
+    zip = 0;
+    status = false;
+}
+
 ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
     name = new char[strlen(aName) + 1];
