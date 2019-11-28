@@ -29,7 +29,7 @@ int User::Display_Service(Service* My_Service)
 	if (!My_Service)
 		return -1;
 
-	return My_Service->Display();
+	return My_Service->display(My_Service);
 }
 
 // Implementation of Provider class
@@ -66,19 +66,8 @@ int Provider::Get_Report(int ID)
 	if (ID < 0)
 		return -1;
 
-	Display_Member(ID);
+	displayID(ID);
 	Display_Service(My_Service);
-	return 0;
-}
-
-int Provider::AddUser(Provider*& root, Provider* To_Add)
-{
-	if (!To_Add)
-		return -1;
-
-	if (!root)
-		AddUser(root->next, To_Add);
-
 	return 0;
 }
 
@@ -94,6 +83,16 @@ Member::Member(Member& To_Add)
 	My_Service = new Service(To_Add.My_Service);
 }
 
+Member::Member(ident& toAdd)
+{
+	ID.name = toAdd.name;
+	ID.number = toAdd.number;
+	ID.address = toAdd.address;
+	ID.city = toAdd.city;
+	ID.state = toAdd.state;
+	ID.zip = toAdd.zip;
+}
+
 //Destructor
 Member::~Member()
 {
@@ -106,18 +105,7 @@ int Member::Get_Report(int ID)
 	if (ID < 0)
 		return -1;
 
-	Display_Member(ID);
+	displayID(ID);
 	Display_Service(My_Service);
-	return 0;
-}
-
-int Member::AddUser(Member*& root, Member* To_Add)
-{
-	if (!To_Add)
-		return -1;
-
-	if (!root)
-		AddUser(root->next, To_Add);
-
 	return 0;
 }

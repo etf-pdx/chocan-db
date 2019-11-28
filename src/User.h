@@ -28,7 +28,6 @@ public:
 	~Provider();
 
 	int Get_Report(int Provider_ID);
-	int AddUser(Provider*& root, Provider* To_Add);
 
 protected:
 
@@ -44,7 +43,6 @@ public:
 	~Member();
 
 	int Get_Report(int Member_ID);
-	int AddUser(Member*& root, Member* To_Add);
 protected:
 
 };
