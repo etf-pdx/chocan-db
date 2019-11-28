@@ -3,7 +3,7 @@
 /*
  * To compile in VS 2019
  * Open directory in developer command prompt
- * run "cl /EHsc .\sqlite\sqlite3.c *.cpp"
+ * run "cl /EHsc .\sqlite\sqlite3.c *.cpp /Fe.\ChocAnDB.exe"
  */
 
 #include <cctype>

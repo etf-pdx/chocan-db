@@ -157,7 +157,7 @@ int Service::display(Service* current)
 	std::cout << "Comments: " << current->comments << std::endl << std::endl;
 
 	if (current->next)
-	    Display(current->next);
+	    display(current->next);
 	else std::cout << std::endl;
 
 	return 0;
