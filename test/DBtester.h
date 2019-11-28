@@ -16,5 +16,6 @@ public:
 private:
     ident HappyID;
     ident SadID;
+    ident RetID;
 };
 
