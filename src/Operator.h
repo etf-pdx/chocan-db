@@ -45,6 +45,9 @@ public:
 	char* getState();
 	int getZip();
 
+	int HashIndex(int IDnum);		// Return index for operator's ID Number
+	int AddUser(Operator*& root, Operator* To_Add);
+
 protected:
 	ident get_ident(int IDnumber);
 

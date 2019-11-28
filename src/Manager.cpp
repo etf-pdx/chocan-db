@@ -3,32 +3,31 @@
 // Default Constructor
 Manager::Manager()
 {
-	person = NULL;
+	
 }
 
 Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
 {
-	person = new Operator(aName, aID, aAddress, aCity, aState,aZip);
+	ID = new ident(aName, aID, aAddress, aCity, aState,aZip);
 }
 
 // Destructor
 Manager::~Manager()
 {
-	if (person)
-		delete person;
+	
 }
-
-char* Manager::getName(Operator* person)
+/* Not needed I think, operator would be called
+char* Manager::getName()
 {
-	return person->getName();
+	return 
 }
 
-int Manager::getID(Operator* person)
+int Manager::getID()
 {
-	return person->GetIDnumber();
+	return ->GetIDnumber();
 }
 
-char* Manager::getAddress(Operator* person)
+char* Manager::getAddress()
 {
 	return person->getAddress();
 }
@@ -47,6 +46,7 @@ int Manager::getZip(Operator* person)
 {
 	return person->getZip();
 }
+*/
 
 // List of options available to manager
 int Manager::OptionSelect()
@@ -122,11 +122,13 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 		switch (choice)
 		{
 		case 'A':				// Someone put in checks plz, it's 3am, I'm tired...
-	
+			
+			char input[100];
 			ident To_Add;
 			std::cout << "Enter User's NAME: ";
 			std::cin.get(To_Add.name);
 			std::cin.ignore(100, '\n');
+
 			
 			std::cout << "Enter User's ID: ";
 			std::cin >> To_Add.number);

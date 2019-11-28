@@ -10,6 +10,8 @@ Operator::Operator()
 	ID.city = NULL;
 	ID.state = NULL;
 	ID.zip = 0;
+	
+	next = NULL;
 }
 
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
@@ -112,6 +114,18 @@ char* Operator::getState()
 int Operator::getZip()
 {
 	return ID.zip;
+}
+
+// Return index for operator's ID Number
+int Operator::HashIndex(int IDnum)
+{
+	if (IDnum <= 0 || IDnum > MAX_ID)
+		return -1;
+
+	int index = 0;
+
+	index = IDnum % 100;
+	return index;
 }
 
 // Get Member data
