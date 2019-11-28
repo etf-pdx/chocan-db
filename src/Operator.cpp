@@ -35,13 +35,9 @@ Operator::Operator()
 
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
 {
-	// MIGHT WANNA PUT CHAR* = NEW CHAR [STRLEN()+1]; HERE
-	ID.name = aName;
-	ID.number = aNumber;
-	ID.address = aAddress;
-	ID.city = aCity;
-	ID.state = aState;
-	ID.zip = aZip;
+
+	ID(aName, aNumber, aAddress, aCity, aState, aZip, aStatus);
+	
 }
 
 Operator::Operator(ident To_Add)
