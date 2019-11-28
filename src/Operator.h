@@ -47,9 +47,6 @@ public:
 	char* getState();
 	int getZip();
 
-	
-	int AddUser(Operator*& root, Operator* To_Add);
-
 protected:
 	ident get_ident(int IDnumber);
 

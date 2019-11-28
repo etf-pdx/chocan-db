@@ -1,10 +1,7 @@
 #include "Manager.h"
 
 // Default Constructor
-Manager::Manager()
-{
-	
-}
+Manager::Manager(){}
 
 Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
 {
@@ -12,10 +9,8 @@ Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState
 }
 
 // Destructor
-Manager::~Manager()
-{
-	
-}
+Manager::~Manager(){}
+
 /* Not needed I think, operator would be called
 char* Manager::getName()
 {
@@ -125,15 +120,25 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			
 			char input[100];
 			ident To_Add;
+		
 			std::cout << "Enter User's NAME: ";
-			std::cin.get(To_Add.name);
+			std::cin.get(To_Add.name,100,'\n');
 			std::cin.ignore(100, '\n');
 
-			
 			std::cout << "Enter User's ID: ";
-			std::cin >> To_Add.number);
+			std::cin >> To_Add.number;
 			std::cin.ignore(100, '\n');
-			
+			while (!cin)
+			{
+				cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
+				cin >> To_Add.number;
+			}
+			while (To_Add.number < 0 || To_Add.number > MAX_ID)
+			{
+				cout << "Invalid ID number. Try again. '\n Enter user's ID: ";
+				cin >> To_Add.number;
+			}
+
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin.get(To_Add.address);
 			std::cin.ignore(100, '\n');
@@ -208,37 +213,15 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 // Create new instance of provider
 int Manager::AddProvider(ident& To_Add)
 {
-	/* if (!To_Add) 
-		return -1;*/
+	// ADD PROVIDER TO DATABASE
 
-	int index = HashIndex(To_Add.number);
-	Provider* NewProvider = new Provider(To_Add);
-
-	// First person in the system
-	if (!person[index])
-		person[index] = new Provider(NewProvider);
-	else
-		person[index]->AddUser(person[index]->next, NewProvider);
-
-	delete[] NewProvider;
 	return 0;
 }
 
 // Create new instance of member
 int Manager::AddMember(ident& To_Add)
 {
-	if (!To_Add)
-		return -1;
-	
-	int index = HashIndex(To_Add.number);
-	Operator* NewMember = new Member(To_Add);
+	// ADD MEMBER TO DATABASE
 
-	// First person in the system
-	if (!person[index])
-		person[index] = new Member(NewMember);
-	else
-		person[index]->AddUser(person[index]->next, NewMember);
-	
-	delete[] NewMember;
 	return 0;
 }
