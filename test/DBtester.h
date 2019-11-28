@@ -7,6 +7,7 @@
 #include "../src/ChocAnDB.h"
 #include <iostream>
 
+#define DBTESTER_H
 class DBtester {
 public:
 	int test();
