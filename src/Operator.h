@@ -20,6 +20,7 @@ const int MAX_ID = 999999999;		 // MUST be less than 10 digits
 
 struct ident
 {
+    ident();
 	char *name;
 	int number;
 	char *address;

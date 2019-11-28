@@ -2,16 +2,31 @@
 
 #include "Operator.h"
 
+ident::ident()
+{
+    name = NULL;
+    number = 0;
+    address = NULL;
+    city = NULL;
+    state = NULL;
+    zip = 0;
+    status = false;
+
+    next = NULL;
+}
+
 Operator::Operator()
 {
+    ID();
+    /*
 	ID.name = NULL;
 	ID.number = 0;
 	ID.address = NULL;
 	ID.city = NULL;
 	ID.state = NULL;
 	ID.zip = 0;
-
 	next = NULL;
+	*/
 }
 
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
