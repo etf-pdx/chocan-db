@@ -21,5 +21,5 @@ protected:
 	int AddProvider(ident& To_Add);
 	int AddMember(ident& To_Add);
 
-	Operator** person;   // Not sure what this is doing...
+	Operator* Person;
 };

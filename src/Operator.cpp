@@ -10,8 +10,6 @@ Operator::Operator()
 	ID.city = NULL;
 	ID.state = NULL;
 	ID.zip = 0;
-	
-	next = NULL;
 }
 
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
@@ -23,8 +21,6 @@ Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* 
 	ID.city = aCity;
 	ID.state = aState;
 	ID.zip = aZip;
-
-	next = NULL;
 }
 
 Operator::Operator(ident To_Add)
@@ -38,9 +34,7 @@ Operator::Operator(ident To_Add)
 	strcpy(ID.city, To_Add.city);
 	ID.state = new char [strlen(To_Add.state) + 1];
 	strcpy(ID.state, To_Add.state);
-	ID.zip = To_Add.state;
-
-	next = NULL;
+	ID.zip = To_Add.zip;
 }
 
 Operator::Operator(Operator& To_Add)
@@ -51,8 +45,6 @@ Operator::Operator(Operator& To_Add)
 	ID.city = To_Add.getCity();
 	ID.state = To_Add.getState();
 	ID.zip = To_Add.getZip();
-
-	next = To_Add.next;
 }
 
 Operator::~Operator()
@@ -65,14 +57,11 @@ Operator::~Operator()
 		delete[] ID.city;
 	if (ID.state)
 		delete[] ID.state;
-
-	if (next)
-		delete[] next;
 }
 
 int Operator::displayID(int IDnumber)
 {
-	if (IDnumber < LOW_MGR)
+	if (IDnumber < MIN_MANAGER)
 		return -1;
 
 	ident current_ID = get_ident(IDnumber);
@@ -123,18 +112,6 @@ char* Operator::getState()
 int Operator::getZip()
 {
 	return ID.zip;
-}
-
-// Return index for operator's ID Number
-int Operator::HashIndex(int IDnum)
-{
-	if (IDnum <= 0 || IDnum > MAX_ID)
-		return -1;
-
-	int index = 0;
-
-	index = IDnum % 100;
-	return index;
 }
 
 // Get Member data

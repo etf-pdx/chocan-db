@@ -206,37 +206,21 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 // Create new instance of provider
 int Manager::AddProvider(ident& To_Add)
 {
-	/* if (!To_Add) 
-		return -1;*/
+	if (Person)
+		delete[] Person;
 
-	int index = HashIndex(To_Add.number);
-	Provider* NewProvider = new Provider(To_Add);
+	Person = new Provider(To_Add);
 
-	// First person in the system
-	if (!person[index])
-		person[index] = new Provider(NewProvider);
-	else
-		person[index]->AddUser(person[index]->next, NewProvider);
-
-	delete[] NewProvider;
 	return 0;
 }
 
 // Create new instance of member
 int Manager::AddMember(ident& To_Add)
 {
-	if (!To_Add)
-		return -1;
-	
-	int index = HashIndex(To_Add.number);
-	Operator* NewMember = new Member(To_Add);
+	if (Person)
+		delete[] Person;
 
-	// First person in the system
-	if (!person[index])
-		person[index] = new Member(NewMember);
-	else
-		person[index]->AddUser(person[index]->next, NewMember);
-	
-	delete[] NewMember;
+	Person = new Member(To_Add);
+
 	return 0;
 }
