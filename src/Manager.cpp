@@ -85,6 +85,7 @@ int Manager::OptionSelect()
 // When enter interactive mode, we're be doing things to this
 int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented in ChocAnMain.cpp.
 {                                   //       Very little should be going on in this file.
+	ident To_Add;
 	char choice;                     //       For interactive mode stuff, main() should be calling DB
 	int IDnum;
 	bool isInteractive = true;
@@ -119,7 +120,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 		case 'A':				// Someone put in checks plz, it's 3am, I'm tired...
 			
 			char input[100];
-			ident To_Add;
+			
 		
 			std::cout << "Enter User's NAME: ";
 			std::cin.get(To_Add.name,100,'\n');
@@ -128,7 +129,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			std::cout << "Enter User's ID: ";
 			std::cin >> To_Add.number;
 			std::cin.ignore(100, '\n');
-			while (std::!cin)
+			while (std::cin.fail())
 			{
 				std::cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
 				std::cin >> To_Add.number;
@@ -140,15 +141,15 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			}
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin.get(To_Add.address);
+			std::cin.get(To_Add.address,100,'\n');
 			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter user's CITY: ";
-			std::cin.get(To_Add.city);
+			std::cin.get(To_Add.city,100,'\n');
 			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter User's STATE: ";
-			std::cin.get(To_Add.state);
+			std::cin.get(To_Add.state,100,'\n');
 			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
