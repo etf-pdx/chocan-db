@@ -1,21 +1,16 @@
 #include "Manager.h"
 
 // Default Constructor
-Manager::Manager()
-{
-	
-}
+Manager::Manager(){}
 
 Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
 {
-	ID = new ident(aName, aID, aAddress, aCity, aState,aZip);
+	
 }
 
 // Destructor
-Manager::~Manager()
-{
-	
-}
+Manager::~Manager(){}
+
 /* Not needed I think, operator would be called
 char* Manager::getName()
 {
@@ -92,7 +87,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 {                                   //       Very little should be going on in this file.
 	char choice;                     //       For interactive mode stuff, main() should be calling DB
 	int IDnum;
-	bool isInteractive == true;
+	bool isInteractive = true;
 	/*                              //       and DB should be calling methods of Provider and Member classes.
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
@@ -133,15 +128,15 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			std::cout << "Enter User's ID: ";
 			std::cin >> To_Add.number;
 			std::cin.ignore(100, '\n');
-			while (!cin)
+			while (std::!cin)
 			{
-				cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
-				cin >> To_Add.number;
+				std::cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
+				std::cin >> To_Add.number;
 			}
 			while (To_Add.number < 0 || To_Add.number > MAX_ID)
 			{
-				cout << "Invalid ID number. Try again. '\n Enter user's ID: ";
-				cin >> To_Add.number;
+				std::cout << "Invalid ID number. Try again. '\n Enter user's ID: ";
+				std::cin >> To_Add.number;
 			}
 
 			std::cout << "Enter User's ADDRESS: ";
@@ -218,10 +213,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 // Create new instance of provider
 int Manager::AddProvider(ident& To_Add)
 {
-	if (Person)
-		delete[] Person;
-
-	Person = new Provider(To_Add);
+	// ADD PROVIDER TO DATABASE
 
 	return 0;
 }
@@ -229,10 +221,7 @@ int Manager::AddProvider(ident& To_Add)
 // Create new instance of member
 int Manager::AddMember(ident& To_Add)
 {
-	if (Person)
-		delete[] Person;
-
-	Person = new Member(To_Add);
+	// ADD MEMBER TO DATABASE
 
 	return 0;
 }

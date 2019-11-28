@@ -1,6 +1,7 @@
 // Header file for operator
 #include <iostream>
 #include "Definition.h"
+#include "Service.h"
 
 // ************************************************ //
 //              RULES FOR I.D. NUMBERS              //
@@ -18,6 +19,9 @@
 
 struct ident
 {
+    ident();
+    ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
+
 	char *name;
 	int number;
 	char *address;
@@ -45,8 +49,7 @@ public:
 	char* getState();
 	int getZip();
 
-	int HashIndex(int IDnum);		// Return index for operator's ID Number
-	int AddUser(Operator*& root, Operator* To_Add);
+	int AddService();
 
 protected:
 	ident get_ident(int IDnumber);
