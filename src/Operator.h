@@ -28,14 +28,14 @@ struct ident
 	char *city;
 	char *state;
 	int zip;
-	bool status; //to Check if memeber is valid or invalid, true=active false=inactive
+	bool status; //to Check if member is valid or invalid, true=active false=inactive
 };
 
 class Operator
 {
 public:
 	Operator();
-	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip);
+	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
 	Operator(ident To_Add);
 	Operator(Operator& To_Add);
 	~Operator();

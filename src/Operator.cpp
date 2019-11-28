@@ -27,7 +27,7 @@ ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState
     state = new char[strlen(aState) + 1];
     strcpy(state, aState);
 
-    ID.number = aNumber;
+    number = aNumber;
     zip = aZip;
     status = aStatus;
 }
@@ -41,13 +41,13 @@ Operator::Operator()
 	ID.state = NULL;
 	ID.zip = 0;
 	
-	next = NULL;
+	//next = NULL;
 }
 
-Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
+Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
 
-	ID(aName, aNumber, aAddress, aCity, aState, aZip, aStatus);
+	ID = ident(aName, aNumber, aAddress, aCity, aState, aZip, aStatus);
 	
 }
 
