@@ -2,6 +2,17 @@
 
 #include "Operator.h"
 
+ident::ident()
+{
+    name = NULL;
+    number = 0;
+    address = NULL;
+    city = NULL;
+    state = NULL;
+    zip = 0;
+    status = false;
+}
+
 ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
     name = new char[strlen(aName) + 1];
@@ -16,7 +27,7 @@ ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState
     state = new char[strlen(aState) + 1];
     strcpy(state, aState);
 
-    ID.number = aNumber;
+    number = aNumber;
     zip = aZip;
     status = aStatus;
 }
@@ -29,19 +40,25 @@ Operator::Operator()
 	ID.city = NULL;
 	ID.state = NULL;
 	ID.zip = 0;
-	
-	next = NULL;
 }
 
-Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
+Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
-	// MIGHT WANNA PUT CHAR* = NEW CHAR [STRLEN()+1]; HERE
-	ID.name = aName;
+	ID.name = new char[strlen(aName) + 1];
+	strcpy(ID.name, aName);
+
+	ID.address = new char[strlen(aAddress) + 1];
+	strcpy(ID.address, aAddress);
+
+	ID.city = new char[strlen(aCity) + 1];
+	strcpy(ID.city, aCity);
+
+	ID.state = new char[strlen(aState) + 1];
+	strcpy(ID.state, aState);
+
 	ID.number = aNumber;
-	ID.address = aAddress;
-	ID.city = aCity;
-	ID.state = aState;
 	ID.zip = aZip;
+	ID.status = aStatus;
 }
 
 Operator::Operator(ident To_Add)

@@ -19,6 +19,7 @@
 
 struct ident
 {
+    ident();
     ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
 
 	char *name;
@@ -34,7 +35,7 @@ class Operator
 {
 public:
 	Operator();
-	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip);
+	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
 	Operator(ident To_Add);
 	Operator(Operator& To_Add);
 	~Operator();
