@@ -11,7 +11,7 @@ Operator::Operator()
 	ID.state = NULL;
 	ID.zip = 0;
 	
-	next = NULL;
+	
 }
 
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip)
@@ -126,6 +126,7 @@ int Operator::getZip()
 }
 
 // Return index for operator's ID Number
+/*
 int Operator::HashIndex(int IDnum)
 {
 	if (IDnum <= 0 || IDnum > MAX_ID)
@@ -136,6 +137,8 @@ int Operator::HashIndex(int IDnum)
 	index = IDnum % 100;
 	return index;
 }
+don't need this i believe
+*/
 
 // Get Member data
 ident Operator::get_ident(int IDnumber)
