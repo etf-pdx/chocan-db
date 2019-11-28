@@ -11,6 +11,7 @@ class ChocAnDB {
 public:
     ChocAnDB();
     ChocAnDB(int &RetInt);
+    ChocAnDB(char t,int&RetInt);
     ~ChocAnDB();
 
     int AddUser(char type, ident UserID, int &RetInt);
@@ -31,16 +32,24 @@ public:
      * Date of service format should be "YYYY-MM-DD"
      *
      */
-    //ident* GetUser(int IDnum);
-
+    ident& GetUser(int UserID, int &RetInt);
+    /*will return mangar/provider/member information through ident.
+     * return int:
+     * 0 = ok
+     * 1 = user not found
+     *
+     */
     //TODO: return reports.
+    char* ProvDir();
+    //will return the full list of services
 
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name
+    const char* test = "TestDB_File.db";  //DB file name
     char* ErrMsg;                           //SQL Error message
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
-    int OpenDB();                           //DB initializer
+    int OpenDB(int RetInt);                           //DB initializer
     int ChkFrm(char* datetime);             //This will check formatting return 0 if correct
     char* prepUser(char type,const ident UserID);
     //this function returns the requested info from the database
