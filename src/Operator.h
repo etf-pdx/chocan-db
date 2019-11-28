@@ -24,6 +24,7 @@ struct ident
 	char *city;
 	char *state;
 	int zip;
+	bool status; //to Check if memeber is valid or invalid, true=active false=inactive
 };
 
 class Operator
