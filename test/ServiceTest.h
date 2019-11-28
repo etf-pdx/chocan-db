@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "..\src\Service.h"
 
-
+#define SERVICETEST_H
 class ServiceTest
 {
 public:

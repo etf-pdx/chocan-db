@@ -1,6 +1,7 @@
 // Header file for services
 
 #include <iostream>
+#include "Definition.h"
 
 
 class Service
@@ -11,10 +12,7 @@ public:
 	Service(const Service* To_Add);
 	~Service();
 
-	int display(Service* current);
-
-	Service* getNext();
-    int setNext(const Service*);
+	int display();
     char* getName(int code);
 
 protected:
@@ -26,8 +24,6 @@ protected:
 	int providerID;
 	float service_fee;
 	char* comments;
-
-	Service* next;
 
     void destroy(Service* current);
 };
