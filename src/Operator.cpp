@@ -116,16 +116,11 @@ int Operator::getZip()
 	return ID.zip;
 }
 
-// Return index for operator's ID Number
-int Operator::HashIndex(int IDnum)
+int Operator::AddService()
 {
-	if (IDnum <= 0 || IDnum > MAX_ID)
-		return -1;
+	//ADD SERVICE TO DATABASE
 
-	int index = 0;
-
-	index = IDnum % 100;
-	return index;
+	return 0;
 }
 
 // Get Member data
