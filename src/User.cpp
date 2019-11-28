@@ -29,7 +29,7 @@ int User::Display_Service(Service* My_Service)
 	if (!My_Service)
 		return -1;
 
-	return My_Service->Display(My_Service);
+	return My_Service->Display();
 }
 
 // Implementation of Provider class
