@@ -1,5 +1,7 @@
 //This file is for const variables that will be used in this program
 
+#ifndef DEFINITION_H
+#define DEFINITION_H
 
 const int MIN_MANAGER = 100000000;	 // Lower bound for manager ID numbers
 const int MAX_MANAGER = 199999999;	 // Upper bound for manager ID numbers
@@ -10,3 +12,7 @@ const int MAX_COMMENT = 101;	// MUST be max of 100 characters
 const float MAX_FEE = 999.99;	// MUST be less than $999.99
 const int MAX_SERVICE = 999999; // MUST be less than 7 digits
 const int MAX_DATE = 11;		// MUST be MM-DD-YYYY format
+
+//definitions
+
+#endif
