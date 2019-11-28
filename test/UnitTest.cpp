@@ -4,7 +4,7 @@
 
 /*
  * To compile for VS2019
- * cl /EHsc ..\src\ChocAnDB.cpp ..\src\Service.cpp *.cpp
+ * cl /EHsc ..\src\ChocAnDB.cpp ..\src\Manager.cpp ..\src\Service.cpp *.cpp /Fe.\UnitTest.exe
  */
 
 // Unit Test Main
@@ -18,7 +18,7 @@ int main()
 	// Testing Database
 	DBtester databaseTest;
 	databaseTest.test();
-	
+
 	//Manager unit test 
 	// Step 1: Arrange
 	/*

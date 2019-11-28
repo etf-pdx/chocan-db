@@ -1,6 +1,7 @@
 // Header file for operator
 #include <iostream>
 #include "Definition.h"
+#include "Service.h"
 
 // ************************************************ //
 //              RULES FOR I.D. NUMBERS              //
@@ -46,6 +47,8 @@ public:
 	char* getCity();
 	char* getState();
 	int getZip();
+
+	int AddService();
 
 protected:
 	ident get_ident(int IDnumber);
