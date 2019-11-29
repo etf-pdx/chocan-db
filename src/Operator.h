@@ -1,5 +1,6 @@
 // Header file for operator
 #include <iostream>
+#include <cstring>
 #include "Definition.h"
 #include "Service.h"
 

@@ -69,15 +69,21 @@ int DBtester::test(){
         fprintf(log,"FAILED DATABASE ADD SERVICE: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     //Create a record
-    HappyID.number = 100000001;
+    HappyID.number = 300000001;
     DB->AddRecd(HappyID,200000001,598470,"Relaxing","2019-11-11",RetInt);
     if (RetInt == 0)
         fprintf(log,"PASSED DATABASE ADD RECORD: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     else
         fprintf(log,"FAILED DATABASE ADD RECORD: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
-   // RetID = DB->GetUser(HappyID.number,RetInt);
-    //if ()
+    //Retrieve user ID
+    RetID = DB->GetUser(HappyID.number,RetInt);
+    if (RetInt == 0) {
+        fprintf(log, "PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour) % 24, ptm->tm_min, ptm->tm_sec);
+        fprintf(log, "\t--RETRIEVED MEMBER NUMBER/NAME : %d/%s\n", RetID.number, RetID.name);
+    }
+    else
+        fprintf(log,"FAILED DATABASE LOOK UP: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
 
     delete DB;

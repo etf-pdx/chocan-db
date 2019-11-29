@@ -1,8 +1,8 @@
 // Comment out the Header files contain classes you don't want to test
 
 #include <iostream>
-#include "ServiceTest.h"
-// #include "DBtester.h"
+//#include "ServiceTest.h"
+#include "DBtester.h"
 // #include "ManagerTest.h"
 
 /*
@@ -25,7 +25,7 @@ int main()
 #ifdef DBTESTER_H
 
 
-	Testing Database
+    std::cout << "Testing Database\n\n";
 	DBtester databaseTest;
 	databaseTest.test();
 
