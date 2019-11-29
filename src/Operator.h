@@ -1,7 +1,6 @@
 // Header file for operator
 #include <iostream>
 #include <cstring>
-#include "Definition.h"
 #include "Service.h"
 
 // ************************************************ //
@@ -31,6 +30,44 @@ struct ident
 	int zip;
 	bool status; //to Check if member is valid or invalid, true=active false=inactive
 };
+
+// The ServiceReport is a struct common to both Provider Reports and Member Reports.
+// Both MemberReport and ProviderReport structs contain arrays of ServiceReports.
+// The Summary report is a different thing and does not use a ServiceReport.
+
+// IS THIS FIELD USED IN THE:  MemberReport // ProviderReport
+struct ServiceReport {      //      ?       //      ?
+    int serviceCode;        //      NO      //      YES
+    char* memberName;       //      NO      //      YES
+    int memberNumber;       //      NO      //      YES
+    char* providerName;     //      YES     //      NO
+    int providerNumber;     //      YES     //      NO
+    char* dateProvided;     //      YES     //      YES
+    char* dateLogged;       //      NO      //      YES
+    float fee;              //      NO      //      YES
+};
+
+struct MemberReport {
+    ident memberID;
+    ServiceReport* servicesReceived;    // Array of services member received that week
+};
+
+struct ProviderReport {
+    ident providerID;
+    ServiceReport* servicesProvided;    // Array of services provider logged that week
+    int numServices;
+    float totalFee;
+};
+
+// The SummaryReport contains an array of ProviderReports. When displayed, it will
+// use this array to access the provider names, number of services and fees owed.
+struct SummaryReport {
+    ProviderReport* perProviderData;    // Array of providers owed for the week
+    int number_of_services;
+    int number_of_providers;
+    int total_fee;
+};
+
 
 class Operator
 {

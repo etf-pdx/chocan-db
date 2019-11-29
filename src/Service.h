@@ -3,7 +3,6 @@
 #include <iostream>
 #include "Definition.h"
 
-
 class Service
 {
 public:
