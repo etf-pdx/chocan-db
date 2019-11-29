@@ -1,7 +1,8 @@
 //Database header file
 //Download SQLite from the developer at https://sqlite.org/download.html
 
-#include "Manager.h"
+#include "Operator.h"
+#include "SQL_exstention.cpp"
 #include <cstring>
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
@@ -32,8 +33,13 @@ public:
      * Date of service format should be "YYYY-MM-DD"
      *
      */
-    ident& GetUser(int UserID, int &RetInt);
+    ident GetUser(char type,int UserID, int &RetInt);
     /*will return mangar/provider/member information through ident.
+     *      *type char switch
+     * 'm' - Member
+     * 'p' - provider
+     * 'g' - manager
+     *
      * return int:
      * 0 = ok
      * 1 = user not found
@@ -42,7 +48,7 @@ public:
     //TODO: return reports.
     char* ProvDir();
     //will return the full list of services
-
+    //
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name
     const char* test = "TestDB_File.db";  //DB file name
@@ -50,8 +56,7 @@ protected:
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
     int OpenDB(int RetInt);                           //DB initializer
-    int ChkFrm(char* datetime);             //This will check formatting return 0 if correct
+    int ChkFrm(char *datetime);             //This will check formatting return 0 if correct
     char* prepUser(char type,const ident UserID);
-    //this function returns the requested info from the database
-    int callback(void *data, int argc, char **argv, char **azColName);
+
 };
