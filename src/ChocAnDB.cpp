@@ -4,6 +4,7 @@
 
 #include "ChocAnDB.h"
 
+#define UNDEFINED           -1
 #define DB_OK               0// Successful result
 #define DB_FAILED           1
 #define MEMBER_FAILED       2
@@ -31,7 +32,6 @@ ChocAnDB::ChocAnDB(char t, int &RetInt) {
     RetInt = OpenDB(1);
 }
 
-
 ChocAnDB::~ChocAnDB() {
     //trent- The sqlite3_finalize() function is called to delete a [prepared statement].
     //will be used elsewhere.
@@ -43,11 +43,11 @@ ChocAnDB::~ChocAnDB() {
     sqlite3_close(DB);
     DB = nullptr;
     STMT = nullptr;
+    delete(ErrMsg);
 }
 
-
 int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
-    RetInt = 0;
+    RetInt = DB_OK;
     char *Stmt = prepUser(type, UserID);
     std::cout << "UPDATING DATABASE:";
 
@@ -56,7 +56,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
-                return RetInt = 2;
+                return RetInt = MEMBER_FAILED;
             }
             break;
 
@@ -64,13 +64,18 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
-                return 3;
+                return PROVIDER_FAILED ;
             }
             break;
         case 'g':
-            //TODO: fill in manager
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
+                return MANAGER_FAILED;
+            }
+            break;
         default:
-            return -1;
+            return UNDEFINED;
     }
 
     int IDnum = sqlite3_last_insert_rowid(DB);
@@ -116,7 +121,7 @@ char *ChocAnDB::prepUser(char type, ident UserID) {
 }
 
 int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
-    RetInt = 0;
+    RetInt = DB_OK;
     char Buff[1024];
     char *Stmt = nullptr;
     std::cout << "UPDATING DATABASE:";
@@ -129,7 +134,7 @@ int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
     if (RetInt != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return 5;
+        return SERVICE_FAILED;
     }
     int SVnum = sqlite3_last_insert_rowid(DB);
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << SVnum << std::endl;
@@ -164,42 +169,76 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
     if (RetInt != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return 4;
+        return SERVICE_FAILED;
     }
 
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << ServCD << std::endl;
 
-    return 0;
+    return DB_OK;
 }
 
 //TODO: build function to ensure datetime char* fits format
 //This will check formatting return 0 if correct
 int ChocAnDB::ChkFrm(char *datetime) {
-    return 0;
+    return DB_OK;
 }
-
-/*sample string for getting active/suspended back
- * SELECT julianday('now')
-        - (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))
-        - ( SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d);
- *
- */
 
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     std::cout << "CALLING DATABASE:\t";
     char buff[1024];
     ident *data = new ident;
-    char *Stmt = new char[42];
-    //TODO: add switch for member, providers, and manager
-    sprintf(buff,"SELECT * FROM MEMBER WHERE ID = %d",UserID);
-    strcpy(Stmt,buff);
+    int *ID = new int;
+    char *Stmt;
+    switch (type){
+        case 'm':
+            Stmt = new char[42];
+            sprintf(buff,"SELECT * FROM MEMBER WHERE ID = %d",UserID);
+            strcpy(Stmt,buff);
 
-    sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-    std::cout << "-FOUND-\n" << "\tID NUMBER:\t" << data->name << std::endl;
+            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+           delete(Stmt);
+            sprintf(buff,"SELECT CAST(julianday('now')"
+                   "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
+                   "- (julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d)))AS INTEGER)",data->number,data->number);
+            Stmt = new char[strlen(buff)+1];
+            strcpy(Stmt,buff);
+            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
+            if (0 > *ID)
+                data->status = false;
+            if (0 <= *ID)
+                data->status = true;
+            std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
+            break;
+        case 'p':
+            Stmt = new char[44];
+            sprintf(buff,"SELECT * FROM PROVIDER WHERE ID = %d",UserID);
+            strcpy(Stmt,buff);
 
-    //TODO: write a function to retrieve status.
-    RetInt = 0;
+            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
+            break;
+        case 'g':
+            Stmt = new char[43];
+            sprintf(buff,"SELECT * FROM MANAGER WHERE ID = %d",UserID);
+            strcpy(Stmt,buff);
+
+            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
+            break;
+    }
+
+    RetInt = DB_OK;
     return *data;
+}
+
+char* ChocAnDB::ProvDir(int &RetInt) {
+    char *Ret;
+    const char *Stmt = "SELECT * FROM SERVICE;";
+    RetInt = sqlite3_prepare_v2(DB,Stmt,-1,&STMT,0);
+    RetInt = sqlite3_step(STMT);
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(SVlist), Ret, &ErrMsg);
+
+    return Ret;
 }
 
 int ChocAnDB::OpenDB(int RetInt) {
@@ -285,7 +324,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "    SERVICE_NAME TEXT(20) NOT NULL, "
                          "    FEE          REAL CHECK (FEE < 1000));";
 
-    int exit = 0;
+    int exit = DB_OK;
     std::cout << "PREPARING DATABASE:";
     //trent- error checking? possible ret values for this open func?.
     //learn how to handle return val in meaningful way for errors
@@ -304,49 +343,49 @@ int ChocAnDB::OpenDB(int RetInt) {
     }
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "FILE FAILED TO OPEN\n";
-        return 1;
+        return DB_FAILED;
     }
 
     //initialize member table
     exit = sqlite3_exec(DB, MembTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
-        return 2;
+        return MEMBER_FAILED ;
     }
 
     //initialize provider table
     exit = sqlite3_exec(DB, PrvdTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
-        return 3;
+        return PROVIDER_FAILED;
     }
 
     //initialize manager table
     exit = sqlite3_exec(DB, MgmrTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
-        return 4;
+        return MANAGER_FAILED;
     }
 
     //initialize service table
     exit = sqlite3_exec(DB, ServTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return 5;
+        return SERVICE_FAILED;
     }
 
     exit = sqlite3_exec(DB, RecdTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "RECORD TABLE FAILED:\t" << ErrMsg;
-        return 6;
+        return RECORD_FAILED;
     }
 
     exit = sqlite3_exec(DB, StatTB, nullptr, nullptr, &ErrMsg);
     if (exit != DB_OK) {
         std::cout << "\t-FAILED-\n" << "STATUS TABLE FAILED:\t" << ErrMsg;
-        return 7;
+        return STATUS_FAILED;
     }
 
     std::cout << "\t-COMPLETE-\n";
-    return 0;
+    return DB_OK;
 }

@@ -8,6 +8,8 @@
 #include "sqlite/sqlite3.h"
 #include <iostream>
 //TODO: Add database functionality for active/expired users.
+
+
 class ChocAnDB {
 public:
     ChocAnDB();
@@ -36,7 +38,7 @@ public:
     ident GetUser(char type,int UserID, int &RetInt);
     /*will return mangar/provider/member information through ident.
      *      *type char switch
-     * 'm' - Member
+     * 'm' - member
      * 'p' - provider
      * 'g' - manager
      *
@@ -46,7 +48,7 @@ public:
      *
      */
     //TODO: return reports.
-    char* ProvDir();
+    char* ProvDir(int &RetInt);
     //will return the full list of services
     //
 protected:

@@ -10,13 +10,17 @@ DBtester::DBtester() {
     HappyID.city = "Disney";
     HappyID.state = "HP";
     HappyID.zip = 73137;
+    SadID.number = NULL;
+    SadID.name = NULL;
+    SadID.address = NULL;
+    SadID.city = NULL;
+    SadID.state = NULL;
+    SadID.zip = NULL;
+    Stmt = NULL;
 }
 
 DBtester::~DBtester() {
-    delete(HappyID.name);
-    delete(HappyID.address);
-    delete(HappyID.city);
-    delete(HappyID.state);
+    delete(Stmt);
 }
 
 int DBtester::test(){
@@ -77,14 +81,26 @@ int DBtester::test(){
         fprintf(log,"FAILED DATABASE ADD RECORD: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     //Retrieve user ID
-    RetID = DB->GetUser(HappyID.number,RetInt);
+    RetID = DB->GetUser('m',HappyID.number,RetInt);
     if (RetInt == 0) {
         fprintf(log, "PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour) % 24, ptm->tm_min, ptm->tm_sec);
         fprintf(log, "\t--RETRIEVED MEMBER NUMBER/NAME : %d/%s\n", RetID.number, RetID.name);
+        if (RetID.status)
+            fprintf(log, "\t--MEMBER STATUS: ACTIVE");
+        else
+            fprintf(log, "\t--MEMBER STATUS: SUSPENDED");
+
     }
     else
         fprintf(log,"FAILED DATABASE LOOK UP: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
+    //Retreieve service list
+    /*Stmt = DB->ProvDir(RetInt);
+    if (RetInt == 0) {
+        fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
+        fprintf(log, "\t--RETRIEVED service list : \n%s\n", Stmt);
+
+    }*/
 
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);

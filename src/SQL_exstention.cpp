@@ -3,6 +3,7 @@
 //
 
 //Test template
+
 static int callback(void *data, int argc, char **argv, char **azColName) {
     int i;
     fprintf(stderr, "%s: ", (const char *) data);
@@ -30,3 +31,28 @@ static int FillID(ident *data, int argc, char **argv, char **azColName){
 
     return 0;
 }
+
+static int GetStat(int* Ret, int argc, char **argv, char **azColName){
+/*    for (int i = 0; i < argc; i++) {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }*/
+
+    *Ret= atoi(argv[0]);
+
+    return 0;
+}
+
+static int SVlist(void *Ret, int argc, char **argv, char **azColName) {
+    char *buff;
+
+    char *ret = new char('\0');
+    for (int i = 0; i < argc; i++) {
+        sprintf(buff,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+        strcat(ret,buff);
+    }
+
+    strcat(reinterpret_cast<char(*)>(Ret),ret);
+
+    return 0;
+}
+

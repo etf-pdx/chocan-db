@@ -207,6 +207,7 @@ int logService(int provID) {
             cin.ignore(100, '\n');
         }
         // TODO: Search provider directory for matching service name
+        //Carl - I am not user search by name is required functionality.
 
         // Confirm the service is correct:
         cout << "\nYou entered " << serviceCode << ": " << serviceName << endl;

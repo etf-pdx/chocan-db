@@ -18,5 +18,6 @@ private:
     ident HappyID;
     ident SadID;
     ident RetID;
+    char* Stmt;
 };
 
