@@ -263,9 +263,8 @@ ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
         default:
             return nullptr;
     }
-    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), nullptr, &ErrMsg);
-
-    return nullptr;
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), Ret, &ErrMsg);
+    return Ret;
 }
 
 int ChocAnDB::OpenDB(int RetInt) {

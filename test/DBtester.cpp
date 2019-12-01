@@ -1,8 +1,14 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnull-conversion"
+#pragma ide diagnostic ignored "modernize-use-nullptr"
 //
 // Created by CBunt on 11/20/2019.
 //
 
 #include "DBtester.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wwritable-strings"
+
 DBtester::DBtester() {
     HappyID.number = NULL;
     HappyID.name = "Happy";
@@ -41,7 +47,7 @@ int DBtester::test(){
     fprintf(log, "TESTING CHOCAN DATABASE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     //Opening DB
     DB = new ChocAnDB('t',RetInt);
-    if (RetInt == 0){
+    if (0 == RetInt){
         fprintf(log,"PASSED DATABASE FILE OPENED: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     }
     else
@@ -102,15 +108,16 @@ int DBtester::test(){
 
     }
 
-    //Retreieve service report
+    //Retrieve service report
     ServRep *Rep =  DB->GetServRep('m', HappyID.number, RetInt);
-
-    for (auto & k : *Rep){
+    for (auto k : *Rep)
         std::cout << "\t--SERVICE PROVIDED:\t" << k->dateProvided << std::endl;
-    }
 
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     fclose(log);
     return RetInt;
 }
+
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop

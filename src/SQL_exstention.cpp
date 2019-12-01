@@ -58,9 +58,9 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
         // abort select on failure, don't let exception propogate thru sqlite3 call-stack
         return 1;
     }
-    //delete(buff1);//TODO: deletes error out
-    //delete(buff2);
-    //delete(ret);
+//    delete buff1;//TODO: deletes error out?
+//    delete buff2;
+//    delete ret;
     return 0;
 }
 
@@ -75,8 +75,8 @@ static int GetRep(ServRep *Ret, int argc, char **argv, char **azColName){
     tmp->memberName = new char[strlen(argv[4])+1];
     strcpy(tmp->memberName,argv[4]);
     tmp->memberNumber = atoi(argv[5]);
-
-    Ret->push_back(tmp);
+    //Ret->resize(Ret->size()+1);
+    Ret->emplace_back(tmp);
     return 0;
 }
 /*
