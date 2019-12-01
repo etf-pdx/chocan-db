@@ -42,17 +42,41 @@ static int GetStat(int* Ret, int argc, char **argv, char **azColName){
     return 0;
 }
 
-static int SVlist(void *Ret, int argc, char **argv, char **azColName) {
-    char *buff;
+static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
+    char *buff1 = new char ('\n');
+    char *buff2 = new char ('\n');
+    char *ret = nullptr;
+    try {
 
-    char *ret = new char('\0');
-    for (int i = 0; i < argc; i++) {
-        sprintf(buff,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-        strcat(ret,buff);
+          for (int i = 0; i < argc; i++) {
+            sprintf(buff1,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+            strcat(buff2,buff1);
+        } //TODO: fix formating so ret does not chop the ends
+          strcpy(buff1,buff2);
+          ret = new char[strlen(buff1)+1];
+          strcpy(ret,buff1);
+          Ret->emplace_back(ret);
     }
-
-    strcat(reinterpret_cast<char(*)>(Ret),ret);
-
+    catch (...) {
+        // abort select on failure, don't let exception propogate thru sqlite3 call-stack
+        return 1;
+    }
+    //delete(buff1);
+    //delete(buff2);
+    //delete(ret);
     return 0;
 }
 
+/*
+int select_callback(void *p_data, int num_fields, char **p_fields, char **p_col_names)
+{
+    List* records = static_cast<List*>(p_data);
+    try {
+        records->emplace_back(p_fields, p_fields + num_fields);
+    }
+    catch (...) {
+        // abort select on failure, don't let exception propogate thru sqlite3 call-stack
+        return 1;
+    }
+    return 0;
+}*/

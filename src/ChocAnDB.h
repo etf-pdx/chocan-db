@@ -7,7 +7,8 @@
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
 #include <iostream>
-//TODO: Add database functionality for active/expired users.
+
+
 
 
 class ChocAnDB {

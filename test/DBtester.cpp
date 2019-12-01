@@ -95,12 +95,12 @@ int DBtester::test(){
         fprintf(log,"FAILED DATABASE LOOK UP: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     //Retreieve service list
-    /*Stmt = DB->ProvDir(RetInt);
+    Stmt = DB->ProvDir(RetInt);
     if (RetInt == 0) {
         fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
         fprintf(log, "\t--RETRIEVED service list : \n%s\n", Stmt);
 
-    }*/
+    }
 
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);

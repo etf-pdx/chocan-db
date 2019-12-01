@@ -232,12 +232,16 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
 }
 
 char* ChocAnDB::ProvDir(int &RetInt) {
-    char *Ret;
+    char *Ret = new char('\n');
+    Form *fullform = new Form;
     const char *Stmt = "SELECT * FROM SERVICE;";
-    RetInt = sqlite3_prepare_v2(DB,Stmt,-1,&STMT,0);
-    RetInt = sqlite3_step(STMT);
-    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(SVlist), Ret, &ErrMsg);
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(SVlist), fullform, &ErrMsg);
 
+    std::cout << "SERVICE LIST:\n";
+    for (std::vector<char *>::iterator it = fullform->begin(); it != fullform->end(); ++it){
+        std::cout <<  *it << std::endl;
+        strcat(Ret,*it);
+    }
     return Ret;
 }
 

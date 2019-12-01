@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include "Service.h"
+#include <vector>
 
 // ************************************************ //
 //              RULES FOR I.D. NUMBERS              //
@@ -16,6 +17,7 @@
 // ************************************************ //
 
 
+using Form = std::vector<char*>;
 
 struct ident
 {
