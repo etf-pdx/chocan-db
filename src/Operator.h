@@ -48,6 +48,7 @@ struct ServiceReport {      //      ?       //      ?
     char* dateLogged;       //      NO      //      YES
     float fee;              //      NO      //      YES
 };
+using ServRep = std::vector<ServiceReport*>;
 
 struct MemberReport {
     ident memberID;

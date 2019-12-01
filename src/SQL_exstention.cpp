@@ -33,9 +33,6 @@ static int FillID(ident *data, int argc, char **argv, char **azColName){
 }
 
 static int GetStat(int* Ret, int argc, char **argv, char **azColName){
-/*    for (int i = 0; i < argc; i++) {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }*/
 
     *Ret= atoi(argv[0]);
 
@@ -43,8 +40,8 @@ static int GetStat(int* Ret, int argc, char **argv, char **azColName){
 }
 
 static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
-    char *buff1 = new char ('\n');
-    char *buff2 = new char ('\n');
+    char *buff1 = new char ('\0');
+    char *buff2 = new char ('\0');
     char *ret = nullptr;
     try {
 
@@ -61,12 +58,27 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
         // abort select on failure, don't let exception propogate thru sqlite3 call-stack
         return 1;
     }
-    //delete(buff1);
+    //delete(buff1);//TODO: deletes error out
     //delete(buff2);
     //delete(ret);
     return 0;
 }
 
+static int GetRep(ServRep *Ret, int argc, char **argv, char **azColName){
+    ServiceReport *tmp = new ServiceReport;
+    tmp->dateProvided = new char[strlen(argv[0])+1];
+    strcpy(tmp->dateProvided,argv[0]);
+    tmp->dateLogged = new char[strlen(argv[1])+1];
+    strcpy(tmp->dateLogged,argv[1]);
+    tmp->serviceCode = atoi(argv[2]);
+    tmp->providerNumber = atoi(argv[3]);
+    tmp->memberName = new char[strlen(argv[4])+1];
+    strcpy(tmp->memberName,argv[4]);
+    tmp->memberNumber = atoi(argv[5]);
+
+    Ret->push_back(tmp);
+    return 0;
+}
 /*
 int select_callback(void *p_data, int num_fields, char **p_fields, char **p_col_names)
 {

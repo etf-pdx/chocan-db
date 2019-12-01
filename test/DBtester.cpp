@@ -102,6 +102,13 @@ int DBtester::test(){
 
     }
 
+    //Retreieve service report
+    ServRep *Rep =  DB->GetServRep('m', HappyID.number, RetInt);
+
+    for (auto & k : *Rep){
+        std::cout << "\t--SERVICE PROVIDED:\t" << k->dateProvided << std::endl;
+    }
+
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     fclose(log);

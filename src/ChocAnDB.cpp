@@ -161,7 +161,7 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
                   "COMMENT)"
                   "VALUES ("
                   "DATETIME('%s'),"
-                  "CURRENT_TIMESTAMP,"
+                  "CURRENT_DATE,"
                   "'%d','%d','%s','%d','%s');",
             datetime, ServCD, ProvID, UserID.name, UserID.number, comm);
     Stmt = new char[strlen(Buff) + 1];
@@ -238,11 +238,34 @@ char* ChocAnDB::ProvDir(int &RetInt) {
     RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(SVlist), fullform, &ErrMsg);
 
     std::cout << "SERVICE LIST:\n";
-    for (std::vector<char *>::iterator it = fullform->begin(); it != fullform->end(); ++it){
-        std::cout <<  *it << std::endl;
-        strcat(Ret,*it);
+    for (auto & k : *fullform){
+        std::cout <<  k << std::endl;
+        strcat(Ret,k);
     }
     return Ret;
+}
+
+ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
+    char* Stmt = nullptr;
+    char* buff = new char('\0');
+    ServRep *Ret = new ServRep;
+    switch(type){
+        case 'm':
+            sprintf(buff,"SELECT * FROM RECORD WHERE MEMBER_ID = %d",UserID);
+            Stmt = new char[strlen(buff)+1];
+            strcpy(Stmt,buff);
+            break;
+        case 'p':
+            sprintf(buff,"SELECT * FROM RECORD WHERE PROVIDER_ID = %d",UserID);
+            Stmt = new char[strlen(buff)+1];
+            strcpy(Stmt,buff);
+            break;
+        default:
+            return nullptr;
+    }
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), nullptr, &ErrMsg);
+
+    return nullptr;
 }
 
 int ChocAnDB::OpenDB(int RetInt) {

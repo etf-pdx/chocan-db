@@ -8,7 +8,7 @@
 #include "sqlite/sqlite3.h"
 #include <iostream>
 
-
+//TODO: maybe change timezone from GMT to PST.
 
 
 class ChocAnDB {
@@ -51,15 +51,28 @@ public:
     //TODO: return reports.
     char* ProvDir(int &RetInt);
     //will return the full list of services
-    //
+    //and return in a char*
+    ServRep* GetServRep(char type, int UserID,int &RetInt);
+    /*will return provider/member service report.
+    *      *type char switch
+    * 'm' - member
+    * 'p' - provider
+    *
+    * return int:
+    * 0 = ok
+    * 1 = user not found
+    *
+    */
+
 protected:
     const char* file = "ChocAnDB_File.db";  //DB file name
-    const char* test = "TestDB_File.db";  //DB file name
+    const char* test = "TestDB_File.db";    //DB file name
     char* ErrMsg;                           //SQL Error message
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
     int OpenDB(int RetInt);                           //DB initializer
     int ChkFrm(char *datetime);             //This will check formatting return 0 if correct
     char* prepUser(char type,const ident UserID);
+
 
 };
