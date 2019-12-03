@@ -1,0 +1,6 @@
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/ChocAn.dir
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/UnitTests.dir
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/ChocAnDB.dir
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/trent/source/repos/chocan-db/out/build/x64-Debug/CMakeFiles/test.dir
