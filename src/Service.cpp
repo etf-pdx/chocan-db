@@ -137,3 +137,9 @@ char* Service::getName(int code) {
         return service_name;
     return nullptr;
 }
+
+//function to validate date of given input
+int Service::validateDate(char* provided_date)
+{
+	return 0;
+}

@@ -11,37 +11,7 @@ Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState
 // Destructor
 Manager::~Manager(){}
 
-/* Not needed I think, operator would be called
-char* Manager::getName()
-{
-	return 
-}
 
-int Manager::getID()
-{
-	return ->GetIDnumber();
-}
-
-char* Manager::getAddress()
-{
-	return person->getAddress();
-}
-
-char* Manager::getCity(Operator* person)
-{
-	return person->getCity();
-}
-
-char* Manager::getState(Operator* person)
-{
-	return person->getState();
-}
-
-int Manager::getZip(Operator* person)
-{
-	return person->getZip();
-}
-*/
 
 // List of options available to manager
 int Manager::OptionSelect()
@@ -212,17 +182,25 @@ int Manager::InteractiveMode()
 }
 
 // Create new instance of provider
+//If return -1 == UNDEFINED
 int Manager::AddProvider(ident& To_Add)
 {
+	char type = 'p';
+	int retInt = 0;
+	int result;
 	// ADD PROVIDER TO DATABASE
-
-	return 0;
+	result = ChocAnDB::AddUser(type, toAdd, retInt);
+	return result;
 }
 
 // Create new instance of member
 int Manager::AddMember(ident& To_Add)
 {
+	char type = 'm';
+	int retInt = 0;
+	int result;
 	// ADD MEMBER TO DATABASE
-
-	return 0;
+	result = ChocAnDB::AddUser(type, toAdd, retInt);
+	return result;
+	
 }
