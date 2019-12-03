@@ -95,9 +95,9 @@ int Operator::displayID(int IDnumber)
 	ident current_ID = get_ident(IDnumber);
 
 	// Alex: changed these bounds--see Operator.h
-	if (IDnumber < MAX_MANAGER)
+	if (IDnumber <= MAX_MANAGER)
 		std::cout << "Manager Name: ";
-	else if (IDnumber < MAX_PROVIDER)
+	else if (IDnumber <= MAX_PROVIDER)
 		std::cout << "Provider Name: ";
 	else
 		std::cout << "Member Name: ";

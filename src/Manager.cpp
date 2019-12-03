@@ -83,13 +83,13 @@ int Manager::OptionSelect()
 }
 
 // When enter interactive mode, we're be doing things to this
-int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented in ChocAnMain.cpp.
-{                                   //       Very little should be going on in this file.
+int Manager::InteractiveMode()
+{
 	ident To_Add;
-	char choice;                     //       For interactive mode stuff, main() should be calling DB
+	char choice;
 	int IDnum;
 	bool isInteractive = true;
-	/*                              //       and DB should be calling methods of Provider and Member classes.
+	/*
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
 	 */
@@ -117,7 +117,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 
 		switch (choice)
 		{
-		case 'A':				// Someone put in checks plz, it's 3am, I'm tired...
+		case 'A':
 			
 			char input[100];
 			
@@ -183,7 +183,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 		case 'R':
 			IDnum = 0;
 		wrongRemoveID:
-			std::cout << "Enter an ID to be remove: ";
+			std::cout << "Enter an ID to remove: ";
 			while (!isdigit(std::cin.peek()))
 			{
 				std::cout << "Is not a number.\n";
@@ -203,7 +203,7 @@ int Manager::InteractiveMode()      // Alex: This UI stuff should be implemented
 			isInteractive = false;
 			break;
 		default:
-			std::cout << "If you this prompt, please let the dev team know\n\n";
+			std::cout << "If you are reading this prompt, please let the dev team know\n\n";
 			break;
 		}
 	}

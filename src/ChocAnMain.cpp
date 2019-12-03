@@ -85,6 +85,8 @@ int main()
     //  SIMULATE MANAGER TERMINAL   //
     else
     {
+        //TODO: Make this shit work
+        //Manager* CurrentManager = new Manager();
         cout <<"\nMANAGER TERMINAL: ACCESS GRANTED\n\n";
         do {
             cout << "You can:\n";
@@ -92,7 +94,7 @@ int main()
             cout << "\tGenerate a provider report\t(Enter 'P')\n";
             cout << "\tGenerate a summary report\t(Enter 'S')\n";
             cout << "\tEnter Interactive Mode\t\t(Enter 'I')\n";
-            cout << "\tExit the terminal\t\t(Enter 'X')\n";
+            cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
 
             cin >> choice;
             cin.ignore(100, '\n');
@@ -113,8 +115,9 @@ int main()
             if (choice == 'S') {    // Summary report
             }
             if (choice == 'I') {    // Interactive mode
-                //OPTIONS: add/edit/retrieve/remove/display
-                // member/provider/service/manager
+                //TODO: Make this shit work
+                //if (!CurrentManager->InteractiveMode())
+                    cout << "\nInteractive mode not available\n";
             }
 
         } while (choice != 'X');
