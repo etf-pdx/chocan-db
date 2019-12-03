@@ -64,14 +64,14 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
-                return PROVIDER_FAILED ;
+                return RetInt = PROVIDER_FAILED ;
             }
             break;
         case 'g':
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
-                return MANAGER_FAILED;
+                return RetInt = MANAGER_FAILED;
             }
             break;
         default:
