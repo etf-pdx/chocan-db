@@ -1,5 +1,5 @@
 # chocan-db
-CS300 Group 7 chocoholics anonymous database project.
+CS300 Group 7 chocoholics anonymous database project. :)
 
 - Ethan is responsible for maintaining the _master_ branch.
 - Alex handles the _beta_ branch.
@@ -18,3 +18,4 @@ Finally, the _master_ branch should be only used for working code.
 "make" to recompile with updated files
 "make clean" to remove build artifacts
 "output" is the file to run after a successful build
+=======
