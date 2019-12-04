@@ -4,6 +4,7 @@ class Manager: public Operator
 {
 public:
 	Manager();
+	Manager(int ID);
 	Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
 	~Manager();
 

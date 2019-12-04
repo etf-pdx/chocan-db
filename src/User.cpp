@@ -2,9 +2,14 @@
 
 // Implementation of User class
 // Default User constructor
-User::User()
+User::User(): Operator()
 {
 	My_Service = NULL;
+}
+
+User::User(int ID): Operator(ID)
+{
+    My_Service = NULL;
 }
 
 User::User(Service To_Add)
@@ -12,7 +17,7 @@ User::User(Service To_Add)
 	My_Service = new Service(To_Add);
 }
 
-User::User(User& To_Add)
+User::User(User& To_Add): Operator(To_Add)
 {
 	My_Service = new Service(To_Add.My_Service);
 }
@@ -34,12 +39,17 @@ int User::Display_Service(Service* My_Service)
 
 // Implementation of Provider class
 // Default Provider constructor
-Provider::Provider()
+Provider::Provider(): User()
 {
 
 }
 
-Provider::Provider(Provider& To_Add)
+Provider::Provider(int ID): User(ID)
+{
+
+}
+
+Provider::Provider(Provider& To_Add): User(To_Add)
 {
 	My_Service = new Service(To_Add.My_Service);
 }
@@ -73,12 +83,17 @@ int Provider::Get_Report(int ID)
 
 // Implementation of Member class
 // Default Member constructor
-Member::Member()
+Member::Member(): User()
 {
 
 }
 
-Member::Member(Member& To_Add)
+Member::Member(int ID): User(ID)
+{
+
+}
+
+Member::Member(Member& To_Add): User(To_Add)
 {
 	My_Service = new Service(To_Add.My_Service);
 }

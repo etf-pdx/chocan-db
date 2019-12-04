@@ -13,6 +13,17 @@ ident::ident()
     status = false;
 }
 
+ident::ident(int ID)
+{
+    name = NULL;
+    number = ID;
+    address = NULL;
+    city = NULL;
+    state = NULL;
+    zip = 0;
+    status = false;
+}
+
 ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
     name = new char[strlen(aName) + 1];
@@ -44,11 +55,14 @@ Operator::Operator()
 	//next = NULL;
 }
 
+Operator::Operator(int id_num)
+{
+    ID = ident(id_num);
+}
+
 Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
 {
-
 	ID = ident(aName, aNumber, aAddress, aCity, aState, aZip, aStatus);
-	
 }
 
 Operator::Operator(ident To_Add)

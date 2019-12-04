@@ -22,6 +22,7 @@ using Form = std::vector<char*>;
 struct ident
 {
     ident();
+    ident(int ID);
     ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
 
 	char *name;
@@ -76,6 +77,7 @@ class Operator
 {
 public:
 	Operator();
+	Operator(int id_num);
 	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
 	Operator(ident To_Add);
 	Operator(Operator& To_Add);

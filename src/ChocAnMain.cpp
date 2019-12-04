@@ -38,9 +38,7 @@ int main()
 	ID = -1;
 	while (ID < MIN_MANAGER || ID > MAX_PROVIDER) {
 		cout << "\nPlease enter your nine digit I.D. number.\n";
-		// tsw- int wraparound bug fixed
 		cin >> user_input;
-		// tsw- whats this do? ignore 100 chars of user input?
 		cin.ignore(INPUT_BUFFER, '\n');
 		try {
 			ID = stoi(user_input);
@@ -65,7 +63,8 @@ int main()
 	//  SIMULATE PROVIDER TERMINAL  //
 	if (!mgr)
 	{
-		cout << "\nPROVIDER TERMINAL: ACCESS GRANTED\n\n";
+        Provider* CurrentProvider = new Provider(ID);
+        cout << "\nPROVIDER TERMINAL: ACCESS GRANTED\n\n";
 		do {
 			// Display the menu:
 			cout << "You can:\n";
@@ -113,8 +112,7 @@ int main()
 	//  SIMULATE MANAGER TERMINAL   //
 	else
 	{
-		//TODO: Make this shit work
-		Manager* CurrentManager = new Manager();
+		Manager* CurrentManager = new Manager(ID);
 		cout << "\nMANAGER TERMINAL: ACCESS GRANTED\n\n";
 		do {
 			cout << "You can:\n";
@@ -149,7 +147,6 @@ int main()
 			if (choice == 'S') {    // Summary report
 			}
 			if (choice == 'I') {    // Interactive mode
-				//TODO: Make this shit work
 				if (CurrentManager->EnterInteractiveMode() < 0)
 					cout << "\nInteractive mode not available\n";
 			}
@@ -195,7 +192,8 @@ int checkInMember() {
 	do {
 		ID = -1;
 		//tsw- not sure on what the correct mem id range is. will circle back.
-		while (ID < 0 || ID > MAX_ID) {
+		// AS - Member IDs are 300000000 - 999999999. See Definition.h, Operator.h
+		while (ID <= MAX_PROVIDER || ID > MAX_ID) {     // MAX_PROVIDER == 299999999; MAX_ID == 999999999
 			cout << "\nPlease enter the ChocAn member's nine digit ID number:\n";
 			// tsw- protecting against bad input like mgr/prvdr ID input above
 			// (not checking for a mem id that doesn't exist in db. thats below/later)
@@ -212,8 +210,8 @@ int checkInMember() {
 				cout << "\nInput is out of int's range.\n";
 				ID = -1;
 			}
-			if (ID < 0 || ID > MAX_ID) {
-				cout << "\nInput is not a valid ID number.\n";
+			if (ID <= MAX_PROVIDER || ID > MAX_ID) {
+				cout << "\nInput is not a valid member ID number.\n";
 			}
 			else {
 				//valid input
@@ -227,6 +225,7 @@ int checkInMember() {
 
 	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, memberID==valid
 		//tsw- possibly something like- db.verifyMemberExists(ID);
+		// AS- Hoping to insulate main from db. Thinking provider.validateMID(int ID), which calls db.verifyMID(ID)
 	if (memCheck < 0) {
 		cout << "\nInvalid Member ID\n";
 		return 0;
@@ -290,14 +289,16 @@ int logService(int provID) {
 			}
 			else {
 				// Confirm the service is correct:
+                // TODO: Search provider directory for matching service name
+                //Carl - I am not user search by name is required functionality.
+                // AS - I meant search by number and get a name returned
+
 				//tsw-name commented out until functionality is active
 				//otherwise it will throw an exception
 				cout << "\nYou entered " << serviceCode << ": " << /*serviceName << */ endl;
 				cout << "\nIs that correct? Y/N\n";
 			}
 		}
-		// TODO: Search provider directory for matching service name
-		//Carl - I am not user search by name is required functionality.
 	} while (!yesorno());
 
 	// Get comments:

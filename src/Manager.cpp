@@ -1,12 +1,14 @@
 #include "Manager.h"
 
 // Default Constructor
-Manager::Manager(){}
+Manager::Manager(): Operator() { }
 
-Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip)
-{
-	
-}
+// ID# Constructor
+Manager::Manager(int ID): Operator(ID) { }
+
+// ID Constructor
+Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip):
+            Operator(aName, aID, aAddress, aCity, aState, aZip, true) { }
 
 // Destructor
 Manager::~Manager(){}
