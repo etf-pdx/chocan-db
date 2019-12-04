@@ -129,16 +129,16 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
-			std::cin.get(To_Add.city,100,'\n');
-			std::cin.ignore(100, '\n');
+			std::cin.get(To_Add.city,MAX_CITY,'\n');
+			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
-			std::cin.get(To_Add.state,100,'\n');
-			std::cin.ignore(100, '\n');
+			std::cin.get(To_Add.state,2,'\n');
+			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
 			std::cin >> To_Add.zip;
-			std::cin.ignore(100, '\n');
+			std::cin.ignore(5, '\n');
 
 			if (To_Add.number > MAX_MANAGER&& To_Add.number <= MAX_PROVIDER)	// Add a Provider
 				AddProvider(To_Add, database);
