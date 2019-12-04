@@ -161,7 +161,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cout << "Invalid ID Number.\n";
 				goto wrongEditID;
 			}
-			// Edit shenanigans here
+			// TODO: Edit shenanigans here
 			
 			break;
 		case 'R':
@@ -180,7 +180,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cout << "Invalid ID Number.\n";
 				goto wrongRemoveID;
 			}
-			// Remove shenanigans here
+			// TODO: Remove shenanigans here
 			break;
 		case 'X':
 			std::cout << "Exiting Interactive Mode. . .\n\n";
