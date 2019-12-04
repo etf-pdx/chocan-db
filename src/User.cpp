@@ -29,13 +29,7 @@ User::~User()
 		delete My_Service;
 }
 
-int User::Display_Service(Service* My_Service)
-{
-	if (!My_Service)
-		return -1;
-
-	return My_Service->display();
-}
+int User::Get_Report(int ID){ }
 
 // Implementation of Provider class
 // Default Provider constructor
@@ -77,8 +71,17 @@ int Provider::Get_Report(int ID)
 		return -1;
 
 	displayID(ID);
-	Display_Service(My_Service);
+	//Display_Service(My_Service);
+    My_Service->display();
+    if (!Write_Report(ID))
+        return -1;
 	return 0;
+}
+
+int Provider::Write_Report(int ID)
+{
+    // TODO: Write the provider report to a file
+    return 0;
 }
 
 int Provider::validateMemberID(int Member_ID) const
@@ -131,6 +134,15 @@ int Member::Get_Report(int ID)
 		return -1;
 
 	displayID(ID);
-	Display_Service(My_Service);
+	//Display_Service(My_Service);
+	My_Service->display();
+	if (!Write_Report(ID))
+	    return -1;
 	return 0;
+}
+
+int Member::Write_Report(int ID)
+{
+    //TODO: Write the Member report to a file
+    return 0;
 }

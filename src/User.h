@@ -10,7 +10,10 @@ public:
 	User(int ID);
 	User(Service To_Add);
 	User(User& To_Add);
-	~User();
+	virtual ~User();
+
+    virtual int Get_Report(int ID) = 0;
+    virtual int Write_Report(int ID) = 0;
 
 protected:
 	int Display_Service(Service*);
@@ -28,7 +31,8 @@ public:
 	Provider(ident& To_Add);
 	~Provider();
 
-	int Get_Report(int Provider_ID);
+	int Get_Report(int ID);
+	int Write_Report(int ID);
 	int validateMemberID(int Member_ID) const;
 
 protected:
@@ -45,7 +49,8 @@ public:
 	Member(ident& To_Add);
 	~Member();
 
-	int Get_Report(int Member_ID);
+	int Get_Report(int ID);
+	int Write_Report(int ID);
 protected:
 
 };

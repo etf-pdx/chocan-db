@@ -23,7 +23,7 @@ bool dateFormatCheck(string input_date);        //make sure user inputs a well f
 
 int main()
 {
-	int ID;                     // User's ID number
+	int ID, repID;              // User's ID number, report request ID number
 	bool mgr = false;           // True if user is a manager
 	char choice;                // User's menu selection
 	string user_input;			// tsw- takes user's input before conv to other type (safer)
@@ -139,10 +139,57 @@ int main()
 				&& choice != 'S' && choice != 'I' && choice != 'X');
 
 			if (choice == 'M') {    // Member report
+                // Obtain a valid member ID number:
+                repID = -1;
+                while (repID <= MAX_PROVIDER || ID > MAX_ID) {
+                    cout << "\nPlease enter the member's nine digit I.D. number.\n";
+                    cin >> user_input;
+                    cin.ignore(INPUT_BUFFER, '\n');
+                    try {
+                        repID = stoi(user_input);
+                    }
+                    catch (invalid_argument e) {
+                        cout << "Invalid input\n";
+                        repID = -1;
+                    }
+                    catch (out_of_range e) {
+                        cout << "\nInput is out of int's range.\n";
+                        repID = -1;
+                    }
+                    if (repID <= MAX_PROVIDER || ID > MAX_ID)
+                        cout << "\nInput is not a valid member ID number.\n";
+                }
+                Member* subject = new Member(repID);
+                if (!subject->Get_Report(repID))
+                    cout << "\nFailed to generate member report\n";
 			}
 			if (choice == 'P') {    // Provider report
+                // Obtain a valid provider ID number:
+                repID = -1;
+                while (repID <= MAX_MANAGER || ID > MAX_PROVIDER) {
+                    cout << "\nPlease enter the provider's nine digit I.D. number.\n";
+                    cin >> user_input;
+                    cin.ignore(INPUT_BUFFER, '\n');
+                    try {
+                        repID = stoi(user_input);
+                    }
+                    catch (invalid_argument e) {
+                        cout << "Invalid input\n";
+                        repID = -1;
+                    }
+                    catch (out_of_range e) {
+                        cout << "\nInput is out of int's range.\n";
+                        repID = -1;
+                    }
+                    if (repID <= MAX_MANAGER || ID > MAX_PROVIDER)
+                        cout << "\nInput is not a valid provider ID number.\n";
+                }
+                Provider* subject = new Provider(repID);
+                if (!subject->Get_Report(repID))
+                    cout << "\nFailed to generate provider report\n";
 			}
 			if (choice == 'S') {    // Summary report
+			    // TODO: Fetch, display, write summary report
 			}
 			if (choice == 'I') {    // Interactive mode
 				if (CurrentManager->EnterInteractiveMode() < 0)
