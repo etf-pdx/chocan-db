@@ -29,7 +29,10 @@ User::~User()
 		delete My_Service;
 }
 
-int User::Get_Report(int ID){ }
+int User::Get_Report(int ID)
+{ 
+	return 0;
+}
 
 // Implementation of Provider class
 // Default Provider constructor

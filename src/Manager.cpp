@@ -73,6 +73,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	char choice;
 	int IDnum;
 	bool isInteractive = true;
+	std::string user_input;
 	/*
 	 * Entering interactive mode
 	 * Prompt for options within interactive mode
@@ -98,16 +99,15 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			choice = toupper(choice);
 		}
 
-
 		switch (choice)
 		{
 		case 'A':
 			
 			char input[MAX_NAME];
 			
-		
 			std::cout << "Enter User's NAME: ";
-			std::cin.get(To_Add.name,MAX_NAME,'\n');
+			std::cin >> user_input;
+			To_Add.name = new char[strlen(user_input.c_str()) + 1];
 			std::cin.ignore(MAX_NAME, '\n');
 
 			std::cout << "Enter User's ID: ";
@@ -125,15 +125,18 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			}
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin.get(To_Add.address,MAX_NAME,'\n');
+			std::cin >> user_input;
+			To_Add.address = new char[strlen(user_input.c_str()) + 1];
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
-			std::cin.get(To_Add.city,MAX_CITY,'\n');
+			std::cin >> user_input;
+			To_Add.city = new char[strlen(user_input.c_str()) + 1];
 			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
-			std::cin.get(To_Add.state,2,'\n');
+			std::cin >> user_input;
+			To_Add.state = new char[strlen(user_input.c_str()) + 1];
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
