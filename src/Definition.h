@@ -12,7 +12,7 @@ const int MAX_COMMENT = 101;	// MUST be max of 100 characters
 const float MAX_FEE = 999.99;	// MUST be less than $999.99
 const int MAX_SERVICE = 999999; // MUST be less than 7 digits
 const int MAX_DATE = 11;		// MUST be MM-DD-YYYY format
-
+const int INPUT_BUFFER = 100;   // cin.ignore(INPUT_BUFFER, '\n');
 //definitions
 
 #endif

@@ -14,9 +14,6 @@
 #include "Manager.h"
 using namespace std;
 
-#define INPUT_BUFFER 100
-
-// These functions will call
 int checkInMember();                // @ Provider terminal
 int logService(int provID);         // @ Provider terminal
 int validateMemberID(int memID);    // Return status of member ID
