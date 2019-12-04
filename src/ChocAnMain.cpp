@@ -10,8 +10,11 @@
 #include <iostream>
 #include <time.h>
 #include <string>
-#include "ChocAnDB.h"
+//#include "ChocAnDB.h"
+#include "Manager.h"
 using namespace std;
+
+#define INPUT_BUFFER 100
 
 // These functions will call
 int checkInMember();                // @ Provider terminal
@@ -27,7 +30,8 @@ int main()
     char choice;                 // User's menu selection
 	string user_input;			// tsw- takes user's id number input before conv to int (safer)
 
-    // Welcome the user
+
+
     cout << "\n\tWelcome to Chocaholics Anonymous.\n";
 
     // Obtain a valid ID number:
@@ -37,7 +41,9 @@ int main()
         // tsw- int wraparound bug is fixed
         cin >> user_input;
 		// tsw- whats this do? ignore 100 chars of user input?
-        cin.ignore(100, '\n');
+        //cin.ignore(100, '\n'); // AS- it clears the input buffer of <=100 chars of stray input before \n.
+                                 // 100 is an arbitrary value, it was convention in Karla's classes
+        cin.ignore(INPUT_BUFFER, '\n');
 		try {
 			ID = stoi(user_input);
 		}
@@ -72,7 +78,7 @@ int main()
 
             // Get the user's choice:
             cin >> choice;
-            cin.ignore(100, '\n');
+            cin.ignore(INPUT_BUFFER, '\n');
             choice = toupper(choice);
 
             // Validate the user's choice:
@@ -80,7 +86,7 @@ int main()
                     && choice != 'D' && choice != 'X') {
                 cout << "\nPlease select from the above options.\n";
                 cin >> choice;
-                cin.ignore(100, '\n');
+                cin.ignore(INPUT_BUFFER, '\n');
                 choice = toupper(choice);
             }
 
@@ -100,8 +106,7 @@ int main()
     //  SIMULATE MANAGER TERMINAL   //
     else
     {
-        //TODO: Make this shit work
-        //Manager* CurrentManager = new Manager();
+        Manager* CurrentManager = new Manager();
         cout <<"\nMANAGER TERMINAL: ACCESS GRANTED\n\n";
         do {
             cout << "You can:\n";
@@ -112,14 +117,14 @@ int main()
             cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
 
             cin >> choice;
-            cin.ignore(100, '\n');
+            cin.ignore(INPUT_BUFFER, '\n');
             choice = toupper(choice);
 
             while (choice != 'M' && choice != 'P' && choice != 'S'
                    && choice != 'I' && choice != 'X') {
                 cout << "\nPlease select from the above options.\n";
                 cin >> choice;
-                cin.ignore(100, '\n');
+                cin.ignore(INPUT_BUFFER, '\n');
                 choice = toupper(choice);
             }
 
@@ -130,8 +135,7 @@ int main()
             if (choice == 'S') {    // Summary report
             }
             if (choice == 'I') {    // Interactive mode
-                //TODO: Make this shit work
-                //if (!CurrentManager->InteractiveMode())
+                if (CurrentManager->EnterInteractiveMode() < 0)
                     cout << "\nInteractive mode not available\n";
             }
 
@@ -146,13 +150,13 @@ bool yesorno() {
     char response;
 
     cin >>response;
-    cin.ignore(100, '\n');
+    cin.ignore(INPUT_BUFFER, '\n');
     response = toupper(response);
 
     while (response != 'Y' && response != 'N') {
         cout <<"\nLooking for a 'Y' or 'N' here...\n";
         cin >>response;
-        cin.ignore(100, '\n');
+        cin.ignore(INPUT_BUFFER, '\n');
         response = toupper(response);
     }
 
@@ -171,7 +175,7 @@ int checkInMember() {
     do {
         cout << "\nEnter the ChocAn member's nine digit ID number:\n";
         cin >> memID;
-        cin.ignore(100, '\n');
+        cin.ignore(INPUT_BUFFER, '\n');
         cout << "\nYou entered " << memID << ". Is that correct? Y/N\n";
     } while (!yesorno());
 
@@ -210,19 +214,19 @@ int logService(int provID) {
 // Get the service date:
     cout << "Please enter the date the service was provided (MM-DD-YYYY)\n";
     cin.get(serviceDate, 100, '\n');
-    cin.ignore(100, '\n');
+    cin.ignore(INPUT_BUFFER, '\n');
 
 // Get the service code:
     do {
         cout << "\nPlease enter the six digit service code.\n";
         cin >> serviceCode;
-        cin.ignore(100, '\n');
+        cin.ignore(INPUT_BUFFER, '\n');
 
         // Verify the service code:
         while (serviceCode < 0 || serviceCode > MAX_SERVICE) {
             cout << "\nInvalid.\nPlease enter a valid six digit service code.\n";
             cin >> serviceCode;
-            cin.ignore(100, '\n');
+            cin.ignore(INPUT_BUFFER, '\n');
         }
         // TODO: Search provider directory for matching service name
         //Carl - I am not user search by name is required functionality.
@@ -237,7 +241,7 @@ int logService(int provID) {
     if (yesorno()) {
         cout << "\nEnter your comments (" << MAX_COMMENT - 1 << " characters max)\n";
         cin.get(comments, MAX_COMMENT, '\n');
-        cin.ignore(100, '\n');
+        cin.ignore(2*INPUT_BUFFER, '\n');
     }
 
 // Record service:

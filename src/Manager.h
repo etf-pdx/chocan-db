@@ -7,10 +7,11 @@ public:
 	Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
 	~Manager();
 
-	int OptionSelect();
-	int InteractiveMode();
+	int OptionSelect(ChocAnDB & database);
+	int EnterInteractiveMode();
 
 protected:
-	int AddProvider(ident& To_Add);
-	int AddMember(ident& To_Add);
+    int InteractiveMode(ChocAnDB & database);
+	int AddProvider(ident& To_Add, ChocAnDB & database);
+	int AddMember(ident& To_Add, ChocAnDB & database);
 };

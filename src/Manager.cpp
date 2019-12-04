@@ -14,7 +14,7 @@ Manager::~Manager(){}
 
 
 // List of options available to manager
-int Manager::OptionSelect()
+int Manager::OptionSelect(ChocAnDB & database)
 {
 	int choice;
 
@@ -44,7 +44,7 @@ int Manager::OptionSelect()
 		 */
 		break;
 	case 'I':
-		InteractiveMode();
+		InteractiveMode(database);
 		break;
 	default:
 		break;
@@ -52,8 +52,20 @@ int Manager::OptionSelect()
 	return 0;
 }
 
+// Wrapper for interactive mode.
+// Opens DB, passes as arg to InteractiveMode(DB).
+// Called from ChocAnMain.cpp
+int Manager::EnterInteractiveMode() {
+
+    // Open DB:
+    int RetInt = 0;
+    ChocAnDB * database = new ChocAnDB(RetInt);
+
+    return InteractiveMode(*database);
+}
+
 // When enter interactive mode, we're be doing things to this
-int Manager::InteractiveMode()
+int Manager::InteractiveMode(ChocAnDB & database)
 {
 	ident To_Add;
 	char choice;
@@ -66,10 +78,10 @@ int Manager::InteractiveMode()
 	std::cout << " You can:";
 	while (isInteractive == true)
 	{
-		std::cout << "\n\tAdd a user\t\t(Enter'A')\n";
-		std::cout << "\tEdit a user\t\t(Enter 'E')\n";
-		std::cout << "\tRemove a user\t\t(Enter 'R')\n";
-		std::cout << "\tExit interactive mode\t\t(Enter 'X')\n";
+		std::cout << "\n\tAdd a user\t\t\t\t(Enter'A')\n";
+		std::cout << "\tEdit a user\t\t\t\t(Enter 'E')\n";
+		std::cout << "\tRemove a user\t\t\t(Enter 'R')\n";
+		std::cout << "\tExit interactive mode\t(Enter 'X')\n";
 		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
 		std::cin >> choice;
@@ -127,9 +139,9 @@ int Manager::InteractiveMode()
 			std::cin.ignore(100, '\n');
 
 			if (To_Add.number > MAX_MANAGER&& To_Add.number <= MAX_PROVIDER)	// Add a Provider
-				AddProvider(To_Add);
+				AddProvider(To_Add, database);
 			else if (To_Add.number > MAX_PROVIDER&& To_Add.number <= MAX_ID)	// Add a Member
-				AddMember(To_Add);
+				AddMember(To_Add, database);
 			break;
 		case 'E':
 			IDnum = 0;
@@ -183,24 +195,24 @@ int Manager::InteractiveMode()
 
 // Create new instance of provider
 //If return -1 == UNDEFINED
-int Manager::AddProvider(ident& To_Add)
+int Manager::AddProvider(ident& To_Add, ChocAnDB & database)
 {
 	char type = 'p';
 	int retInt = 0;
 	int result;
 	// ADD PROVIDER TO DATABASE
-	result = ChocAnDB::AddUser(type, toAdd, retInt);
+	result = database.AddUser(type, To_Add, retInt);
 	return result;
 }
 
 // Create new instance of member
-int Manager::AddMember(ident& To_Add)
+int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 {
 	char type = 'm';
 	int retInt = 0;
 	int result;
 	// ADD MEMBER TO DATABASE
-	result = ChocAnDB::AddUser(type, toAdd, retInt);
+	result = database.AddUser(type, To_Add, retInt);
 	return result;
 	
 }

@@ -1,7 +1,7 @@
 //Database header file
 //Download SQLite from the developer at https://sqlite.org/download.html
 
-#include "Manager.h"    // Manager.h #includes User.h, which includes Operator.h
+#include "Operator.h"
 #include "SQL_exstention.cpp"
 #include <cstring>
 #include <sys/stat.h>
