@@ -15,13 +15,11 @@
 #include "Manager.h"
 using namespace std;
 
-int checkInMember();                // @ Provider terminal
-int logService(int provID);         // @ Provider terminal
-//tsw- thinking this could be good functionality to reside in db class
-int validateMemberID(int memID);    // Return status of member ID
-void displayProviderDirectory();    // Services, service codes and fees
-bool yesorno();                     // Obtain valid response to yes/no question
-bool dateFormatCheck(string input_date); //make sure user inputs a well formatted date
+int checkInMember(const Provider & currProv);   // @ Provider terminal
+int logService(Provider & currProv);            // @ Provider terminal
+void displayProviderDirectory();                // Services, service codes and fees
+bool yesorno();                                 // Obtain valid response to yes/no question
+bool dateFormatCheck(string input_date);        //make sure user inputs a well formatted date
 
 int main()
 {
@@ -68,10 +66,10 @@ int main()
 		do {
 			// Display the menu:
 			cout << "You can:\n";
-			cout << "\tCheck in a member\t\t(Enter 'M')\n";
-			cout << "\tLog a service\t\t\t(Enter 'S')\n";
+			cout << "\tCheck in a member\t\t\t(Enter 'M')\n";
+			cout << "\tLog a service\t\t\t\t(Enter 'S')\n";
 			cout << "\tView the provider directory\t(Enter 'D')\n";
-			cout << "\tExit the terminal\t\t(Enter 'X')\n";
+			cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
 
 			// Get the user's choice & Validate the user's choice:
 			// tsw- sanitizing so inputs > 1 char len will be rejected 
@@ -97,11 +95,11 @@ int main()
 			// Call the appropriate function:
 			if (choice == 'M') {    // Check in a member
 				cout << "Placeholder.. M selected.\n";
-				if (!checkInMember()) continue;
+				if (!checkInMember(*CurrentProvider)) continue;
 			}
 			if (choice == 'S') {    // Log a service
 				cout << "Placeholder.. S selected.\n";
-				if (!logService(ID)) continue;
+				if (!logService(*CurrentProvider)) continue;
 			}
 			if (choice == 'D') {    // Provider directory
 				cout << "Placeholder.. D selected.\n";
@@ -184,7 +182,7 @@ bool yesorno() {
 // It returns 0 if the number is invalid
 // or if the member is inactive or suspended,
 // communicating member status to the user.
-int checkInMember() {
+int checkInMember(const Provider & currProv) {
 	int ID, memCheck;
 	string user_input;
 
@@ -221,9 +219,9 @@ int checkInMember() {
 	} while (!yesorno());
 	// Validate the member's ID:
 	cout << "\nContacting Chocaholics Anonymous...\n";
-	memCheck = validateMemberID(ID);
+	memCheck = currProv.validateMemberID(ID);
 
-	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, memberID==valid
+	// TODO: Implement int Provider::validateMemberID(int memID) in User.cpp
 		//tsw- possibly something like- db.verifyMemberExists(ID);
 		// AS- Hoping to insulate main from db. Thinking provider.validateMID(int ID), which calls db.verifyMID(ID)
 	if (memCheck < 0) {
@@ -242,7 +240,7 @@ int checkInMember() {
 // log a service from the provider terminal.
 // It returns 0 on failure, 1 on success.
 // TODO: Implement the provider directory to finish this function!
-int logService(int provID) {
+int logService(Provider & currProv) {
 	int memberID = 0;
 	int serviceCode = 0;
 	string serviceDate, user_input;
@@ -250,12 +248,10 @@ int logService(int provID) {
 	string comments;
 	float fee = 0.0;
 
-	/* tsw- commented out just until checkInMember works so we can
-	   get past this and test the rest of the func
-	memberID = checkInMember();
-	if (!memberID)
+	memberID = checkInMember(currProv);
+	if (memberID <= 0)
 		return 0;
-	*/
+
 	// Get the service date:
 	do {
 		cout << "Please enter the date the service was provided (MM-DD-YYYY)\n";
@@ -328,11 +324,11 @@ int logService(int provID) {
 }
 
 //tsw- thinking this could be good functionality to belong inside db class
-int validateMemberID(int memID) {
+//int validateMemberID(int memID) {
 
-	return 0;
+	//return 0;
 	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
-}
+//}
 
 void displayProviderDirectory() {
 	// TODO: Implement provider directory: service names, service codes, fees

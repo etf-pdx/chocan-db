@@ -11,7 +11,7 @@ Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState
             Operator(aName, aID, aAddress, aCity, aState, aZip, true) { }
 
 // Destructor
-Manager::~Manager(){}
+Manager::~Manager() { }
 
 
 

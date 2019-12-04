@@ -32,6 +32,7 @@ struct ident
 	char *state;
 	int zip;
 	bool status; //to Check if member is valid or invalid, true=active false=inactive
+	                // Since ident is common to mgrs, provs & membs this should probably be a field of Member class
 };
 
 // The ServiceReport is a struct common to both Provider Reports and Member Reports.

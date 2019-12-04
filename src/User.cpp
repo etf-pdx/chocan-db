@@ -81,6 +81,16 @@ int Provider::Get_Report(int ID)
 	return 0;
 }
 
+int Provider::validateMemberID(int Member_ID) const
+{
+    // TODO: Query DB if Member_ID is invalid (return -1), active (return ID#) or inactive (return 0). Delete 'if (Member_ID)' statements.
+    if (Member_ID < 0)
+        return -1;
+    if (Member_ID)
+        return Member_ID;
+    return 0;
+}
+
 // Implementation of Member class
 // Default Member constructor
 Member::Member(): User()

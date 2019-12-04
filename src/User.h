@@ -29,6 +29,7 @@ public:
 	~Provider();
 
 	int Get_Report(int Provider_ID);
+	int validateMemberID(int Member_ID) const;
 
 protected:
 
