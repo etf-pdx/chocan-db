@@ -103,16 +103,16 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		{
 		case 'A':
 			
-			char input[100];
+			char input[MAX_NAME];
 			
 		
 			std::cout << "Enter User's NAME: ";
-			std::cin.get(To_Add.name,100,'\n');
-			std::cin.ignore(100, '\n');
+			std::cin.get(To_Add.name,MAX_NAME,'\n');
+			std::cin.ignore(MAX_NAME, '\n');
 
 			std::cout << "Enter User's ID: ";
 			std::cin >> To_Add.number;
-			std::cin.ignore(100, '\n');
+			std::cin.ignore(MAX_ID, '\n');
 			while (std::cin.fail())
 			{
 				std::cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
@@ -125,8 +125,8 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			}
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin.get(To_Add.address,100,'\n');
-			std::cin.ignore(100, '\n');
+			std::cin.get(To_Add.address,MAX_NAME,'\n');
+			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin.get(To_Add.city,100,'\n');
