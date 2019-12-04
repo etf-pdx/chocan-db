@@ -18,6 +18,15 @@ msvc_deps_prefix = Note: including file:
 
 
 #############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__ChocAn
+  deps = msvc
+  command = C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\HostX64\x64\cl.exe  /nologo $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB /FS -c $in
+  description = Building C object $out
+
+
+#############################################
 # Rule for compiling CXX files.
 
 rule CXX_COMPILER__ChocAn

@@ -1,4 +1,5 @@
 #include "User.h"
+#include <string>
 
 class Manager: public Operator
 {
