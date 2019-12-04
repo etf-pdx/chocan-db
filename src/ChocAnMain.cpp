@@ -9,6 +9,7 @@
 #include <cctype>
 #include <iostream>
 #include <time.h>
+#include <string>
 #include "ChocAnDB.h"
 using namespace std;
 
@@ -24,19 +25,33 @@ int main()
     int ID;                     // User's ID number
     bool mgr = false;           // True if user is a manager
     char choice;                 // User's menu selection
+	string user_input;			// tsw- takes user's id number input before conv to int (safer)
 
     // Welcome the user
     cout << "\n\tWelcome to Chocaholics Anonymous.\n";
 
     // Obtain a valid ID number:
-    cout << "\nPlease enter your nine digit I.D. number.\n";
-    do {
-        // TODO: Fix integer wraparound bug. Infinite loop occurs when ID > 2147483647
-        cin >> ID;
+	ID = -1;
+	while (ID < MIN_MANAGER || ID > MAX_PROVIDER){
+		cout << "\nPlease enter your nine digit I.D. number.\n";
+        // tsw- int wraparound bug is fixed
+        cin >> user_input;
+		// tsw- whats this do? ignore 100 chars of user input?
         cin.ignore(100, '\n');
-        if (ID < MIN_MANAGER || ID > MAX_PROVIDER)
-            cout << "\nInvalid.\nPlease enter a valid nine digit I.D. number\n";
-    } while (ID < MIN_MANAGER || ID > MAX_PROVIDER);
+		try {
+			ID = stoi(user_input);
+		}
+		catch (invalid_argument e) {
+			cout << "Input was invalid.\n";
+			ID = -1;
+		}
+		catch (out_of_range e) {
+			cout << "\nInput is out of int's range.\n";
+			ID = -1;
+		}    
+		if(ID < MIN_MANAGER || ID > MAX_PROVIDER)
+			cout << "\nInput is not a valid ID number.\n";
+    }
 
     if (ID <= MAX_MANAGER) {
         mgr = true;

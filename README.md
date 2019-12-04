@@ -15,7 +15,6 @@ Finally, the _master_ branch should be only used for working code.
 
 # Build instructions:
 
-"make" to recompile with updated files
-"make clean" to remove build artifacts
-"output" is the file to run after a successful build
+this needs to be updated to reflect the current project
+Select ChocAn.exe as the startup item
 =======
