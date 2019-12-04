@@ -80,7 +80,7 @@ int Provider::Get_Report(int ID)
 
 int Provider::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file
+    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
     return 0;
 }
 
@@ -143,6 +143,6 @@ int Member::Get_Report(int ID)
 
 int Member::Write_Report(int ID)
 {
-    //TODO: Write the Member report to a file
+    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
     return 0;
 }
