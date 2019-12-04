@@ -71,6 +71,7 @@ Service::Service(const Service* To_Add)
 	/*
 		Check date format here
 	*/
+	
 	logged_date = new char[MAX_DATE];
 	strcpy(logged_date, To_Add->logged_date);
 	/*
@@ -141,5 +142,24 @@ char* Service::getName(int code) {
 //function to validate date of given input
 int Service::validateDate(char* provided_date)
 {
-	return 0;
+	while (!provided_date)
+	{
+		std::cout << "Please enter a valid date format MM-DD-YYYY";
+		std::cin.get(provided_date, 100, '\n');
+		std::cin.ignore(100, '\n');
+	}
+	while (provided_date[2]!='-')
+	{
+		std::cout << "Please enter a valid date format MM-DD-YYYY";
+		std::cin.get(provided_date, 100, '\n');
+		std::cin.ignore(100, '\n');
+	}
+	while (provided_date[5]!='-')
+	{
+		std::cout << "Please enter a valid date format MM-DD-YYYY";
+		std::cin.get(provided_date, 100, '\n');
+		std::cin.ignore(100, '\n');
+	}
+
+	return 1;
 }
