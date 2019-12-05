@@ -115,7 +115,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Enter User's NAME: ";
 			std::cin >> user_input;
 			To_Add.name = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.name, user_input.c_str());
+			std::strcpy(const_cast<char *>(To_Add.name.c_str()), user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 
 			To_Add.number = 0;
@@ -123,19 +123,19 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> user_input;
 			To_Add.address = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.address, user_input.c_str());
+			std::strcpy(const_cast<char *>(To_Add.address.c_str()), user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin >> user_input;
 			To_Add.city = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.city, user_input.c_str());
+			std::strcpy(const_cast<char *>(To_Add.city.c_str()), user_input.c_str());
 			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
 			std::cin >> user_input;
 			To_Add.state = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.state, user_input.c_str());
+			std::strcpy(const_cast<char *>(To_Add.state.c_str()), user_input.c_str());
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
