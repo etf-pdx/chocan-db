@@ -126,7 +126,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cin >> To_Add.city;
 			std::cin.ignore(MAX_CITY, '\n');
 			
-			std::cout << "Enter User's STATE: ";
+			std::cout << "Enter User's STATE as intials (XX): ";
 			std::cin >> To_Add.state;
 			std::cin.ignore(2, '\n');
 			
@@ -167,7 +167,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << IDnum;
 			std::cout << " That you would like to change";
 			do {
-				std::cout << "You can:\n";
+				std::cout << " You can:\n";
 				std::cout << "\tChange member's Name\t(Enter 'N')\n";
 				std::cout << "\tChange member's Address\t(Enter 'A')\n";
 				std::cout << "\tChange member's City\t(Enter 'C')\n";
@@ -175,6 +175,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cout << "\tChange member's Zip\t\t\t(Enter 'Z')\n";
 				std::cout << "\tDone editing user\t\t\t(Enter 'X')\n";
 				do {
+					
 					//make sure its len = 1
 					do {
 						std::cin >> user_input;
@@ -191,22 +192,44 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					}
 				} while (choice != 'N' && choice != 'A'
 					&& choice != 'C' && choice != 'S' && choice != 'Z' && choice != 'X');
-				if (choice == 'N') {
-					std::cout << "fasd";
+				if (choice == 'N') 
+				{
+					std::cout << "Enter User's NAME: ";
+					std::cin >> To_Add.name;
+					std::cin.ignore(MAX_NAME, '\n');
+
 				}
-				if (choice == 'A') {
-					
+				if (choice == 'A') 
+				{
+					std::cout << "Enter User's ADDRESS: ";
+					std::cin >> To_Add.address;
+					std::cin.ignore(MAX_NAME, '\n');
 				}
 				if (choice == 'C') {
-					
+					std::cout << "Enter user's CITY: ";
+					std::cin >> To_Add.city;
+					std::cin.ignore(MAX_CITY, '\n');
+
 				}
-				if (choice == 'S') {
-					
+				if (choice == 'S') 
+				{
+					std::cout << "Enter User's STATE as intials (XX): ";
+					std::cin >> To_Add.state;
+					std::cin.ignore(2, '\n');
+
 				}
-				if (choice == 'Z') {
-					
+				if (choice == 'Z')
+				{
+					std::cout << "Enter User's ZIP CODE: ";
+					std::cin >> To_Add.zip;
+					std::cin.ignore(5, '\n');
 				}
 			} while (choice != 'X');
+			std::cout << To_Add.name;
+			std::cout << To_Add.address;
+			std::cout << To_Add.city;
+			std::cout << To_Add.state;
+			std::cout << To_Add.zip;
 
 			break;
 
