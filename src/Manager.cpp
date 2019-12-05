@@ -16,7 +16,7 @@ Manager::~Manager() { }
 
 
 // List of options available to manager
-/*int Manager::OptionSelect(ChocAnDB & database)
+int Manager::OptionSelect(ChocAnDB & database)
 {
 	int choice;
 
@@ -38,12 +38,12 @@ Manager::~Manager() { }
 	switch (choice)
 	{
 	case 'R':
-		 Generate Report Here
+		/* Generate Report Here
 		 *	1. Get operator ID Number
 		 *	2. Run that class's report
 		 *	3. ???
 		 *	4. Profit
-		
+		*/
 		break;
 	case 'I':
 		InteractiveMode(database);
@@ -53,7 +53,7 @@ Manager::~Manager() { }
 	}
 	return 0;
 }
-*/
+
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -162,6 +162,52 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
+
+			std::cout << "\nPlease type which data of member ID: ";
+			std::cout << IDnum;
+			std::cout << " That you would like to change";
+			do {
+				std::cout << "You can:\n";
+				std::cout << "\tChange member's Name\t(Enter 'N')\n";
+				std::cout << "\tChange member's Address\t(Enter 'A')\n";
+				std::cout << "\tChange member's City\t(Enter 'C')\n";
+				std::cout << "\tChange member's State\t\t(Enter 'S')\n";
+				std::cout << "\tChange member's Zip\t\t\t(Enter 'Z')\n";
+				std::cout << "\tDone editing user\t\t\t(Enter 'X')\n";
+				do {
+					//make sure its len = 1
+					do {
+						std::cin >> user_input;
+						std::cin.ignore(INPUT_BUFFER, '\n');
+						if (strlen(user_input.c_str()) != 1) {
+							std::cout << "Input is not 1 char in length (and it should be)\n";
+						}
+					} while (strlen(user_input.c_str()) != 1);
+					choice = toupper(user_input[0]);
+					//make sure its one of the valid choices
+					if (choice != 'N' && choice != 'A'
+						&& choice != 'C' && choice != 'S' && choice != 'Z' && choice != 'X') {
+						std::cout << "Please select from the above options.\n";
+					}
+				} while (choice != 'N' && choice != 'A'
+					&& choice != 'C' && choice != 'S' && choice != 'Z' && choice != 'X');
+				if (choice == 'N') {
+					std::cout << "fasd";
+				}
+				if (choice == 'A') {
+					
+				}
+				if (choice == 'C') {
+					
+				}
+				if (choice == 'S') {
+					
+				}
+				if (choice == 'Z') {
+					
+				}
+			} while (choice != 'X');
+
 			break;
 
 		case 'R':
