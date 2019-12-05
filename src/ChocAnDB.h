@@ -1,4 +1,4 @@
-//Database header file
+//Database header file file
 //Download SQLite from the developer at https://sqlite.org/download.html
 
 #include "Operator.h"
