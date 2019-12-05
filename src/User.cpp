@@ -83,18 +83,20 @@ int Provider::Get_Report(int ID)
 
 int Provider::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
+    // TODO: Write the provider report to a file, if DB doesn't do this already
     return 0;
 }
 
 int Provider::validateMemberID(int Member_ID) const
 {
     // TODO: Query DB if Member_ID is invalid (return -1), active (return ID#) or inactive (return 0). Delete 'if (Member_ID)' statements.
-    if (Member_ID < 0)
+    char m = 'm';
+    int RetInt = 0;
+    ChocAnDB * database = new ChocAnDB(RetInt);
+    ident found = database->GetUser(m, Member_ID, RetInt);
+    if (!found.status)
         return -1;
-    if (Member_ID)
-        return Member_ID;
-    return 0;
+    return found.number;
 }
 
 // Implementation of Member class

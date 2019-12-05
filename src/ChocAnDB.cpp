@@ -120,7 +120,7 @@ char *ChocAnDB::prepUser(char type, ident UserID) {
     return ret;
 }
 
-int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
+int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     RetInt = DB_OK;
     char Buff[1024];
     char *Stmt = nullptr;
@@ -134,7 +134,7 @@ int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
     if (RetInt != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return SERVICE_FAILED;
+        return RetInt + SERVICE_FAILED;
     }
     int SVnum = sqlite3_last_insert_rowid(DB);
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << SVnum << std::endl;
@@ -147,7 +147,6 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
-    RetInt = ChkFrm(datetime);
     if (RetInt)
         return -1;
     std::cout << "UPDATING DATABASE:";
@@ -169,7 +168,7 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
     if (RetInt != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return SERVICE_FAILED;
+        return RetInt = SERVICE_FAILED;
     }
 
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << ServCD << std::endl;
@@ -177,14 +176,11 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
     return DB_OK;
 }
 
-//TODO: build function to ensure datetime char* fits format
-//This will check formatting return 0 if correct
-int ChocAnDB::ChkFrm(char *datetime) {
-    return DB_OK;
-}
+
 
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     std::cout << "CALLING DATABASE:\t";
+    RetInt = DB_OK;
     char buff[1024];
     ident *data = new ident;
     int *ID = new int;
@@ -195,14 +191,16 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             sprintf(buff,"SELECT * FROM MEMBER WHERE ID = %d",UserID);
             strcpy(Stmt,buff);
 
-            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-           delete(Stmt);
-            sprintf(buff,"SELECT CAST(julianday('now')"
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            delete(Stmt);
+            if (RetInt)
+                return *data;
+            sprintf(buff,"SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
                    "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
-                   "- (julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d)))AS INTEGER)",data->number,data->number);
+                   "- (julianday('NOW'))AS INTEGER)",data->number,data->number);
             Stmt = new char[strlen(buff)+1];
             strcpy(Stmt,buff);
-            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
             if (0 > *ID)
                 data->status = false;
             if (0 <= *ID)
@@ -214,7 +212,9 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             sprintf(buff,"SELECT * FROM PROVIDER WHERE ID = %d",UserID);
             strcpy(Stmt,buff);
 
-            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            if (RetInt)
+                return *data;
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
         case 'g':
@@ -222,7 +222,9 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             sprintf(buff,"SELECT * FROM MANAGER WHERE ID = %d",UserID);
             strcpy(Stmt,buff);
 
-            sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            if (RetInt)
+                return *data;
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
     }
@@ -284,7 +286,7 @@ ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
 
 int ChocAnDB::OpenDB(int RetInt) {
     const char *MembTB = "create table IF NOT EXISTS MEMBER ("  //If Table does not exist it will be created
-                         "    ID      INTEGER CHECK (ID < 999999999)" //
+                         "    ID      INTEGER CHECK (ID < 999999999)"
                          "                      primary key AUTOINCREMENT ,"                 //Primary key makes ID's unique
                          "    NAME    TEXT(25) NOT NULL ,"
                          "    ADDRESS TEXT(25) NOT NULL ,"
@@ -350,11 +352,11 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "    SERVICE_PROVIDED DATE NOT NULL ,"
                          "    SERVICE_LOGGED   DATE NOT NULL ,"
                          "    SERVICE_CODE     INT(6) NOT NULL,"
-                         "    PROVIDER_ID      INT(9) NOT NULL ,"
-                         "    MEMBER_NAME      TEXT(25) NOT NULL ,"
+                         "    PROVIDER_ID      INT(9) NOT NULL,"
+                         "    PROVIDER_NAME    TEXT(25) NOT NULL,"
+                         "    MEMBER_NAME      TEXT(25) NOT NULL,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
-                         "    COMMENT          TEXT(100),"
-                         //Foreign key links to a primary key
+                         "    COMMENT          TEXT(100)," //Foreign key links to a primary key
                          "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
                          "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"
                          "    FOREIGN KEY(SERVICE_CODE)     REFERENCES SERVICE);";
