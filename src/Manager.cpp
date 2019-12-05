@@ -255,9 +255,9 @@ int Manager::Write_Report(int ID)
 	// Output provider data to file
 
 	// Get service base on providerID
-	Service* service;
-	// service = database->GetServRep('p', provider.number, RetInt);
-	// ident member = database->GetUser('m', service->getMemberID(), RetInt);
+	ServRep* report;
+	report = database->GetServRep('p', provider.number, RetInt);
+	//ident member = database->GetUser('m', report member id, RetInt);
 
 	// Get ALL Services for that provider
 	/*
