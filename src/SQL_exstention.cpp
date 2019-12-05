@@ -30,9 +30,27 @@ static int FillID(ident *data, int argc, char **argv, char **azColName){
 }
 
 static int GetStat(int* Ret, int argc, char **argv, char **azColName){
+    try {
+        *Ret= atoi(argv[0]);
+        return 0;
+    }
+    catch (...) {
+        // abort select on failure, don't let exception propogate thru sqlite3 call-stack
+        return -1;
+    }
+    return 0;
+}
 
-    *Ret= atoi(argv[0]);
 
+static int IDlist(IDList *Ret, int argc, char **argv, char **azColName) {
+    try {
+        int *ret = new int(atoi(argv[0]));
+        Ret->emplace_back(ret);
+    }
+    catch (...) {
+        // abort select on failure, don't let exception propogate thru sqlite3 call-stack
+        return -1;
+    }
     return 0;
 }
 
@@ -53,7 +71,7 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
     }
     catch (...) {
         // abort select on failure, don't let exception propogate thru sqlite3 call-stack
-        return 1;
+        return -1;
     }
 //    delete buff1;//TODO: deletes error out?
 //    delete buff2;
@@ -67,22 +85,9 @@ static int GetRep(ServRep *Ret, int argc, char **argv, char **azColName){
     tmp->dateLogged = argv[1];
     tmp->serviceCode = atoi(argv[2]);
     tmp->providerNumber = atoi(argv[3]);
-    tmp->memberName = argv[4];
-    tmp->memberNumber = atoi(argv[5]);
-    //Ret->resize(Ret->size()+1);
+    tmp->providerName = argv[4];
+    tmp->memberName = argv[5];
+    tmp->memberNumber = atoi(argv[6]);
     Ret->emplace_back(tmp);
     return 0;
 }
-/*
-int select_callback(void *p_data, int num_fields, char **p_fields, char **p_col_names)
-{
-    List* records = static_cast<List*>(p_data);
-    try {
-        records->emplace_back(p_fields, p_fields + num_fields);
-    }
-    catch (...) {
-        // abort select on failure, don't let exception propogate thru sqlite3 call-stack
-        return 1;
-    }
-    return 0;
-}*/

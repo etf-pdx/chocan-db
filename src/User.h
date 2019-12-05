@@ -22,6 +22,9 @@ protected:
 	int Display_Service(Service*);
 
 	Service* My_Service;  // AS - We no longer need a service list, right? DB finds all srvcs assoc'd w/ a User, returns vector?
+
+private:
+	bool yesorno();
 };
 
 // Provider class, is a user
@@ -49,7 +52,7 @@ public:
 protected:
 
 private:
-	bool yesorno();
+
 };
 
 // Member class, is a user

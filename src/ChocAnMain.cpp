@@ -14,11 +14,6 @@
 #include "Manager.h"
 using namespace std;
 
-int checkInMember(const Provider & currProv);   // @ Provider terminal
-int logService(Provider & currProv);            // @ Provider terminal
-void displayProviderDirectory();                // Services, service codes and fees
-bool yesorno();                                 // Obtain valid response to yes/no question
-bool dateFormatCheck(string input_date);        //make sure user inputs a well formatted date
 int getUserID();								//seperating code into smaller functions for unit testing. functionality unchanged
 int managerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
 int providerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
@@ -202,11 +197,13 @@ int providerMenu(int ID) {
 		// Call the appropriate function:
 		if (choice == 'M') {    // Check in a member
 			cout << "Placeholder.. M selected.\n";
-			if (!checkInMember(*CurrentProvider)) continue;
+			//if (!checkInMember(*CurrentProvider)) continue;
+			CurrentProvider->memberID_Verify();
 		}
 		if (choice == 'S') {    // Log a service
 			cout << "Placeholder.. S selected.\n";
-			if (!logService(*CurrentProvider)) continue;
+			//if (!logService(*CurrentProvider)) continue;
+			CurrentProvider->logService();
 		}
 		if (choice == 'D') {    // Provider directory
 			cout << "Placeholder.. D selected.\n";
