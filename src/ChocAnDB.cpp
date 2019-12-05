@@ -183,7 +183,7 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     RetInt = DB_OK;
     char buff[1024];
     ident *data = new ident;
-    int *ID = new int;
+    int *ID = new int (-1);
     char *Stmt;
     switch (type){
         case 'm':
