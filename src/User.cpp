@@ -91,7 +91,10 @@ void Provider::displayProviderDirectory() {
     int RetInt = 0;
     ChocAnDB * db = new ChocAnDB(RetInt);
     Form * directory = db->ProvDir(RetInt);
-    std::cout << directory;
+    for(auto var : *directory){
+        std::cout << var;
+    }
+    std::cout << std::endl;
 	delete db;
 }
 
@@ -282,7 +285,7 @@ int Provider::logService() {
 	// Record service:
     ChocAnDB * db = new ChocAnDB(db_ret_int);
     db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
-
+    delete db;
 	return 1;
 }
 
