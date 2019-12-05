@@ -30,13 +30,20 @@ public:
 
     //int ModUser();
     //int RmUser();
+    int AddServ(int ServCD, char* ServNm, float fee, int &RetInt);
+    /*Add a service to the Provider directory.
+     *
+     */
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
+    /*
+     *
+     */
     int AddRecd(ident &UserID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
     /*Add a sevice to a memeber
      * Date of service format should be "YYYY-MM-DD"
      *
      */
-    ident GetUser(char type,int UserID, int &RetInt);
+    ident GetUser(char type, int UserID, int &RetInt);
     /*will return mangar/provider/member information through ident.
      *      *type char switch
      * 'm' - member
@@ -53,6 +60,7 @@ public:
     //will return the full list of services
     //and return in a char*
     ServRep* GetServRep(char type, int UserID,int &RetInt);
+    //TODO: write report to file.
     /*will return provider/member service report.
     *      *type char switch
     * 'm' - member
@@ -71,7 +79,6 @@ protected:
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
     int OpenDB(int RetInt);                           //DB initializer
-    int ChkFrm(char *datetime);             //This will check formatting return 0 if correct
     char* prepUser(char type,const ident UserID);
 
 
