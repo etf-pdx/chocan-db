@@ -262,14 +262,7 @@ int Provider::logService() {
 				std::cout << "\nInvalid.\nPlease enter a valid six digit service code.\n";
 			}
 			else {
-				// Confirm the service is correct:
-				// TODO: Search provider directory for matching service name
-				//Carl - I am not user search by name is required functionality.
-				// AS - I meant search by number and get a name returned
-
-				//tsw-name commented out until functionality is active
-				//otherwise it will throw an exception
-				std::cout << "\nYou entered " << serviceCode << ": " << /*serviceName << */ std::endl;
+				std::cout << "\nYou entered " << serviceCode << ": " << std::endl;
 				std::cout << "\nIs that correct? Y/N\n";
 			}
 		}
@@ -289,14 +282,9 @@ int Provider::logService() {
 	}
 
 	// Record service:
-	char* logDate = NULL;
-	//getdate(logDate);   // test this...
-/*
-	Service consultation = new Service(serviceName, serviceCode, serviceDate,
-									  logDate, memberID, provID, fee, comments);
-*/
-
-// Display fee (from provider directory):
+	int db_ret_int = 0;
+    ChocAnDB * db = new ChocAnDB(db_ret_int);
+    db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
 
 	return 1;
 }

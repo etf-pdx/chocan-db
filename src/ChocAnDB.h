@@ -51,7 +51,7 @@ public:
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
     //Add a service to the Provider directory
 
-    int AddRecd(int MembID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
+    int AddRecd(int MembID, int ProvID, int ServCD, const char* comm, const char* datetime, int &RetInt);
     /*Add a sevice to a memeber
      * Date of service format should be "YYYY-MM-DD HH:MM"
      */
