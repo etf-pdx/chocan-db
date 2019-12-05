@@ -148,7 +148,7 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
-    if (RetInt) {
+    if (RetInt != DB_OK) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
         return RetInt = SERVICE_FAILED;
     }

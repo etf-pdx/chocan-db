@@ -1,5 +1,6 @@
 #include "ServiceTest.h"
 
+[Fact]
 int ServiceTest::StartTest()
 {
 	// Step 1: Arrange
@@ -13,9 +14,7 @@ int ServiceTest::StartTest()
 	assert(EmptyData == NULL);
 	assert(GoodData != NULL);
 	assert(BadData == NULL);				// Exception handler requires implementation in Constructor
-	assert(!GoodData->display());
-	assert(BadData->display());
-	assert(EmptyData->display());
+	assert(GoodData->getName(1234567) == "Name");
 
 	// Cleaning Up
 	if (!GoodData)

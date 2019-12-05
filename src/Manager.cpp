@@ -16,7 +16,7 @@ Manager::~Manager() { }
 
 
 // List of options available to manager
-int Manager::OptionSelect(ChocAnDB & database)
+/*int Manager::OptionSelect(ChocAnDB & database)
 {
 	int choice;
 
@@ -38,12 +38,12 @@ int Manager::OptionSelect(ChocAnDB & database)
 	switch (choice)
 	{
 	case 'R':
-		/* Generate Report Here
+		 Generate Report Here
 		 *	1. Get operator ID Number
 		 *	2. Run that class's report
 		 *	3. ???
 		 *	4. Profit
-		 */
+		
 		break;
 	case 'I':
 		InteractiveMode(database);
@@ -53,7 +53,7 @@ int Manager::OptionSelect(ChocAnDB & database)
 	}
 	return 0;
 }
-
+*/
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -74,10 +74,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	int IDnum;
 	bool isInteractive = true;
 	std::string user_input;
-	/*
-	 * Entering interactive mode
-	 * Prompt for options within interactive mode
-	 */
+	
+	 // Entering interactive mode
+	 // Prompt for options within interactive mode
+	 
 	std::cout << " You can:";
 	while (isInteractive == true)
 	{
@@ -241,4 +241,24 @@ int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 	result = database.AddUser(type, To_Add, retInt);
 	return result;
 	
+}
+
+int Manager::Write_Report(int ID)
+{
+	std::ofstream out;
+
+	out.open("ManagerReport.txt");
+	out << ("Testing writing to filen\n");
+
+	// Get Manager
+	int RetInt = 0;
+	ChocAnDB* database = new ChocAnDB(RetInt);
+	ident found = database->GetUser('g', ID, RetInt);
+	// 
+
+	// Get Members under the manager
+		// Get all Services under that Members before getting the next member
+
+	out.close();
+	return 0;
 }

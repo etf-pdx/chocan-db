@@ -100,22 +100,7 @@ Service::~Service()
 		delete [] comments;
 }
 
-/*
-  // Destroyer, helper of destructor
-  // Shouldn't need this unless Service has a next pointer
-void Service::destroy(Service* current)
-{
-    if (current->service_name)
-        delete [] current->service_name;
-    if (current->provided_date)
-        delete [] current->provided_date;
-    if (current->logged_date)
-        delete [] current->logged_date;
-    if (current->comments)
-        delete [] current->comments;
-}
 
-*/
 // Display this service
 int Service::display()
 {
@@ -135,6 +120,8 @@ int Service::display()
 }
 
 char* Service::getName(int code) {
+
+
     if (code == service_code)
         return service_name;
     return nullptr;
