@@ -13,7 +13,7 @@ public:
 
 	int display();
     char* getName(int code);
-	int validateDate(char* provided_date);
+
 
 protected:
 	char* service_name;
