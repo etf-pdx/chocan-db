@@ -93,7 +93,7 @@ int managerMenu(int ID) {
 			choice = toupper(user_input[0]);
 			//make sure its one of the valid choices
 			if (choice != 'M' && choice != 'P'
-				&& choice != 'S' && choice != 'I') {
+				&& choice != 'S' && choice != 'I' && choice != 'X') {
 				cout << "Please select from the above options.\n";
 			}
 		} while (choice != 'M' && choice != 'P'

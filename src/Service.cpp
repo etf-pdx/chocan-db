@@ -86,12 +86,10 @@ Service::Service(const Service* To_Add)
 	strcpy(comments, To_Add->comments);
 }
 
-// TODO: Test this destructor... hoping to use destroy() to make sure the entire service list is deallocated
 // Destructor
 Service::~Service()
 {
-    destroy(this);
-    /*
+    //destroy(this);
 	if (service_name)
 		delete [] service_name;
 	if (provided_date)
@@ -100,9 +98,11 @@ Service::~Service()
 		delete [] logged_date;
 	if (comments)
 		delete [] comments;
-    */
 }
-// Destroyer, helper of destructor
+
+/*
+  // Destroyer, helper of destructor
+  // Shouldn't need this unless Service has a next pointer
 void Service::destroy(Service* current)
 {
     if (current->service_name)
@@ -115,6 +115,7 @@ void Service::destroy(Service* current)
         delete [] current->comments;
 }
 
+*/
 // Display this service
 int Service::display()
 {
