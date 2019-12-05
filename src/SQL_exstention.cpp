@@ -16,18 +16,13 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 }
 
 static int FillID(ident *data, int argc, char **argv, char **azColName){
-    ident *Ret = data;
 
-    Ret->number = atoi(argv[0]);
-    Ret->name = new char[strlen(argv[1]+1)];
-    strcpy(Ret->name, argv[1]);
-    Ret->address = new char[strlen(argv[2]+1)];
-    strcpy(Ret->address, argv[2]);
-    Ret->city = new char[strlen(argv[3]+1)];
-    strcpy(Ret->city, argv[3]);
-    Ret->state = new char[strlen(argv[4]+1)];
-    strcpy(Ret->state, argv[4]);
-    Ret->zip = atoi(argv[5]);
+    data->number = atoi(argv[0]);
+    data->name = argv[1];
+    data->address = argv[2];
+    data->city = argv[3];
+    data->state = argv[4];
+    data->zip = atoi(argv[5]);
 
     return 0;
 }
@@ -66,14 +61,11 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
 
 static int GetRep(ServRep *Ret, int argc, char **argv, char **azColName){
     ServiceReport *tmp = new ServiceReport;
-    tmp->dateProvided = new char[strlen(argv[0])+1];
-    strcpy(tmp->dateProvided,argv[0]);
-    tmp->dateLogged = new char[strlen(argv[1])+1];
-    strcpy(tmp->dateLogged,argv[1]);
+    tmp->dateProvided = argv[0];
+    tmp->dateLogged = argv[1];
     tmp->serviceCode = atoi(argv[2]);
     tmp->providerNumber = atoi(argv[3]);
-    tmp->memberName = new char[strlen(argv[4])+1];
-    strcpy(tmp->memberName,argv[4]);
+    tmp->memberName = argv[4];
     tmp->memberNumber = atoi(argv[5]);
     //Ret->resize(Ret->size()+1);
     Ret->emplace_back(tmp);
