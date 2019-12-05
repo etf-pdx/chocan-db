@@ -25,5 +25,6 @@ protected:
 	float service_fee;
 	char* comments;
 
-    void destroy(Service* current);
+    //void destroy(Service* current);
+    // destroy() unnecessary if we don't have a Service::next pointer
 };
