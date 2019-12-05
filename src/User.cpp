@@ -147,15 +147,9 @@ int Provider::Write_Report(int ID)
 
 // Implementation of Member class
 // Default Member constructor
-Member::Member(): User()
-{
+Member::Member(): User(){}
 
-}
-
-Member::Member(int ID): User(ID)
-{
-
-}
+Member::Member(int ID): User(ID){}
 
 Member::Member(Member& To_Add): User(To_Add)
 {
@@ -173,10 +167,7 @@ Member::Member(ident& toAdd)
 }
 
 //Destructor
-Member::~Member()
-{
-
-}
+Member::~Member(){}
 
 int Member::Get_Report(int ID)
 {
@@ -202,7 +193,7 @@ int Member::Write_Report(int ID)
 	// Get Member
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
-	ident member = database->GetUser('p', ID, RetInt);
+	ident member = database->GetUser('m', ID, RetInt);
 
 	// Output member data to file
 	out << "PROVIDER NAME: " << member.name << std::endl;
