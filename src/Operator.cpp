@@ -4,40 +4,25 @@
 
 ident::ident()
 {
-    name = NULL;
+	//tsw- strings have their own def constr to null str
     number = 0;
-    address = NULL;
-    city = NULL;
-    state = NULL;
     zip = 0;
     status = false;
 }
 
 ident::ident(int ID)
 {
-    name = NULL;
     number = ID;
-    address = NULL;
-    city = NULL;
-    state = NULL;
     zip = 0;
     status = false;
 }
 
-ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
+ident::ident(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus)
 {
-    name = new char[strlen(aName) + 1];
-    strcpy(name, aName);
-
-    address = new char[strlen(aAddress) + 1];
-    strcpy(address, aAddress);
-
-    city = new char[strlen(aCity) + 1];
-    strcpy(city, aCity);
-
-    state = new char[strlen(aState) + 1];
-    strcpy(state, aState);
-
+    name = aName;
+    address = aAddress;
+    city = aCity;
+    state = aState;
     number = aNumber;
     zip = aZip;
     status = aStatus;
@@ -45,11 +30,7 @@ ident::ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState
 
 Operator::Operator()
 {
-	ID.name = NULL;
 	ID.number = 0;
-	ID.address = NULL;
-	ID.city = NULL;
-	ID.state = NULL;
 	ID.zip = 0;
 	
 	//next = NULL;
@@ -60,22 +41,18 @@ Operator::Operator(int id_num)
     ID = ident(id_num);
 }
 
-Operator::Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus)
+Operator::Operator(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus)
 {
 	ID = ident(aName, aNumber, aAddress, aCity, aState, aZip, aStatus);
 }
 
 Operator::Operator(ident To_Add)
 {
-	ID.name = new char [strlen(To_Add.name) + 1];
-	strcpy(ID.name, To_Add.name);
+	ID.name = To_Add.name;
 	ID.number = To_Add.number;
-	ID.address = new char [strlen(To_Add.address) + 1];
-	strcpy(ID.address, To_Add.address);
-	ID.city = new char [strlen(To_Add.city) + 1];
-	strcpy(ID.city, To_Add.city);
-	ID.state = new char [strlen(To_Add.state) + 1];
-	strcpy(ID.state, To_Add.state);
+	ID.address = To_Add.address;
+	ID.city = To_Add.city;
+	ID.state = To_Add.state;
 	ID.zip = To_Add.zip;
 }
 
@@ -91,14 +68,6 @@ Operator::Operator(Operator& To_Add)
 
 Operator::~Operator()
 {
-	if (ID.name)
-		delete[] ID.name;
-	if (ID.address)
-		delete[] ID.address;
-	if (ID.city)
-		delete[] ID.city;
-	if (ID.state)
-		delete[] ID.state;
 }
 
 int Operator::displayID(int IDnumber)
@@ -125,7 +94,7 @@ int Operator::displayID(int IDnumber)
 	return 0;
 }
 
-char* Operator::getName()
+std::string Operator::getName()
 {
 	return ID.name;
 }
@@ -136,17 +105,17 @@ int Operator::GetIDnumber()
 	return ID.number;
 }
 
-char* Operator::getAddress()
+std::string Operator::getAddress()
 {
 	return ID.address;
 }
 
-char* Operator::getCity()
+std::string Operator::getCity()
 {
 	return ID.city;
 }
 
-char* Operator::getState()
+std::string Operator::getState()
 {
 	return ID.state;
 }

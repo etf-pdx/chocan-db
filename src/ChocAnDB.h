@@ -53,7 +53,9 @@ public:
      *
      */
     //TODO: return reports.
-    char* ProvDir(int &RetInt);
+	//tsw- for ProvDir, already have the services in form aka vector<char*> format
+	//not sure what ret val will be used for but returning that for now instead of char* of all concatenated.
+    Form* ProvDir(int &RetInt);
     //will return the full list of services
     //and return in a char*
     ServRep* GetServRep(char type, int UserID,int &RetInt);

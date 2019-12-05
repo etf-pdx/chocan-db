@@ -99,6 +99,13 @@ int Provider::validateMemberID(int Member_ID) const
     return found.number;
 }
 
+void Provider::displayProviderDirectory() {
+    int RetInt = 0;
+    ChocAnDB * db = new ChocAnDB(RetInt);
+    char * directory = db->ProvDir(RetInt);
+    std::cout << directory;
+}
+
 // Implementation of Member class
 // Default Member constructor
 Member::Member(): User()

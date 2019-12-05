@@ -96,7 +96,7 @@ char *ChocAnDB::prepUser(char type, ident UserID) {
                   "    )"
                   "        VALUES ("
                   "        '%s','%s','%s','%s','%d');",
-            UserID.name, UserID.address, UserID.city, UserID.state, UserID.zip);
+            UserID.name.c_str(), UserID.address.c_str(), UserID.city.c_str(), UserID.state.c_str(), UserID.zip);
     switch (type) {
         case 'm' :
             ret = new char[strlen(Stmt) + 19];
@@ -167,7 +167,7 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
                   "DATETIME('%s'),"
                   "CURRENT_DATE,"
                   "'%d','%d','%s','%d','%s');",
-            datetime, ServCD, ProvID, UserID.name, UserID.number, comm);
+            datetime, ServCD, ProvID, UserID.name.c_str(), UserID.number, comm);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -238,7 +238,8 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     return *data;
 }
 
-char* ChocAnDB::ProvDir(int &RetInt) {
+Form* ChocAnDB::ProvDir(int &RetInt) {
+	/*
     char *Ret = new char('\n');
     Form *fullform = new Form;
     const char *Stmt = "SELECT * FROM SERVICE;";
@@ -250,6 +251,20 @@ char* ChocAnDB::ProvDir(int &RetInt) {
         strcat(Ret,k);
     }
     return Ret;
+	*/
+	//converting to accepting strings. but i'm not 100% understanding this functionality so leaving old version above
+	//dont understand the return value. only a char ptr to 1 byte char but there are many assignments to it. possibly a bug?
+
+
+	Form* fullform = new Form;
+	const char* Stmt = "SELECT * FROM SERVICE;";
+	RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void*, int, char**, char**)>(SVlist), fullform, &ErrMsg);
+
+	std::cout << "SERVICE LIST:\n";
+	for (auto& k : *fullform) {
+		std::cout << k << std::endl;
+	}
+	return fullform;
 }
 
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {

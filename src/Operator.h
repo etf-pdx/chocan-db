@@ -3,6 +3,7 @@
 // Header file for operator
 #include <iostream>
 #include <cstring>
+#include <string>
 #include "Service.h"
 #include <vector>
 
@@ -18,20 +19,20 @@
 //                                                  //
 // ************************************************ //
 
-
+//tsw- thinking that bc this is an input to an sql exec statement, it needs to stay as char*? maybe not but keeping to be safe for now
 using Form = std::vector<char*>;
 
 struct ident
 {
     ident();
     ident(int ID);
-    ident(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
+    ident(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus);
 
-	char *name;
+	std::string name;
 	int number;
-	char *address;
-	char *city;
-	char *state;
+	std::string address;
+	std::string city;
+	std::string state;
 	int zip;
 	bool status; //to Check if member is valid or invalid, true=active false=inactive
 };
@@ -41,15 +42,15 @@ struct ident
 // The Summary report is a different thing and does not use a ServiceReport.
 
 // IS THIS FIELD USED IN THE:  MemberReport // ProviderReport
-struct ServiceReport {      //      ?       //      ?
-    int serviceCode;        //      NO      //      YES
-    char* memberName;       //      NO      //      YES
-    int memberNumber;       //      NO      //      YES
-    char* providerName;     //      YES     //      NO
-    int providerNumber;     //      YES     //      NO
-    char* dateProvided;     //      YES     //      YES
-    char* dateLogged;       //      NO      //      YES
-    float fee;              //      NO      //      YES
+struct ServiceReport {			//      ?       //      ?
+    int serviceCode;			//      NO      //      YES
+    std::string memberName;     //      NO      //      YES
+    int memberNumber;			//      NO      //      YES
+    std::string providerName;   //      YES     //      NO
+    int providerNumber;			//      YES     //      NO
+    std::string dateProvided;   //      YES     //      YES
+    std::string dateLogged;     //      NO      //      YES
+    float fee;					//      NO      //      YES
 };
 using ServRep = std::vector<ServiceReport*>;
 
@@ -74,26 +75,26 @@ struct SummaryReport {
     int total_fee;
 };
 
-
 class Operator
 {
 public:
 	Operator();
 	Operator(int id_num);
-	Operator(char* aName, int aNumber, char* aAddress, char* aCity, char* aState, int aZip, bool aStatus);
+	Operator(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus);
 	Operator(ident To_Add);
 	Operator(Operator& To_Add);
 	~Operator();
 
 	//Get functions
-	char* getName();
+	std::string getName();
 	int displayID(int IDnumber);    // Used to be "Display_Member()". Renamed since it displays ID of mgr, prov etc.
 	int GetIDnumber();
-	char* getAddress();
-	char* getCity();
-	char* getState();
+	std::string getAddress();
+	std::string getCity();
+	std::string getState();
 	int getZip();
 
+	// calls to the db
 	int AddService();
 
 protected:

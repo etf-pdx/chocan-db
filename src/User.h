@@ -1,6 +1,7 @@
 // Header file for users and its members
 
 #include "ChocAnDB.h"
+#include <string>
 
 // User class, is an operator
 class User : public Operator
@@ -34,6 +35,7 @@ public:
 	int Get_Report(int ID);
 	int Write_Report(int ID);
 	int validateMemberID(int Member_ID) const;
+	static void displayProviderDirectory();
 
 protected:
 
