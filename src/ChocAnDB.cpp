@@ -195,9 +195,9 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             delete(Stmt);
             if (RetInt)
                 return *data;
-            sprintf(buff,"SELECT CAST(julianday('now')"
+            sprintf(buff,"SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
                    "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
-                   "- (julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d)))AS INTEGER)",data->number,data->number);
+                   "- (julianday('NOW'))AS INTEGER)",data->number,data->number);
             Stmt = new char[strlen(buff)+1];
             strcpy(Stmt,buff);
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
