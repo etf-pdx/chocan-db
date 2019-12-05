@@ -302,7 +302,7 @@ int Provider::logService() {
 }
 
 // Return the response to a yes or no question.
-bool Provider::yesorno() {
+bool User::yesorno() {
 	char choice;
 	std::string user_input;
 
