@@ -84,7 +84,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		std::cout << "\n\tAdd a user\t\t\t\t(Enter 'A')\n";
 		std::cout << "\tEdit a user\t\t\t\t(Enter 'E')\n";
 		std::cout << "\tRemove a user\t\t\t(Enter 'R')\n";
-		std::cout << "\tAdd a new service\t\t\t(Enter 'S')\n";
+		std::cout << "\tAdd a new service\t\t(Enter 'S')\n";
 		std::cout << "\tExit interactive mode\t(Enter 'X')\n";
 		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
