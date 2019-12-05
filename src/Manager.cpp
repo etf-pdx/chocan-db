@@ -292,13 +292,14 @@ int Manager::Write_Report(int ID)
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
 	ident provider = database->GetUser('p', ID, RetInt);
+
+	// Output provider data to file
 	out << "PROVIDER NAME: " << provider.name << std::endl;
 	out << "ID: " << provider.number << std::endl;
 	out << "ADDRESS: " << provider.address << std::endl;
 	out << "CITY: " << provider.city << std::endl;
 	out << "STATE: " << provider.state << std::endl;
 	out << "ZIP: " << provider.zip << std::endl << std::endl;
-	// Output provider data to file
 
 	// Get service base on providerID
 	ServRep* report;

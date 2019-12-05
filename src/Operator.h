@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <fstream>
 #include "Service.h"
 #include <vector>
 

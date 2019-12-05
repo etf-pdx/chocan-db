@@ -106,6 +106,45 @@ void Provider::displayProviderDirectory() {
     std::cout << directory;
 }
 
+int Provider::Write_Report(int ID)
+{
+	std::ofstream out;
+
+	out.open("ManagerReport.txt");
+	out << ("Testing writing to filen\n");
+
+	// Get Manager
+	int RetInt = 0;
+	ChocAnDB* database = new ChocAnDB(RetInt);
+	ident provider = database->GetUser('p', ID, RetInt);
+
+	// Output provider data to file
+	out << "PROVIDER NAME: " << provider.name << std::endl;
+	out << "ID: " << provider.number << std::endl;
+	out << "ADDRESS: " << provider.address << std::endl;
+	out << "CITY: " << provider.city << std::endl;
+	out << "STATE: " << provider.state << std::endl;
+	out << "ZIP: " << provider.zip << std::endl << std::endl;
+
+	// Get service base on providerID
+	ServRep* report;
+	report = database->GetServRep('p', provider.number, RetInt);
+	//ident member = database->GetUser('m', report member id, RetInt);
+
+	// Get ALL Services for that provider
+	/*
+	 * SERVICE PROVIDED FOR: // member.name
+	 * SERVICE SUMMARY: // service->getName();
+	 * PROVIDED DATE: // service->getProvDate();
+	 * LOGGED DATE: // service->getLogDate();
+	 * FEE: // service->getFee();
+	 * COMMENTS: // service->getComments();
+	 */
+
+	out.close();
+	return 0;
+}
+
 // Implementation of Member class
 // Default Member constructor
 Member::Member(): User()
@@ -155,6 +194,39 @@ int Member::Get_Report(int ID)
 
 int Member::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
-    return 0;
+	std::ofstream out;
+
+	out.open("MemberReport.txt");
+	out << ("Testing writing to filen\n");
+
+	// Get Member
+	int RetInt = 0;
+	ChocAnDB* database = new ChocAnDB(RetInt);
+	ident member = database->GetUser('p', ID, RetInt);
+
+	// Output member data to file
+	out << "PROVIDER NAME: " << member.name << std::endl;
+	out << "ID: " << member.number << std::endl;
+	out << "ADDRESS: " << member.address << std::endl;
+	out << "CITY: " << member.city << std::endl;
+	out << "STATE: " << member.state << std::endl;
+	out << "ZIP: " << member.zip << std::endl << std::endl;
+
+	// Get service base on providerID
+	ServRep* report;
+	report = database->GetServRep('p', member.number, RetInt);
+	//ident member = database->GetUser('m', report member id, RetInt);
+
+	// Get ALL Services for that provider
+	/*
+	 * SERVICE PROVIDED BY: // service->getProvID();
+	 * SERVICE SUMMARY: // service->getName();
+	 * PROVIDED DATE: // service->getProvDate();
+	 * LOGGED DATE: // service->getLogDate();
+	 * FEE: // service->getFee();
+	 * COMMENTS: // service->getComments();
+	 */
+
+	out.close();
+	return 0;
 }
