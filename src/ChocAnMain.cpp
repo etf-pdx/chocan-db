@@ -42,6 +42,7 @@ int getUserID() {
 	ID = -1;
 	while (ID < MIN_MANAGER || ID > MAX_PROVIDER) {
 		cout << "\nPlease enter your nine digit I.D. number.\n";
+		cout << "$";
 		cin >> user_input;
 		cin.ignore(INPUT_BUFFER, '\n');
 		try {
@@ -74,6 +75,7 @@ int managerMenu(int ID) {
 		cout << "\tGenerate a summary report\t(Enter 'S')\n";
 		cout << "\tEnter Interactive Mode\t\t(Enter 'I')\n";
 		cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
+		cout << "$";
 
 		do {
 			//make sure its len = 1
@@ -168,7 +170,8 @@ int providerMenu(int ID) {
 		cout << "\tLog a service\t\t\t\t(Enter 'S')\n";
 		cout << "\tView the provider directory\t(Enter 'D')\n";
 		cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
-
+		cout << "$";
+		
 		// Get the user's choice & Validate the user's choice:
 		// tsw- sanitizing so inputs > 1 char len will be rejected 
 		// and wont accept just first char as input
@@ -186,6 +189,7 @@ int providerMenu(int ID) {
 			if (choice != 'M' && choice != 'S'
 				&& choice != 'D' && choice != 'X') {
 				cout << "Please select from the above options.\n";
+				cout << "$";
 			}
 		} while (choice != 'M' && choice != 'S'
 			&& choice != 'D' && choice != 'X');

@@ -95,6 +95,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		while (choice != 'A' && choice != 'E'
 			&& choice != 'R' && choice != 'X' && choice != 'S') {
 			std::cout << "\nPlease select from the above options.\n";
+			std::cout << "$";
 			std::cin >> choice;
 			std::cin.ignore(100, '\n');
 			choice = toupper(choice);
@@ -125,6 +126,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Enter user's CITY: ";
 			std::cin >> To_Add.city;
 			std::cin.ignore(MAX_CITY, '\n');
+			
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
 			std::cin >> To_Add.state;
@@ -174,6 +176,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cout << "\tChange member's State\t\t(Enter 'S')\n";
 				std::cout << "\tChange member's Zip\t\t\t(Enter 'Z')\n";
 				std::cout << "\tDone editing user\t\t\t(Enter 'X')\n";
+				std::cout << "$";
 				do {
 					
 					//make sure its len = 1
@@ -217,6 +220,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cin >> To_Add.state;
 					std::cin.ignore(2, '\n');
 
+
 				}
 				if (choice == 'Z')
 				{
@@ -250,6 +254,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
+
 			break;
 
 		case 'X':
