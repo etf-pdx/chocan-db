@@ -106,8 +106,9 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		float fee = 0.0;
 		int error = 0;
 		std::string s_name;
+        char type = 'm';
 
-		switch (choice)
+        switch (choice)
 		{
 		case 'A':
 			
@@ -241,7 +242,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			IDnum = 0;
 			do
 			{
-				std::cout << "Enter an ID for edit: ";
+				std::cout << "Enter the ID of the user to be removed: ";
 				if (!isdigit(std::cin.peek()))
 					std::cout << "Is not a number.\n";
 				else
@@ -255,6 +256,15 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
 
+			// get the type of user to remove
+			if(IDnum <= MAX_MANAGER){
+			    type = 'g';
+			}else if(IDnum <= MAX_PROVIDER){
+			    type = 'p';
+			} // no need for last else because its already set to 'm'.
+
+            // remove the user
+            database.RmUser(type, IDnum, error);
 			break;
 
 		case 'X':

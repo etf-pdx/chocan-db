@@ -219,7 +219,8 @@ int Provider::memberID_Verify() {
 int Provider::logService() {
 	int memberID = 0;
 	int serviceCode = 0;
-	std::string serviceDate, user_input;
+    int db_ret_int = 0;
+    std::string serviceDate, user_input;
 	std::string comments;
 
 	memberID = memberID_Verify();
@@ -279,7 +280,6 @@ int Provider::logService() {
 	}
 
 	// Record service:
-	int db_ret_int = 0;
     ChocAnDB * db = new ChocAnDB(db_ret_int);
     db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
 
