@@ -171,6 +171,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
 			break;
+
 		case 'R':
 			IDnum = 0;
 			do
