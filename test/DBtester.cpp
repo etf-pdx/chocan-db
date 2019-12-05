@@ -87,6 +87,7 @@ int DBtester::test(){
         fprintf(log,"FAILED DATABASE ADD RECORD: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     //Retrieve user ID
+    RetID = DB->GetUser('m',SadID.number,RetInt);
     RetID = DB->GetUser('m',HappyID.number,RetInt);
     if (RetInt == 0) {
         fprintf(log, "PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour) % 24, ptm->tm_min, ptm->tm_sec);
