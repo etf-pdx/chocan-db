@@ -1,13 +1,9 @@
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnull-conversion"
-#pragma ide diagnostic ignored "modernize-use-nullptr"
+
 //
 // Created by CBunt on 11/20/2019.
 //
 
 #include "DBtester.h"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wwritable-strings"
 
 DBtester::DBtester() {
     HappyID.number = NULL;
@@ -91,7 +87,7 @@ int DBtester::test(){
     RetID = DB->GetUser('m',HappyID.number,RetInt);
     if (RetInt == 0) {
         fprintf(log, "PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour) % 24, ptm->tm_min, ptm->tm_sec);
-        fprintf(log, "\t--RETRIEVED MEMBER NUMBER/NAME : %d/%s\n", RetID.number, RetID.name);
+        fprintf(log, "\t--RETRIEVED MEMBER NUMBER/NAME : %d/%s\n", RetID.number, RetID.name.c_str());
         if (RetID.status)
             fprintf(log, "\t--MEMBER STATUS: ACTIVE");
         else
@@ -119,6 +115,3 @@ int DBtester::test(){
     fclose(log);
     return RetInt;
 }
-
-#pragma clang diagnostic pop
-#pragma clang diagnostic pop

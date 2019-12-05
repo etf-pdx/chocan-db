@@ -15,12 +15,12 @@ class ChocAnDB {
 public:
     ChocAnDB();
     ChocAnDB(int &RetInt);
-    ChocAnDB(char t,int&RetInt);
+    ChocAnDB(char t, int &RetInt);
     ~ChocAnDB();
 
     int AddUser(char type, ident UserID, int &RetInt);
     /*Add Members, providers, and managers
-     *type char switch
+     *      *type char switch
      * 'm' - Member
      * 'p' - provider
      * 'g' - manager
@@ -28,11 +28,18 @@ public:
      * will be printed and returned.
      */
 
-    //int ModUser();
+    int ModUser(char type, ident UserID, int &RetInt);
+    /*Modify exsiting Members, providers, and managers
+     *      *type char switch
+     * 'm' - Member
+     * 'p' - provider
+     * 'g' - manager
+     *
+     */
 
     int RmUser(char type, int UserID, int &RetInt);
     /*Remove user by ID
-     *type char switch
+     *      *type char switch
      * 'm' - Member
      * 'p' - provider
      * 'g' - manager
@@ -62,8 +69,8 @@ public:
      *
      */
 
-    //TODO: return reports.
     IDList* MBList(int &RenInt);
+    //Returns a list of all members in the DB
 
     Form* ProvDir(int &RetInt);
     //will return the full list of services
@@ -88,8 +95,8 @@ protected:
     char* ErrMsg;                           //SQL Error message
     sqlite3* DB;                            //DB object
     sqlite3_stmt* STMT;                     //DB statement
-    int OpenDB(int RetInt);                           //DB initializer
+    int OpenDB(int RetInt);                 //DB initializer
     char* prepUser(char type,const ident UserID);
-
+    char* ModPrep(const ident UserID);
 
 };

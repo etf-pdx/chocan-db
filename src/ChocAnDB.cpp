@@ -84,6 +84,72 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     return IDnum;
 }
 
+int ChocAnDB::ModUser(char type, ident UserID, int &RetInt) {
+    char* Stmt;
+    Stmt = ModPrep(UserID);
+    switch(type){
+        case 'm':
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = MEMBER_FAILED;
+            }
+            break;
+        case 'p':
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = PROVIDER_FAILED ;
+            }
+            break;
+        case 'g':
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = MANAGER_FAILED;
+            }
+            break;
+        default:
+            return RetInt = UNDEFINED ;
+    }
+    return RetInt = DB_OK;
+}
+
+char* ChocAnDB::ModPrep(const ident UserID) {
+    char *buff1 = new char ('\0');
+    char *buff2 = new char ('\0');
+    char *ret = nullptr;
+    if (UserID.name.c_str())
+    {
+        sprintf(buff1,"UPDATE MEMBER SET NAME = '%s' WHERE ID = '%d';",UserID.name.c_str(),UserID.number);
+        strcat(buff2,buff1);
+    }
+    if (UserID.address.c_str())
+    {
+        sprintf(buff1,"UPDATE MEMBER SET ADDRESS = '%s' WHERE ID = '%d';",UserID.address.c_str(),UserID.number);
+        strcat(buff2,buff1);
+    }
+    if (UserID.city.c_str())
+    {
+        sprintf(buff1,"UPDATE MEMBER SET CITY = '%s' WHERE ID = '%d';",UserID.city.c_str(),UserID.number);
+        strcat(buff2,buff1);
+    }
+    if (UserID.state.c_str())
+    {
+        sprintf(buff1,"UPDATE MEMBER SET STATE = '%s' WHERE ID = '%d';",UserID.city.c_str(),UserID.number);
+        strcat(buff2,buff1);
+    }
+    if (UserID.zip)
+    {
+        sprintf(buff1,"UPDATE MEMBER SET ZIP = '%d' WHERE ID = '%d';",UserID.zip,UserID.number);
+        strcat(buff2,buff1);
+    }
+    strcpy(buff1,buff2);
+    ret = new char[strlen(buff1)+1];
+    strcpy(ret,buff1);
+    return ret;
+}
+
 int ChocAnDB::RmUser(char type, int UserID, int &RetInt){
     RetInt = DB_OK;
     char Buff[1024];
@@ -276,7 +342,10 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             if (RetInt != DB_OK)
-                return *data; //TODO: DNE
+                return *data;
+            if(!data->number)
+                RetInt = PROVIDER_FAILED;
+            delete(Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
         case 'g':
@@ -286,7 +355,10 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             if (RetInt != DB_OK)
-                return *data; //TODO: DNE
+                return *data;
+            if(!data->number)
+                RetInt = MANAGER_FAILED;
+            delete(Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
         default:
@@ -387,7 +459,6 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'CITY',"
                          "        'AA',"
                          "        00000);";
-    //TODO: Maintenance active vs suspended members
 
     const char *StatTB = "create table IF NOT EXISTS STATUS("
                          "    START_DATE DATE NOT NULL, "
