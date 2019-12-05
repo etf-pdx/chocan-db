@@ -205,7 +205,7 @@ int providerMenu(int ID) {
 			if (!logService(*CurrentProvider)) continue;
 		}
 		if (choice == 'D') {    // Provider directory
-			cout << "Placeholder.. D selected.\n";
+			cout << "\nRetrieving Provider Directory...\n";
 			CurrentProvider->displayProviderDirectory();
 		}
 	} while (choice != 'X');
@@ -344,7 +344,7 @@ int logService(Provider & currProv) {
 			}
 			else {
 				// Confirm the service is correct:
-                // TODO: Search provider directory for matching service name
+                // TODO: Search provider directory by ID# for matching service name
                 //Carl - I am not user search by name is required functionality.
                 // AS - I meant search by number and get a name returned
 
@@ -381,13 +381,6 @@ int logService(Provider & currProv) {
 
 	return 1;
 }
-
-//tsw- thinking this could be good functionality to belong inside db class
-//int validateMemberID(int memID) {
-
-	//return 0;
-	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
-//}
 
 //tsw- make sure user inputs a well formatted date
 //edge cases left unchecked- wont prevent 31 days in jan for example

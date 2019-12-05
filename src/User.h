@@ -36,6 +36,7 @@ public:
 	int Write_Report(int ID);
 	int validateMemberID(int Member_ID) const;
 	static void displayProviderDirectory();
+    int matchProviderDirectory(int serviceCode);
 
 protected:
 

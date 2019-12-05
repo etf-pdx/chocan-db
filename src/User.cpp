@@ -73,20 +73,27 @@ int Provider::Get_Report(int ID)
 	if (ID < 0)
 		return -1;
 
+	int RetInt = 0;
+	char p = 'p';
+	ChocAnDB * database = new ChocAnDB(RetInt);
+	ServRep * myServiceReport = database->GetServRep(p, ID, RetInt);
+	ProviderReport * myProviderReport = new ProviderReport(*myServiceReport);
+
+	if (Write_Report(ID) != 0)
+	    return -1;
 	displayID(ID);
-	//Display_Service(My_Service);
     My_Service->display();
     if (!Write_Report(ID))
         return -1;
 	return 0;
 }
-
+/*
+ * // Shouldn't need this: DB should write report to a file when it's retrieved
 int Provider::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file, if DB doesn't do this already
     return 0;
 }
-
+*/
 int Provider::validateMemberID(int Member_ID) const
 {
     // TODO: Query DB if Member_ID is invalid (return -1), active (return ID#) or inactive (return 0). Delete 'if (Member_ID)' statements.
@@ -117,6 +124,8 @@ int Provider::Write_Report(int ID)
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
 	ident provider = database->GetUser('p', ID, RetInt);
+	if (RetInt != 0)
+	    return -1;
 
 	// Output provider data to file
 	out << "PROVIDER NAME: " << provider.name << std::endl;

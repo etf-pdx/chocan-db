@@ -141,3 +141,10 @@ ident Operator::get_ident(int IDnumber)
 
 	return ID;
 }
+
+ProviderReport::ProviderReport(const ServRep &initServRep) {
+    servicesProvided = initServRep;
+    providerID = 0;
+    int numServices = 0;
+    totalFee = 0.0;
+}
