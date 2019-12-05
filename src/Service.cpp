@@ -119,10 +119,11 @@ int Service::display()
 	return 0;
 }
 
-char* Service::getName(int code) {
-
-
-    if (code == service_code)
-        return service_name;
-    return nullptr;
-}
+char* Service::getName(){ return service_name; }
+int Service::getServID(){ return service_code; }
+char* Service::getProvDate(){ return provided_date; }
+char* Service::getLogDate(){ return logged_date; }
+int Service::getMemberID(){ return memberID; }
+int Service::getProviderID(){ return providerID; }
+float Service::getFee(){ return service_fee; }
+char* Service::getComments(){ return comments; }

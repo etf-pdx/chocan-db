@@ -1,6 +1,5 @@
 #include "User.h"
 #include <string>
-#include <fstream>
 
 class Manager: public Operator
 {

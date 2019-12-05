@@ -16,10 +16,15 @@ public:
     virtual int Get_Report(int ID) = 0;
     virtual int Write_Report(int ID) = 0;
 
+	bool dateFormatCheck(std::string input_date);
+
 protected:
 	int Display_Service(Service*);
 
 	Service* My_Service;  // AS - We no longer need a service list, right? DB finds all srvcs assoc'd w/ a User, returns vector?
+
+private:
+	bool yesorno();
 };
 
 // Provider class, is a user
@@ -34,10 +39,19 @@ public:
 
 	int Get_Report(int ID);
 	int Write_Report(int ID);
-	int validateMemberID(int Member_ID) const;
+
+	// Requirements Doc: 4.3.1 Requesting a Provider Directory:
 	static void displayProviderDirectory();
+	// Requirements Doc: 4.3.2 Requesting ID Verification:
+	int memberID_Verify();
+	//Requirements document: 4.3.3 Logging a Service:
+	int logService();
+
+
 
 protected:
+
+private:
 
 };
 

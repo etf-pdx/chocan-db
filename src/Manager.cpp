@@ -16,7 +16,7 @@ Manager::~Manager() { }
 
 
 // List of options available to manager
-/*int Manager::OptionSelect(ChocAnDB & database)
+int Manager::OptionSelect(ChocAnDB & database)
 {
 	int choice;
 
@@ -38,12 +38,12 @@ Manager::~Manager() { }
 	switch (choice)
 	{
 	case 'R':
-		 Generate Report Here
+		/* Generate Report Here
 		 *	1. Get operator ID Number
 		 *	2. Run that class's report
 		 *	3. ???
 		 *	4. Profit
-		
+		*/
 		break;
 	case 'I':
 		InteractiveMode(database);
@@ -53,7 +53,7 @@ Manager::~Manager() { }
 	}
 	return 0;
 }
-*/
+
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -95,6 +95,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		while (choice != 'A' && choice != 'E'
 			&& choice != 'R' && choice != 'X' && choice != 'S') {
 			std::cout << "\nPlease select from the above options.\n";
+			std::cout << "$";
 			std::cin >> choice;
 			std::cin.ignore(100, '\n');
 			choice = toupper(choice);
@@ -113,29 +114,22 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			char input[MAX_NAME];
 			
 			std::cout << "Enter User's NAME: ";
-			std::cin >> user_input;
-			To_Add.name = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.name, user_input.c_str());
+			std::cin >> To_Add.name;
 			std::cin.ignore(MAX_NAME, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin >> user_input;
-			To_Add.address = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.address, user_input.c_str());
+			std::cin >> To_Add.address;
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
-			std::cin >> user_input;
-			To_Add.city = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.city, user_input.c_str());
+			std::cin >> To_Add.city;
 			std::cin.ignore(MAX_CITY, '\n');
 			
-			std::cout << "Enter User's STATE: ";
-			std::cin >> user_input;
-			To_Add.state = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.state, user_input.c_str());
+			
+			std::cout << "Enter User's STATE as intials (XX): ";
+			std::cin >> To_Add.state;
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
@@ -170,6 +164,77 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
+
+			std::cout << "\nPlease type which data of member ID: ";
+			std::cout << IDnum;
+			std::cout << " That you would like to change";
+			do {
+				std::cout << " You can:\n";
+				std::cout << "\tChange member's Name\t(Enter 'N')\n";
+				std::cout << "\tChange member's Address\t(Enter 'A')\n";
+				std::cout << "\tChange member's City\t(Enter 'C')\n";
+				std::cout << "\tChange member's State\t\t(Enter 'S')\n";
+				std::cout << "\tChange member's Zip\t\t\t(Enter 'Z')\n";
+				std::cout << "\tDone editing user\t\t\t(Enter 'X')\n";
+				std::cout << "$";
+				do {
+					
+					//make sure its len = 1
+					do {
+						std::cin >> user_input;
+						std::cin.ignore(INPUT_BUFFER, '\n');
+						if (strlen(user_input.c_str()) != 1) {
+							std::cout << "Input is not 1 char in length (and it should be)\n";
+						}
+					} while (strlen(user_input.c_str()) != 1);
+					choice = toupper(user_input[0]);
+					//make sure its one of the valid choices
+					if (choice != 'N' && choice != 'A'
+						&& choice != 'C' && choice != 'S' && choice != 'Z' && choice != 'X') {
+						std::cout << "Please select from the above options.\n";
+					}
+				} while (choice != 'N' && choice != 'A'
+					&& choice != 'C' && choice != 'S' && choice != 'Z' && choice != 'X');
+				if (choice == 'N') 
+				{
+					std::cout << "Enter User's NAME: ";
+					std::cin >> To_Add.name;
+					std::cin.ignore(MAX_NAME, '\n');
+
+				}
+				if (choice == 'A') 
+				{
+					std::cout << "Enter User's ADDRESS: ";
+					std::cin >> To_Add.address;
+					std::cin.ignore(MAX_NAME, '\n');
+				}
+				if (choice == 'C') {
+					std::cout << "Enter user's CITY: ";
+					std::cin >> To_Add.city;
+					std::cin.ignore(MAX_CITY, '\n');
+
+				}
+				if (choice == 'S') 
+				{
+					std::cout << "Enter User's STATE as intials (XX): ";
+					std::cin >> To_Add.state;
+					std::cin.ignore(2, '\n');
+
+
+				}
+				if (choice == 'Z')
+				{
+					std::cout << "Enter User's ZIP CODE: ";
+					std::cin >> To_Add.zip;
+					std::cin.ignore(5, '\n');
+				}
+			} while (choice != 'X');
+			std::cout << To_Add.name;
+			std::cout << To_Add.address;
+			std::cout << To_Add.city;
+			std::cout << To_Add.state;
+			std::cout << To_Add.zip;
+
 			break;
 
 		case 'R':
@@ -189,6 +254,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
+
 			break;
 
 		case 'X':
@@ -253,11 +319,30 @@ int Manager::Write_Report(int ID)
 	// Get Manager
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
-	ident found = database->GetUser('g', ID, RetInt);
-	// 
+	ident provider = database->GetUser('p', ID, RetInt);
 
-	// Get Members under the manager
-		// Get all Services under that Members before getting the next member
+	// Output provider data to file
+	out << "PROVIDER NAME: " << provider.name << std::endl;
+	out << "ID: " << provider.number << std::endl;
+	out << "ADDRESS: " << provider.address << std::endl;
+	out << "CITY: " << provider.city << std::endl;
+	out << "STATE: " << provider.state << std::endl;
+	out << "ZIP: " << provider.zip << std::endl << std::endl;
+
+	// Get service base on providerID
+	ServRep* report;
+	report = database->GetServRep('p', provider.number, RetInt);
+	//ident member = database->GetUser('m', report member id, RetInt);
+
+	// Get ALL Services for that provider
+	/*
+	 * SERVICE PROVIDED FOR: // member.name
+	 * SERVICE SUMMARY: // service->getName();
+	 * PROVIDED DATE: // service->getProvDate();
+	 * LOGGED DATE: // service->getLogDate();
+	 * FEE: // service->getFee();
+	 * COMMENTS: // service->getComments();
+	 */
 
 	out.close();
 	return 0;

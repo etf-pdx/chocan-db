@@ -12,7 +12,14 @@ public:
 	~Service();
 
 	int display();
-    char* getName(int code);
+    char* getName();
+	int getServID();
+	char* getProvDate();
+	char* getLogDate();
+	int getMemberID();
+	int getProviderID();
+	float getFee();
+	char* getComments();
 
 protected:
 	char* service_name;
