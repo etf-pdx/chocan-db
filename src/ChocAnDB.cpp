@@ -268,7 +268,7 @@ int ChocAnDB::ReNewServ(int MembID, int &RetInt){
 }
 
 //add a service to a member
-int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, char *comm, char *datetime, int &RetInt) {
+int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, const char *datetime, int &RetInt) {
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
