@@ -58,12 +58,13 @@ using ServRep = std::vector<ServiceReport*>;
 
 struct MemberReport {
     ident memberID;
-    ServiceReport* servicesReceived;    // Array of services member received that week
+    ServRep servicesReceived;    // Array of services member received that week
 };
 
 struct ProviderReport {
+    ProviderReport(const ServRep & initServRep);
     ident providerID;
-    ServiceReport* servicesProvided;    // Array of services provider logged that week
+    ServRep servicesProvided;    // Array of services provider logged that week
     int numServices;
     float totalFee;
 };

@@ -51,7 +51,7 @@ public:
 
 };
 
-// Member class, is a user
+// Member class: Member is a user
 class Member : public User
 {
 public:
