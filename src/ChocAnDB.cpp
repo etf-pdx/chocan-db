@@ -84,18 +84,45 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     return IDnum;
 }
 
-int RmUser(char type, int UserID, int &RetInt){
+int ChocAnDB::RmUser(char type, int UserID, int &RetInt){
     RetInt = DB_OK;
     char Buff[1024];
     char *Stmt = nullptr;
     std::cout << "UPDATING DATABASE:";
-    sprintf(Buff,"DELETE FROM MEMBER WHERE MEMBER_ID = %d",UserID);
-    Stmt = new char[strlen(Buff) + 1];
-    strcpy(Stmt, Buff);
-    RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
-    if (RetInt != DB_OK) {
-        std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
-        return RetInt = STATUS_FAILED ;
+    switch (type){
+        case 'm':
+            sprintf(Buff,"DELETE FROM MEMBER WHERE MEMBER_ID = %d",UserID);
+            Stmt = new char[strlen(Buff) + 1];
+            strcpy(Stmt, Buff);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = MEMBER_FAILED;
+            }
+            break;
+        case 'p':
+            sprintf(Buff,"DELETE FROM PROVIDER WHERE PROVIDER_ID = %d",UserID);
+            Stmt = new char[strlen(Buff) + 1];
+            strcpy(Stmt, Buff);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = PROVIDER_FAILED;
+            }
+            break;
+        case 'g':
+            sprintf(Buff,"DELETE FROM MANAGER WHERE MANAGER_ID = %d",UserID);
+            Stmt = new char[strlen(Buff) + 1];
+            strcpy(Stmt, Buff);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = MANAGER_FAILED;
+            }
+            break;
+        default:
+            return RetInt = UNDEFINED ;
+
     }
     return DB_OK;
 }
@@ -158,7 +185,7 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     return SVnum;
 }
 
-int ReNewServ(int MembID, int &RetInt){
+int ChocAnDB::ReNewServ(int MembID, int &RetInt){
     RetInt = DB_OK;
     char Buff[1024];
     char *Stmt = nullptr;
@@ -175,26 +202,29 @@ int ReNewServ(int MembID, int &RetInt){
 }
 
 //add a service to a member
-int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *datetime, int &RetInt) {
+int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, char *comm, char *datetime, int &RetInt) {
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
     if (RetInt)
         return -1;
     std::cout << "UPDATING DATABASE:";
-    sprintf(Buff, "INSERT INTO RECORD ("
-                  "SERVICE_PROVIDED,"
+    sprintf(Buff, "INSERT INTO RECORD"
+                  "(SERVICE_PROVIDED,"
                   "SERVICE_LOGGED,"
                   "SERVICE_CODE,"
                   "PROVIDER_ID,"
-                  "MEMBER_NAME,"
+                  "PROVIDER_NAME,"
                   "MEMBER_ID,"
+                  "MEMBER_NAME,"
                   "COMMENT)"
                   "VALUES ("
-                  "DATETIME('%s'),"
+                  "DATETIME(),"
                   "CURRENT_DATE,"
-                  "'%d','%d','%s','%d','%s');",
-            datetime, ServCD, ProvID, UserID.name.c_str(), UserID.number, comm);
+                  "'%d','%d',"
+                  "(SELECT NAME FROM PROVIDER WHERE PROVIDER_ID = '%d'),'%d',"
+                  "(SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_ID = '%d'),'%s');",
+                  datetime, ServCD, ProvID, ProvID, MembID, MembID, comm);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -245,8 +275,8 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             strcpy(Stmt,buff);
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-            if (RetInt)
-                return *data;
+            if (RetInt != DB_OK)
+                return *data; //TODO: DNE
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
         case 'g':
@@ -256,42 +286,29 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             if (RetInt != DB_OK)
-                return *data;
+                return *data; //TODO: DNE
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
+        default:
+            RetInt = UNDEFINED;
     }
 
     RetInt = DB_OK;
     return *data;
 }
 
+IDList* ChocAnDB::MBList(int &RetInt) {
+    IDList * Ret = new IDList;
+    const char* Stmt = "SELECT ID FROM MEMBER;";
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void*, int, char**, char**)>(IDlist), Ret, &ErrMsg);
+    return Ret; 
+} 
+
 Form* ChocAnDB::ProvDir(int &RetInt) {
-	/*
-    char *Ret = new char('\n');
-    Form *fullform = new Form;
-    const char *Stmt = "SELECT * FROM SERVICE;";
-    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(SVlist), fullform, &ErrMsg);
-
-    std::cout << "SERVICE LIST:\n";
-    for (auto & k : *fullform){
-        std::cout <<  k << std::endl;
-        strcat(Ret,k);
-    }
-    return Ret;
-	*/
-	//converting to accepting strings. but i'm not 100% understanding this functionality so leaving old version above
-	//dont understand the return value. only a char ptr to 1 byte char but there are many assignments to it. possibly a bug?
-
-
-	Form* fullform = new Form;
+    Form* Ret = new Form;
 	const char* Stmt = "SELECT * FROM SERVICE;";
-	RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void*, int, char**, char**)>(SVlist), fullform, &ErrMsg);
-
-	std::cout << "SERVICE LIST:\n";
-	for (auto& k : *fullform) {
-		std::cout << k << std::endl;
-	}
-	return fullform;
+	RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void*, int, char**, char**)>(SVlist), Ret, &ErrMsg);
+	return Ret;
 }
 
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
@@ -386,8 +403,8 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "    SERVICE_CODE     INT(6) NOT NULL,"
                          "    PROVIDER_ID      INT(9) NOT NULL,"
                          "    PROVIDER_NAME    TEXT(25) NOT NULL,"
-                         "    MEMBER_NAME      TEXT(25) NOT NULL,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
+                         "    MEMBER_NAME      TEXT(25) NOT NULL,"
                          "    COMMENT          TEXT(100)," //Foreign key links to a primary key
                          "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
                          "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"

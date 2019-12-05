@@ -44,9 +44,9 @@ public:
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
     //Add a service to the Provider directory
 
-    int AddRecd(ident &UserID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
+    int AddRecd(int MembID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
     /*Add a sevice to a memeber
-     * Date of service format should be "YYYY-MM-DD"
+     * Date of service format should be "YYYY-MM-DD HH:MM"
      */
 
     ident GetUser(char type, int UserID, int &RetInt);
@@ -63,13 +63,13 @@ public:
      */
 
     //TODO: return reports.
-	//tsw- for ProvDir, already have the services in form aka vector<char*> format
-	//not sure what ret val will be used for but returning that for now instead of char* of all concatenated.
+    IDList* MBList(int &RenInt);
+
     Form* ProvDir(int &RetInt);
     //will return the full list of services
-    //and return in a char*
+    //and return in a Form vetor
 
-    ServRep* GetServRep(char type, int UserID,int &RetInt);
+    ServRep* GetServRep(char type, int UserID, int &RetInt);
     //TODO: write report to file.
     /*will return provider/member service report.
     *      *type char switch

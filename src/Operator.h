@@ -21,6 +21,7 @@
 
 //tsw- thinking that bc this is an input to an sql exec statement, it needs to stay as char*? maybe not but keeping to be safe for now
 using Form = std::vector<char*>;
+using IDList = std::vector<int>;
 
 struct ident
 {
