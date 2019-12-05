@@ -160,7 +160,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
                 std::cin.ignore(100, '\n');
                 if (IDnum <= 0 || IDnum > MAX_ID) {
                     std::cout << "Invalid ID Number.\n";
-                    goto wrongEditID;
+                    goto wrongEditID; // TODO we need to get rid of shitty gotos
                 }
             }
 			// TODO: Edit shenanigans here
@@ -181,7 +181,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		        if (IDnum <= 0 || IDnum > MAX_ID)
 		        {
 		            std::cout << "Invalid ID Number.\n";
-		            goto wrongRemoveID;
+		            goto wrongRemoveID; // TODO we need to get rid of shitty gotos
 		        }
             }
 			// TODO: Remove shenanigans here
