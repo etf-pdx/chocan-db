@@ -110,19 +110,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			To_Add.name = new char[strlen(user_input.c_str()) + 1];
 			std::cin.ignore(MAX_NAME, '\n');
 
-			std::cout << "Enter User's ID: ";
-			std::cin >> To_Add.number;
-			std::cin.ignore(MAX_ID, '\n');
-			while (std::cin.fail())
-			{
-				std::cout << "Input has to be numbers. Try again. '\n' Enter user's ID:";
-				std::cin >> To_Add.number;
-			}
-			while (To_Add.number < 0 || To_Add.number > MAX_ID)
-			{
-				std::cout << "Invalid ID number. Try again. '\n Enter user's ID: ";
-				std::cin >> To_Add.number;
-			}
+			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> user_input;
@@ -143,9 +131,14 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cin >> To_Add.zip;
 			std::cin.ignore(5, '\n');
 
-			if (To_Add.number > MAX_MANAGER&& To_Add.number <= MAX_PROVIDER)	// Add a Provider
+			char member_type;
+            std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
+            std::cout << "$";
+            std::cin >> member_type;
+
+			if (member_type == 'p')	// Add a Provider
 				AddProvider(To_Add, database);
-			else if (To_Add.number > MAX_PROVIDER&& To_Add.number <= MAX_ID)	// Add a Member
+			else if (member_type == 'm')	// Add a Member
 				AddMember(To_Add, database);
 			break;
 		case 'E':
