@@ -214,16 +214,13 @@ int Provider::memberID_Verify() {
 // logService() obtains the necessary info to
 // log a service from the provider terminal.
 // It returns 0 on failure, 1 on success.
-// TODO: Implement the provider directory to finish this function!
 
 //Requirements document: 4.3.3 Logging a Service:
 int Provider::logService() {
 	int memberID = 0;
 	int serviceCode = 0;
 	std::string serviceDate, user_input;
-	char* serviceName = NULL;
 	std::string comments;
-	float fee = 0.0;
 
 	memberID = memberID_Verify();
 	if (memberID < 0) 
