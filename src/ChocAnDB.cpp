@@ -157,7 +157,7 @@ int ChocAnDB::RmUser(char type, int UserID, int &RetInt){
     std::cout << "UPDATING DATABASE:";
     switch (type){
         case 'm':
-            sprintf(Buff,"DELETE FROM MEMBER WHERE MEMBER_ID = %d",UserID);
+            sprintf(Buff,"DELETE FROM MEMBER WHERE ID = %d",UserID);
             Stmt = new char[strlen(Buff) + 1];
             strcpy(Stmt, Buff);
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -167,7 +167,7 @@ int ChocAnDB::RmUser(char type, int UserID, int &RetInt){
             }
             break;
         case 'p':
-            sprintf(Buff,"DELETE FROM PROVIDER WHERE PROVIDER_ID = %d",UserID);
+            sprintf(Buff,"DELETE FROM PROVIDER WHERE ID = %d",UserID);
             Stmt = new char[strlen(Buff) + 1];
             strcpy(Stmt, Buff);
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -177,7 +177,7 @@ int ChocAnDB::RmUser(char type, int UserID, int &RetInt){
             }
             break;
         case 'g':
-            sprintf(Buff,"DELETE FROM MANAGER WHERE MANAGER_ID = %d",UserID);
+            sprintf(Buff,"DELETE FROM MANAGER WHERE ID = %d",UserID);
             Stmt = new char[strlen(Buff) + 1];
             strcpy(Stmt, Buff);
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
