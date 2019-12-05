@@ -100,6 +100,12 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			choice = toupper(choice);
 		}
 
+		bool valid = false;
+		int svc_code = 0;
+		float fee = 0.0;
+		int error = 0;
+		std::string s_name;
+
 		switch (choice)
 		{
 		case 'A':
@@ -149,7 +155,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 
 		case 'E':
 			IDnum = 0;
-			bool valid = false;
 			do
 			{
 				std::cout << "Enter an ID for edit: ";
@@ -168,7 +173,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			break;
 		case 'R':
 			IDnum = 0;
-			bool valid = false;
 			do
 			{
 				std::cout << "Enter an ID for edit: ";
@@ -194,17 +198,14 @@ int Manager::InteractiveMode(ChocAnDB & database)
         case 'S':
             std::cout << "Enter service name:\n";
             std::cin >> user_input;
-            std::string s_name = new char[strlen(user_input.c_str()) + 1];
+            s_name = new char[strlen(user_input.c_str()) + 1];
             std::cin.ignore(MAX_SVC_NAME, '\n');
-            int svc_code = 0;
             std::cout << "Enter service code:\n";
             std::cin >> svc_code;
             std::cin.ignore(100,'\n');
-            float fee;
             std::cout << "Enter service fee:\n";
             std::cin >> fee;
             std::cin.ignore(100,'\n');
-            int error = 0;
             database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
             break;
 
