@@ -139,28 +139,3 @@ char* Service::getName(int code) {
         return service_name;
     return nullptr;
 }
-
-//function to validate date of given input
-int Service::validateDate(char* provided_date)
-{
-	while (!provided_date)
-	{
-		std::cout << "Please enter a valid date format MM-DD-YYYY";
-		std::cin.get(provided_date, 100, '\n');
-		std::cin.ignore(100, '\n');
-	}
-	while (provided_date[2]!='-')
-	{
-		std::cout << "Please enter a valid date format MM-DD-YYYY";
-		std::cin.get(provided_date, 100, '\n');
-		std::cin.ignore(100, '\n');
-	}
-	while (provided_date[5]!='-')
-	{
-		std::cout << "Please enter a valid date format MM-DD-YYYY";
-		std::cin.get(provided_date, 100, '\n');
-		std::cin.ignore(100, '\n');
-	}
-
-	return 1;
-}
