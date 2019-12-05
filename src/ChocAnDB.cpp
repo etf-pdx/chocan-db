@@ -84,6 +84,22 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     return IDnum;
 }
 
+int RmUser(char type, int UserID, int &RetInt){
+    RetInt = DB_OK;
+    char Buff[1024];
+    char *Stmt = nullptr;
+    std::cout << "UPDATING DATABASE:";
+    sprintf(Buff,"DELETE FROM MEMBER WHERE MEMBER_ID = %d",UserID);
+    Stmt = new char[strlen(Buff) + 1];
+    strcpy(Stmt, Buff);
+    RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+    if (RetInt != DB_OK) {
+        std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+        return RetInt = STATUS_FAILED ;
+    }
+    return DB_OK;
+}
+
 char *ChocAnDB::prepUser(char type, ident UserID) {
     char Stmt[1024];
     char *ret = nullptr;
@@ -132,9 +148,9 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
-    if (RetInt != DB_OK) {
+    if (RetInt) {
         std::cout << "\t-FAILED-\n" << "SERVICE TABLE FAILED:\t" << ErrMsg;
-        return RetInt + SERVICE_FAILED;
+        return RetInt = SERVICE_FAILED;
     }
     int SVnum = sqlite3_last_insert_rowid(DB);
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tSERVICE CODE:\t" << SVnum << std::endl;
@@ -143,8 +159,19 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
 }
 
 int ReNewServ(int MembID, int &RetInt){
-    RetInt = 0;
-
+    RetInt = DB_OK;
+    char Buff[1024];
+    char *Stmt = nullptr;
+    std::cout << "UPDATING DATABASE:";
+    sprintf(Buff,"UPDATE STATUS SET MONTHS_PAID = MONTHS_PAID + 1 WHERE MEMBER_ID = %d",MembID);
+    Stmt = new char[strlen(Buff) + 1];
+    strcpy(Stmt, Buff);
+    RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+    if (RetInt != DB_OK) {
+        std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+        return RetInt = STATUS_FAILED ;
+    }
+    return DB_OK;
 }
 
 //add a service to a member
@@ -228,7 +255,7 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             strcpy(Stmt,buff);
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-            if (RetInt)
+            if (RetInt != DB_OK)
                 return *data;
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
