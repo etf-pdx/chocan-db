@@ -43,8 +43,10 @@ static int IDlist(IDList *Ret, int argc, char **argv, char **azColName) {
 }
 
 static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
-    char *buff1 = new char ('\0');
-    char *buff2 = new char ('\0');
+    char buff1[1024];
+    char buff2[1024];
+    buff1[0] = '\0';
+    buff2[0] = '\0';
     char *ret = nullptr;
     try {
 
