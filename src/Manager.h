@@ -1,3 +1,6 @@
+#ifndef MANAGER_H
+#define MANAGER_H
+
 #include "User.h"
 #include <string>
 
@@ -19,3 +22,5 @@ protected:
 	int AddProvider(ident& To_Add, ChocAnDB & database);
 	int AddMember(ident& To_Add, ChocAnDB & database);
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef USER_H
+#define USER_H
+
 // Header file for users and its members
 
 #include "ChocAnDB.h"
@@ -63,3 +66,5 @@ public:
 protected:
 
 };
+
+#endif
