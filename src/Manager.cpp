@@ -221,7 +221,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cin >> To_Add.state;
 					std::cin.ignore(2, '\n');
 
-
 				}
 				if (choice == 'Z')
 				{
@@ -264,7 +263,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			} else{
 			    type = 'm';
 			}
-
             // remove the user
             database.RmUser(type, IDnum, error);
 			break;
@@ -345,7 +343,7 @@ int Manager::Write_Report(int ID)
 	ServRep* report;
 	report = database->GetServRep('p', provider.number, RetInt);
 	//ident member = database->GetUser('m', report member id, RetInt);
-
+    // todo whatever needs to be done here
 	// Get ALL Services for that provider
 	/*
 	 * SERVICE PROVIDED FOR: // member.name

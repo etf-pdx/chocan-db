@@ -92,7 +92,7 @@ void Provider::displayProviderDirectory() {
     ChocAnDB * db = new ChocAnDB(RetInt);
     Form * directory = db->ProvDir(RetInt);
     for(auto var : *directory){
-        std::cout << var;
+        std::cout << var << std::endl;
     }
     std::cout << std::endl;
 	delete db;
