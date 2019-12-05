@@ -119,6 +119,7 @@ int managerMenu(int ID) {
 			Member* subject = new Member(repID);
 			if (!subject->Get_Report(repID))
 				cout << "\nFailed to generate member report\n";
+			// todo output report to file
 		}
 		if (choice == 'P') {    // Provider report
 			// Obtain a valid provider ID number:
@@ -144,9 +145,11 @@ int managerMenu(int ID) {
 			Provider* subject = new Provider(repID);
 			if (!subject->Get_Report(repID))
 				cout << "\nFailed to generate provider report\n";
+			// todo output report to file
 		}
 		if (choice == 'S') {    // Summary report
-			// TODO: Fetch, display, write summary report
+		    // todo get report
+			CurrentManager->Write_Report(ID);
 		}
 		if (choice == 'I') {    // Interactive mode
 			if (CurrentManager->EnterInteractiveMode() < 0)
@@ -160,6 +163,7 @@ int managerMenu(int ID) {
 int providerMenu(int ID) {
 	char choice;                // User's menu selection
 	string user_input;			// tsw- takes user's input before conv to other type (safer)
+	int err;
 
 	Provider* CurrentProvider = new Provider(ID);
 	cout << "\nPROVIDER TERMINAL: ACCESS GRANTED\n\n";
@@ -196,29 +200,20 @@ int providerMenu(int ID) {
 
 		// Call the appropriate function:
 		if (choice == 'M') {    // Check in a member
-			cout << "Placeholder.. M selected.\n";
-			//if (!checkInMember(*CurrentProvider)) continue;
-			CurrentProvider->memberID_Verify();
+			err = CurrentProvider->memberID_Verify();
+			if(err == 0){
+			    cout << "Member is suspended or nonexistent" << endl;
+			}else{
+                cout << "Member exists in database." << endl;
+            }
 		}
 		if (choice == 'S') {    // Log a service
-			cout << "Placeholder.. S selected.\n";
-			//if (!logService(*CurrentProvider)) continue;
 			CurrentProvider->logService();
 		}
 		if (choice == 'D') {    // Provider directory
-			cout << "Placeholder.. D selected.\n";
 			CurrentProvider->displayProviderDirectory();
 		}
 	} while (choice != 'X');
 	return 0;
 }
-
-
-
-//tsw- thinking this could be good functionality to belong inside db class
-//int validateMemberID(int memID) {
-
-	//return 0;
-	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
-//}
 
