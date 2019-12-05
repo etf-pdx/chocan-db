@@ -261,7 +261,9 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			    type = 'g';
 			}else if(IDnum <= MAX_PROVIDER){
 			    type = 'p';
-			} // no need for last else because its already set to 'm'.
+			} else{
+			    type = 'm';
+			}
 
             // remove the user
             database.RmUser(type, IDnum, error);
@@ -323,8 +325,8 @@ int Manager::Write_Report(int ID)
 {
 	std::ofstream out;
 
-	out.open("ManagerReport.txt");
-	out << ("Testing writing to filen\n");
+	out.open("Summary_Report.txt");
+	out << ("Testing writing to file\n");
 
 	// Get Manager
 	int RetInt = 0;
