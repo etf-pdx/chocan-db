@@ -20,11 +20,10 @@ public:
 
 protected:
 	int Display_Service(Service*);
+	bool yesorno();
 
 	Service* My_Service;  // AS - We no longer need a service list, right? DB finds all srvcs assoc'd w/ a User, returns vector?
 
-private:
-	bool yesorno();
 };
 
 // Provider class, is a user
@@ -46,12 +45,6 @@ public:
 	int memberID_Verify();
 	//Requirements document: 4.3.3 Logging a Service:
 	int logService();
-
-
-
-protected:
-
-private:
 
 };
 
