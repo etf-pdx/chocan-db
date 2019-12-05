@@ -143,23 +143,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				AddMember(To_Add, database);
 			break;
 
-        case 'S':
-            std::cout << "Enter service name:\n";
-            std::cin >> user_input;
-            std::string s_name = new char[strlen(user_input.c_str()) + 1];
-            std::cin.ignore(MAX_SVC_NAME, '\n');
-            int svc_code = 0;
-            std::cout << "Enter service code:\n";
-            std::cin >> svc_code;
-            std::cin.ignore(100,'\n');
-            float fee;
-            std::cout << "Enter service fee:\n";
-            std::cin >> fee;
-            std::cin.ignore(100,'\n');
-            int error = 0;
-            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
-            break;
-
 		case 'E':
 			IDnum = 0;
 		    wrongEditID:
@@ -204,6 +187,23 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Exiting Interactive Mode. . .\n\n";
 			isInteractive = false;
 			break;
+
+        case 'S':
+            std::cout << "Enter service name:\n";
+            std::cin >> user_input;
+            std::string s_name = new char[strlen(user_input.c_str()) + 1];
+            std::cin.ignore(MAX_SVC_NAME, '\n');
+            int svc_code = 0;
+            std::cout << "Enter service code:\n";
+            std::cin >> svc_code;
+            std::cin.ignore(100,'\n');
+            float fee;
+            std::cout << "Enter service fee:\n";
+            std::cin >> fee;
+            std::cin.ignore(100,'\n');
+            int error = 0;
+            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
+            break;
 
 		default:
 			std::cout << "If you are reading this prompt, please let the dev team know\n\n";
