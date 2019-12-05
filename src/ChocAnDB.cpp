@@ -145,6 +145,7 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
 int ReNewServ(int MembID, int &RetInt){
     RetInt = 0;
 
+    return 0;
 }
 
 //add a service to a member

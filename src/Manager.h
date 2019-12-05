@@ -1,5 +1,6 @@
 #include "User.h"
 #include <string>
+#include <fstream>
 
 class Manager: public Operator
 {
@@ -11,6 +12,8 @@ public:
 
 	int OptionSelect(ChocAnDB & database);
 	int EnterInteractiveMode();
+
+	int Write_Report(int ID);
 
 protected:
     int InteractiveMode(ChocAnDB & database);

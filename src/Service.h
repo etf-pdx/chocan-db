@@ -13,7 +13,6 @@ public:
 
 	int display();
     char* getName(int code);
-	int validateDate(char* provided_date);
 
 protected:
 	char* service_name;
@@ -24,7 +23,4 @@ protected:
 	int providerID;
 	float service_fee;
 	char* comments;
-
-    //void destroy(Service* current);
-    // destroy() unnecessary if we don't have a Service::next pointer
 };

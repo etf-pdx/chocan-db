@@ -114,28 +114,24 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			
 			std::cout << "Enter User's NAME: ";
 			std::cin >> user_input;
-			To_Add.name = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.name, user_input.c_str());
+			To_Add.name = user_input;
 			std::cin.ignore(MAX_NAME, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> user_input;
-			To_Add.address = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.address, user_input.c_str());
+			To_Add.address = user_input;
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin >> user_input;
-			To_Add.city = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.city, user_input.c_str());
+			To_Add.city = user_input;
 			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
 			std::cin >> user_input;
-			To_Add.state = new char[strlen(user_input.c_str()) + 1];
-			strcpy(To_Add.state, user_input.c_str());
+			To_Add.state = user_input;
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
@@ -241,4 +237,24 @@ int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 	result = database.AddUser(type, To_Add, retInt);
 	return result;
 	
+}
+
+int Manager::Write_Report(int ID)
+{
+	std::ofstream out;
+
+	out.open("ManagerReport.txt");
+	out << ("Testing writing to filen\n");
+
+	// Get Manager
+	int RetInt = 0;
+	ChocAnDB* database = new ChocAnDB(RetInt);
+	ident found = database->GetUser('g', ID, RetInt);
+	// 
+
+	// Get Members under the manager
+		// Get all Services under that Members before getting the next member
+
+	out.close();
+	return 0;
 }
