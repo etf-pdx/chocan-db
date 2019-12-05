@@ -84,7 +84,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		std::cout << "\n\tAdd a user\t\t\t\t(Enter 'A')\n";
 		std::cout << "\tEdit a user\t\t\t\t(Enter 'E')\n";
 		std::cout << "\tRemove a user\t\t\t(Enter 'R')\n";
-		std::cout << "\tAdd a new service\t\t\t(Enter 'S')\n";
+		std::cout << "\tAdd a new service\t\t(Enter 'S')\n";
 		std::cout << "\tExit interactive mode\t(Enter 'X')\n";
 		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
@@ -100,6 +100,12 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			choice = toupper(choice);
 		}
 
+		bool valid = false;
+		int svc_code = 0;
+		float fee = 0.0;
+		int error = 0;
+		std::string s_name;
+
 		switch (choice)
 		{
 		case 'A':
@@ -109,6 +115,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Enter User's NAME: ";
 			std::cin >> user_input;
 			To_Add.name = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.name, user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 
 			To_Add.number = 0;
@@ -116,16 +123,19 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> user_input;
 			To_Add.address = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.address, user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin >> user_input;
 			To_Add.city = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.city, user_input.c_str());
 			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
 			std::cin >> user_input;
 			To_Add.state = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.state, user_input.c_str());
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
@@ -143,67 +153,62 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				AddMember(To_Add, database);
 			break;
 
-        case 'S':
-            std::cout << "Enter service name:\n";
-            std::cin >> user_input;
-            std::string s_name = new char[strlen(user_input.c_str()) + 1];
-            std::cin.ignore(MAX_SVC_NAME, '\n');
-            int svc_code = 0;
-            std::cout << "Enter service code:\n";
-            std::cin >> svc_code;
-            std::cin.ignore(100,'\n');
-            float fee;
-            std::cout << "Enter service fee:\n";
-            std::cin >> fee;
-            std::cin.ignore(100,'\n');
-            int error = 0;
-            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
-            break;
-
 		case 'E':
 			IDnum = 0;
-		    wrongEditID:
-            {
-                std::cout << "Enter an ID for edit: ";
-                while (!isdigit(std::cin.peek())) {
-                    std::cout << "Is not a number.\n";
-                    std::cin.ignore(100, '\n');
-                }
-                std::cin >> IDnum;
-                std::cin.ignore(100, '\n');
-                if (IDnum <= 0 || IDnum > MAX_ID) {
-                    std::cout << "Invalid ID Number.\n";
-                    goto wrongEditID;
-                }
-            }
-			// TODO: Edit shenanigans here
-			
+			do
+			{
+				std::cout << "Enter an ID for edit: ";
+				if(!isdigit(std::cin.peek()))
+					std::cout << "Is not a number.\n";
+				else
+				{
+					std::cin >> IDnum;
+					if (IDnum <= 0 || IDnum > MAX_ID)
+						std::cout << "Is not a valid ID.\n";
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);
 			break;
+
 		case 'R':
 			IDnum = 0;
-		    wrongRemoveID:
-		    {
-		        std::cout << "Enter an ID to remove: ";
-		        while (!isdigit(std::cin.peek()))
-		        {
-		            std::cout << "Is not a number.\n";
-		            std::cin.ignore(100, '\n');
-		        }
-		        std::cin >> IDnum;
-		        std::cin.ignore(100, '\n');
-		        if (IDnum <= 0 || IDnum > MAX_ID)
-		        {
-		            std::cout << "Invalid ID Number.\n";
-		            goto wrongRemoveID;
-		        }
-            }
-			// TODO: Remove shenanigans here
+			do
+			{
+				std::cout << "Enter an ID for edit: ";
+				if (!isdigit(std::cin.peek()))
+					std::cout << "Is not a number.\n";
+				else
+				{
+					std::cin >> IDnum;
+					if (IDnum <= 0 || IDnum > MAX_ID)
+						std::cout << "Is not a valid ID.\n";
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);
 			break;
 
 		case 'X':
 			std::cout << "Exiting Interactive Mode. . .\n\n";
 			isInteractive = false;
 			break;
+
+        case 'S':
+            std::cout << "Enter service name:\n";
+            std::cin >> user_input;
+            s_name = new char[strlen(user_input.c_str()) + 1];
+            std::cin.ignore(MAX_SVC_NAME, '\n');
+            std::cout << "Enter service code:\n";
+            std::cin >> svc_code;
+            std::cin.ignore(100,'\n');
+            std::cout << "Enter service fee:\n";
+            std::cin >> fee;
+            std::cin.ignore(100,'\n');
+            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
+            break;
 
 		default:
 			std::cout << "If you are reading this prompt, please let the dev team know\n\n";
