@@ -1,3 +1,6 @@
+#ifndef SERVICE_H
+#define SERVICE_H
+
 // Header file for services
 
 #include <iostream>
@@ -31,3 +34,5 @@ protected:
 	float service_fee;
 	char* comments;
 };
+
+#endif
