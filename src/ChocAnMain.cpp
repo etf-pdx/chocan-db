@@ -206,7 +206,7 @@ int providerMenu(int ID) {
 		}
 		if (choice == 'D') {    // Provider directory
 			cout << "Placeholder.. D selected.\n";
-			displayProviderDirectory();
+			CurrentProvider->displayProviderDirectory();
 		}
 	} while (choice != 'X');
 	return 0;
@@ -388,10 +388,6 @@ int logService(Provider & currProv) {
 	//return 0;
 	// TODO: Implement int validateMemberID(int memID). Return: -1==invalid, 0==suspended, 1==valid
 //}
-
-void displayProviderDirectory() {
-	// TODO: Implement provider directory: service names, service codes, fees
-}
 
 //tsw- make sure user inputs a well formatted date
 //edge cases left unchecked- wont prevent 31 days in jan for example
