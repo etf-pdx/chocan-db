@@ -142,6 +142,11 @@ int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     return SVnum;
 }
 
+int ReNewServ(int MembID, int &RetInt){
+    RetInt = 0;
+
+}
+
 //add a service to a member
 int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *datetime, int &RetInt) {
     RetInt = 0;
@@ -176,14 +181,12 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
     return DB_OK;
 }
 
-
-
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     std::cout << "CALLING DATABASE:\t";
     RetInt = DB_OK;
     char buff[1024];
     ident *data = new ident;
-    int *ID = new int (-1);
+    int *ID = new int(-1);
     char *Stmt;
     switch (type){
         case 'm':
@@ -192,6 +195,8 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             strcpy(Stmt,buff);
 
             RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            if(!data->number)
+                RetInt = MEMBER_FAILED;
             delete(Stmt);
             if (RetInt)
                 return *data;
