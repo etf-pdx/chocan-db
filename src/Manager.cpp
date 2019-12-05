@@ -136,10 +136,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
             std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
             std::cout << "$";
             std::cin >> member_type;
-
-			if (member_type == 'p')	// Add a Provider
+            member_type = toupper(member_type);
+			if (member_type == 'P')	// Add a Provider
 				AddProvider(To_Add, database);
-			else if (member_type == 'm')	// Add a Member
+			else if (member_type == 'M')	// Add a Member
 				AddMember(To_Add, database);
 			break;
 
