@@ -42,14 +42,15 @@ int main()
 
 
 	// Step 3: Assert
-			Assert::AreEqual("Name", goodData->getName());
-			Assert::AreEqual("123456789", goodData->getID());
-			Assert::AreEqual("Address, goodData->getAddress());
-			Assert::AreEqual, goodData->getNumber());
-	
+		assert(emptyData == NULL);
+			assert(goodData != NULL);
+			assert(badData == NULL);				// Exception handler requires implementation in Constructor
+			assert(!goodData->display());
+			assert(badData->display());
+			assert(emptyData->display());
 
 	// Cleaning Up
-	if (GoodData)
+	if (goodData)
 		delete GoodData;
 	if (NextData)
 		delete NextData;

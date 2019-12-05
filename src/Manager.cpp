@@ -16,7 +16,7 @@ Manager::~Manager() { }
 
 
 // List of options available to manager
-int Manager::OptionSelect(ChocAnDB & database)
+/*int Manager::OptionSelect(ChocAnDB & database)
 {
 	int choice;
 
@@ -38,12 +38,12 @@ int Manager::OptionSelect(ChocAnDB & database)
 	switch (choice)
 	{
 	case 'R':
-		/* Generate Report Here
+		 Generate Report Here
 		 *	1. Get operator ID Number
 		 *	2. Run that class's report
 		 *	3. ???
 		 *	4. Profit
-		 */
+		
 		break;
 	case 'I':
 		InteractiveMode(database);
@@ -53,7 +53,7 @@ int Manager::OptionSelect(ChocAnDB & database)
 	}
 	return 0;
 }
-
+*/
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -74,10 +74,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	int IDnum;
 	bool isInteractive = true;
 	std::string user_input;
-	/*
-	 * Entering interactive mode
-	 * Prompt for options within interactive mode
-	 */
+	
+	 // Entering interactive mode
+	 // Prompt for options within interactive mode
+	 
 	std::cout << " You can:";
 	while (isInteractive == true)
 	{
@@ -114,24 +114,28 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			
 			std::cout << "Enter User's NAME: ";
 			std::cin >> user_input;
-			To_Add.name = user_input;
+			To_Add.name = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.name, user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> user_input;
-			To_Add.address = user_input;
+			To_Add.address = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.address, user_input.c_str());
 			std::cin.ignore(MAX_NAME, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin >> user_input;
-			To_Add.city = user_input;
+			To_Add.city = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.city, user_input.c_str());
 			std::cin.ignore(MAX_CITY, '\n');
 			
 			std::cout << "Enter User's STATE: ";
 			std::cin >> user_input;
-			To_Add.state = user_input;
+			To_Add.state = new char[strlen(user_input.c_str()) + 1];
+			strcpy(To_Add.state, user_input.c_str());
 			std::cin.ignore(2, '\n');
 			
 			std::cout << "Enter User's ZIP CODE: ";
