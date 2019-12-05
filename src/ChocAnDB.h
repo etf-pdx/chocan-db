@@ -30,7 +30,7 @@ public:
 
     //int ModUser();
     //int RmUser();
-    int AddServ(int ServCD, char* ServNm, float fee, int &RetInt);
+    int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
     int AddRecd(ident &UserID, int ProvID, int ServCD, char* comm, char* datetime, int &RetInt);
     /*Add a sevice to a memeber
      * Date of service format should be "YYYY-MM-DD"
