@@ -81,12 +81,6 @@ int Provider::Get_Report(int ID)
 	return 0;
 }
 
-int Provider::Write_Report(int ID)
-{
-    // TODO: Write the provider report to a file, if DB doesn't do this already
-    return 0;
-}
-
 int Provider::validateMemberID(int Member_ID) const
 {
     // TODO: Query DB if Member_ID is invalid (return -1), active (return ID#) or inactive (return 0). Delete 'if (Member_ID)' statements.
