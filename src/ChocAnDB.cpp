@@ -96,7 +96,7 @@ char *ChocAnDB::prepUser(char type, ident UserID) {
                   "    )"
                   "        VALUES ("
                   "        '%s','%s','%s','%s','%d');",
-            UserID.name, UserID.address, UserID.city, UserID.state, UserID.zip);
+            UserID.name.c_str(), UserID.address.c_str(), UserID.city.c_str(), UserID.state.c_str(), UserID.zip);
     switch (type) {
         case 'm' :
             ret = new char[strlen(Stmt) + 19];
@@ -162,7 +162,7 @@ int ChocAnDB::AddRecd(ident &UserID, int ProvID, int ServCD, char *comm, char *d
                   "DATETIME('%s'),"
                   "CURRENT_DATE,"
                   "'%d','%d','%s','%d','%s');",
-            datetime, ServCD, ProvID, UserID.name, UserID.number, comm);
+            datetime, ServCD, ProvID, UserID.name.c_str(), UserID.number, comm);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
