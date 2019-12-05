@@ -16,6 +16,8 @@ public:
     virtual int Get_Report(int ID) = 0;
     virtual int Write_Report(int ID) = 0;
 
+	bool dateFormatCheck(std::string input_date);
+
 protected:
 	int Display_Service(Service*);
 
@@ -34,12 +36,20 @@ public:
 
 	int Get_Report(int ID);
 	int Write_Report(int ID);
-	int validateMemberID(int Member_ID) const;
+
+	// Requirements Doc: 4.3.1 Requesting a Provider Directory:
 	static void displayProviderDirectory();
-    int matchProviderDirectory(int serviceCode);
+	// Requirements Doc: 4.3.2 Requesting ID Verification:
+	int memberID_Verify();
+	//Requirements document: 4.3.3 Logging a Service:
+	int logService();
+
+
 
 protected:
 
+private:
+	bool yesorno();
 };
 
 // Member class, is a user
