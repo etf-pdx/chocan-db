@@ -219,7 +219,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, char *comm, char *date
                   "MEMBER_NAME,"
                   "COMMENT)"
                   "VALUES ("
-                  "DATETIME(),"
+                  "DATETIME('%s'),"
                   "CURRENT_DATE,"
                   "'%d','%d',"
                   "(SELECT NAME FROM PROVIDER WHERE PROVIDER_ID = '%d'),'%d',"

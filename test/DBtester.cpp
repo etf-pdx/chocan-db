@@ -17,10 +17,10 @@ DBtester::DBtester() {
     HappyID.state = "HP";
     HappyID.zip = 73137;
     SadID.number = NULL;
-    SadID.name = NULL;
-    SadID.address = NULL;
-    SadID.city = NULL;
-    SadID.state = NULL;
+    SadID.name = "\0";
+    SadID.address = "\0";
+    SadID.city = "\0";
+    SadID.state = "\0";
     SadID.zip = NULL;
     Stmt = NULL;
 }
@@ -80,7 +80,7 @@ int DBtester::test(){
 
     //Create a record
     HappyID.number = 300000001;
-    DB->AddRecd(HappyID,200000001,598470,"Relaxing","2019-11-11",RetInt);
+    DB->AddRecd(HappyID.number,200000001,598470,"Relaxing","2019-11-11",RetInt);
     if (RetInt == 0)
         fprintf(log,"PASSED DATABASE ADD RECORD: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     else
@@ -102,7 +102,7 @@ int DBtester::test(){
         fprintf(log,"FAILED DATABASE LOOK UP: %02d:%02d:%02d\t ERRORCODE: %d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec, RetInt);
 
     //Retreieve service list
-    Stmt = DB->ProvDir(RetInt);
+    DB->ProvDir(RetInt);
     if (RetInt == 0) {
         fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
         fprintf(log, "\t--RETRIEVED service list : \n%s\n", Stmt);
