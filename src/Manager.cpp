@@ -149,42 +149,41 @@ int Manager::InteractiveMode(ChocAnDB & database)
 
 		case 'E':
 			IDnum = 0;
-		    wrongEditID:
-            {
-                std::cout << "Enter an ID for edit: ";
-                while (!isdigit(std::cin.peek())) {
-                    std::cout << "Is not a number.\n";
-                    std::cin.ignore(100, '\n');
-                }
-                std::cin >> IDnum;
-                std::cin.ignore(100, '\n');
-                if (IDnum <= 0 || IDnum > MAX_ID) {
-                    std::cout << "Invalid ID Number.\n";
-                    goto wrongEditID;
-                }
-            }
-			// TODO: Edit shenanigans here
-			
+			bool valid = false;
+			do
+			{
+				std::cout << "Enter an ID for edit: ";
+				if(!isdigit(std::cin.peek()))
+					std::cout << "Is not a number.\n";
+				else
+				{
+					std::cin >> IDnum;
+					if (IDnum <= 0 || IDnum > MAX_ID)
+						std::cout << "Is not a valid ID.\n";
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);
 			break;
 		case 'R':
 			IDnum = 0;
-		    wrongRemoveID:
-		    {
-		        std::cout << "Enter an ID to remove: ";
-		        while (!isdigit(std::cin.peek()))
-		        {
-		            std::cout << "Is not a number.\n";
-		            std::cin.ignore(100, '\n');
-		        }
-		        std::cin >> IDnum;
-		        std::cin.ignore(100, '\n');
-		        if (IDnum <= 0 || IDnum > MAX_ID)
-		        {
-		            std::cout << "Invalid ID Number.\n";
-		            goto wrongRemoveID;
-		        }
-            }
-			// TODO: Remove shenanigans here
+			bool valid = false;
+			do
+			{
+				std::cout << "Enter an ID for edit: ";
+				if (!isdigit(std::cin.peek()))
+					std::cout << "Is not a number.\n";
+				else
+				{
+					std::cin >> IDnum;
+					if (IDnum <= 0 || IDnum > MAX_ID)
+						std::cout << "Is not a valid ID.\n";
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);
 			break;
 
 		case 'X':
