@@ -30,10 +30,7 @@ public:
 
     //int ModUser();
     //int RmUser();
-    int AddServ(int ServCD, char* ServNm, float fee, int &RetInt);
-    /*Add a service to the Provider directory.
-     *
-     */
+    int ReNewServ(int MembID,int &RetInt);
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
     /*
      *

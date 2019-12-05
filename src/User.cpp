@@ -102,7 +102,7 @@ int Provider::validateMemberID(int Member_ID) const
 void Provider::displayProviderDirectory() {
     int RetInt = 0;
     ChocAnDB * db = new ChocAnDB(RetInt);
-    char * directory = db->ProvDir(RetInt);
+    Form * directory = db->ProvDir(RetInt);
     std::cout << directory;
 }
 
