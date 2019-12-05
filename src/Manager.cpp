@@ -81,9 +81,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	std::cout << " You can:";
 	while (isInteractive == true)
 	{
-		std::cout << "\n\tAdd a user\t\t\t\t(Enter'A')\n";
+		std::cout << "\n\tAdd a user\t\t\t\t(Enter 'A')\n";
 		std::cout << "\tEdit a user\t\t\t\t(Enter 'E')\n";
 		std::cout << "\tRemove a user\t\t\t(Enter 'R')\n";
+		std::cout << "\tAdd a new service\t\t\t(Enter 'S')\n";
 		std::cout << "\tExit interactive mode\t(Enter 'X')\n";
 		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
@@ -92,7 +93,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		choice = toupper(choice);
 
 		while (choice != 'A' && choice != 'E'
-			&& choice != 'R' && choice != 'X') {
+			&& choice != 'R' && choice != 'X' && choice != 'S') {
 			std::cout << "\nPlease select from the above options.\n";
 			std::cin >> choice;
 			std::cin.ignore(100, '\n');
@@ -141,47 +142,69 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			else if (member_type == 'm')	// Add a Member
 				AddMember(To_Add, database);
 			break;
+
+        case 'S':
+            std::cout << "Enter service name:\n";
+            std::cin >> user_input;
+            std::string s_name = new char[strlen(user_input.c_str()) + 1];
+            std::cin.ignore(MAX_SVC_NAME, '\n');
+            int svc_code = 0;
+            std::cout << "Enter service code:\n";
+            std::cin >> svc_code;
+            std::cin.ignore(100,'\n');
+            float fee;
+            std::cout << "Enter service fee:\n";
+            std::cin >> fee;
+            std::cin.ignore(100,'\n');
+            int error = 0;
+            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
+            break;
+
 		case 'E':
 			IDnum = 0;
-		wrongEditID:
-			std::cout << "Enter an ID for edit: ";
-			while (!isdigit(std::cin.peek()))
-			{
-				std::cout << "Is not a number.\n";
-				std::cin.ignore(100, '\n');
-			}
-			std::cin >> IDnum;
-			std::cin.ignore(100, '\n');
-			if (IDnum <= 0 || IDnum > MAX_ID)
-			{
-				std::cout << "Invalid ID Number.\n";
-				goto wrongEditID;
-			}
+		    wrongEditID:
+            {
+                std::cout << "Enter an ID for edit: ";
+                while (!isdigit(std::cin.peek())) {
+                    std::cout << "Is not a number.\n";
+                    std::cin.ignore(100, '\n');
+                }
+                std::cin >> IDnum;
+                std::cin.ignore(100, '\n');
+                if (IDnum <= 0 || IDnum > MAX_ID) {
+                    std::cout << "Invalid ID Number.\n";
+                    goto wrongEditID;
+                }
+            }
 			// TODO: Edit shenanigans here
 			
 			break;
 		case 'R':
 			IDnum = 0;
-		wrongRemoveID:
-			std::cout << "Enter an ID to remove: ";
-			while (!isdigit(std::cin.peek()))
-			{
-				std::cout << "Is not a number.\n";
-				std::cin.ignore(100, '\n');
-			}
-			std::cin >> IDnum;
-			std::cin.ignore(100, '\n');
-			if (IDnum <= 0 || IDnum > MAX_ID)
-			{
-				std::cout << "Invalid ID Number.\n";
-				goto wrongRemoveID;
-			}
+		    wrongRemoveID:
+		    {
+		        std::cout << "Enter an ID to remove: ";
+		        while (!isdigit(std::cin.peek()))
+		        {
+		            std::cout << "Is not a number.\n";
+		            std::cin.ignore(100, '\n');
+		        }
+		        std::cin >> IDnum;
+		        std::cin.ignore(100, '\n');
+		        if (IDnum <= 0 || IDnum > MAX_ID)
+		        {
+		            std::cout << "Invalid ID Number.\n";
+		            goto wrongRemoveID;
+		        }
+            }
 			// TODO: Remove shenanigans here
 			break;
+
 		case 'X':
 			std::cout << "Exiting Interactive Mode. . .\n\n";
 			isInteractive = false;
 			break;
+
 		default:
 			std::cout << "If you are reading this prompt, please let the dev team know\n\n";
 			break;

@@ -120,7 +120,7 @@ char *ChocAnDB::prepUser(char type, ident UserID) {
     return ret;
 }
 
-int ChocAnDB::AddServ(int ServCD, char *ServNm, float fee, int &RetInt) {
+int ChocAnDB::AddServ(int ServCD, const char *ServNm, float fee, int &RetInt) {
     RetInt = DB_OK;
     char Buff[1024];
     char *Stmt = nullptr;
