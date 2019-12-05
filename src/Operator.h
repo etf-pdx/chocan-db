@@ -1,3 +1,5 @@
+#ifndef OPERATOR_H
+#define OPERATOR_H
 // Header file for operator
 #include <iostream>
 #include <cstring>
@@ -99,3 +101,5 @@ protected:
 
 	ident ID;
 };
+
+#endif

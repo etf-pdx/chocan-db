@@ -1,6 +1,8 @@
 //
 //Static functions used to write back data from SQL DB
 //
+#include <stdio.h>
+#include "Operator.h"
 
 //Test template
 
