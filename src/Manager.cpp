@@ -201,8 +201,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					
 					//make sure its len = 1
 					do {
-						std::cin >> user_input;
-						std::cin.ignore(INPUT_BUFFER, '\n');
+						
+						
+						std::getline(std::cin, user_input, '\n');
+						To_Add.name.resize(INPUT_BUFFER);
 						if (strlen(user_input.c_str()) != 1) {
 							std::cout << "Input is not 1 char in length (and it should be)\n";
 						}
@@ -218,34 +220,57 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				if (choice == 'N') 
 				{
 					std::cout << "Enter User's NAME: ";
-					std::cin >> To_Add.name;
-					std::cin.ignore(MAX_NAME, '\n');
+					std::getline(std::cin, To_Add.name, '\n');
+					To_Add.name.resize(MAX_NAME);
 
 				}
 				if (choice == 'A') 
 				{
+
 					std::cout << "Enter User's ADDRESS: ";
-					std::cin >> To_Add.address;
-					std::cin.ignore(MAX_NAME, '\n');
+					std::getline(std::cin, To_Add.address, '\n');
+					To_Add.address.resize(200);
 				}
-				if (choice == 'C') {
+				if (choice == 'C') 
+				{
+					
 					std::cout << "Enter user's CITY: ";
-					std::cin >> To_Add.city;
-					std::cin.ignore(MAX_CITY, '\n');
+					std::getline(std::cin, To_Add.city, '\n');
+					To_Add.city.resize(MAX_CITY);
 
 				}
 				if (choice == 'S') 
 				{
+					
 					std::cout << "Enter User's STATE as intials (XX): ";
-					std::cin >> To_Add.state;
-					std::cin.ignore(2, '\n');
+					std::getline(std::cin, To_Add.state, '\n');
+					To_Add.state.resize(2);
 
 				}
 				if (choice == 'Z')
 				{
-					std::cout << "Enter User's ZIP CODE: ";
-					std::cin >> To_Add.zip;
-					std::cin.ignore(5, '\n');
+
+					do
+					{
+						std::cout << "Enter User's ZIP CODE: ";
+						if (!isdigit(std::cin.peek()))
+						{
+							valid = false;
+							std::cout << "ERROR: Not a number\n\n";
+						}
+						else
+						{
+							std::cin >> To_Add.zip;
+							if (To_Add.zip < 97000 || To_Add.zip > 97999)
+							{
+								valid = false;
+								std::cout << "ERROR: Invalid Zip Code\n\n";
+							}
+							else
+								valid = true;
+						}
+						std::cin.ignore(100, '\n');
+					} while (valid == false);
 				}
 			} while (choice != 'X');
 			std::cout << To_Add.name;
