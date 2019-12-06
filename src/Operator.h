@@ -44,15 +44,15 @@ struct ident
 // The Summary report is a different thing and does not use a ServiceReport.
 
 // IS THIS FIELD USED IN THE:  MemberReport // ProviderReport
-struct ServiceReport {			//      ?       //      ?
-    int serviceCode;			//      NO      //      YES
+struct ServiceReport {		//      ?       //      ?
+    int serviceCode;		//      NO      //      YES
     std::string memberName;     //      NO      //      YES
-    int memberNumber;			//      NO      //      YES
+    int memberNumber;		//      NO      //      YES
     std::string providerName;   //      YES     //      NO
-    int providerNumber;			//      YES     //      NO
+    int providerNumber;		//      YES     //      NO
     std::string dateProvided;   //      YES     //      YES
     std::string dateLogged;     //      NO      //      YES
-    float fee;					//      NO      //      YES
+    float fee;			//      NO      //      YES
 };
 using ServRep = std::vector<ServiceReport*>;
 

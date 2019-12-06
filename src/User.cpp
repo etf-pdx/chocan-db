@@ -29,6 +29,8 @@ User::~User()
 		delete My_Service;
 }
 
+
+// 5.5.1    Member Reports
 int User::Get_Report(int ID)
 { 
 	return 0;
@@ -69,15 +71,33 @@ Provider::~Provider()
 
 int Provider::Get_Report(int ID)
 {
+/*
 	// Return -1 for error
+        //this should have already been checked
 	if (ID < 0)
-		return -1;
+        	return -1;
 
+ 	//tsw- tbh not sure what this is for
 	displayID(ID);
-	//Display_Service(My_Service);
+	Display_Service(My_Service);
     My_Service->display();
     if (!Write_Report(ID))
         return -1;
+    int RetInt = 0;
+    ChocAnDB *db = new ChocAnDB(RetInt);
+    ServRep *info; 
+    info = db->GetServRep; 
+
+    std::cout << "SERVICE SUMMARY: " << info-> << std::endl;
+    out << "SERVICE CODE: " << var << std::endl;
+    out << "DATE PROVIDED: " << var << std::endl;
+    out << "LOGGED DATE: " << var << std::endl;
+    out << "PROVIDED FOR: " << var << std::endl;
+    out << "PROVIDED BY: " << var << std::endl;
+    out << "FEE: " << var << std::endl;
+    out << "COMMENTS: " << var << std::endl << std::endl;
+*/
+
     return 0;
 }
 
@@ -180,7 +200,16 @@ int Member::Get_Report(int ID)
 
 int Member::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
+    // TODO: Write the member report to a file. If DB does this, make sure it's called in Provider::Get_Report()
+/*
+	//query to get all services matching id between a week ago and today
+        int RetInt = 0;
+        ServRep* 
+	ChocAnDB* db = new ChocAnDB(RetInt);
+
+ 
+        //write to file
+*/ 
     return 0;
 }
 
