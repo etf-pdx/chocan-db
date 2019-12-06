@@ -84,9 +84,18 @@ int Provider::Get_Report(int ID)
 int Provider::Write_Report(int ID)
 {
     // TODO: Write the provider report to a file, if DB doesn't do this already
+	int RetInt = 0;
+	ChocAnDB* db = new ChocAnDB(RetInt);
+	ServRep* directory = db->GetServRep('p', ID, RetInt);
+	for (auto var : *directory) {
+		std::cout << var << std::endl;
+	}
+	std::cout << std::endl;
+	delete db;
     return 0;
 }
 
+// Display all of the services of the current provider
 void Provider::displayProviderDirectory() {
     int RetInt = 0;
     ChocAnDB * db = new ChocAnDB(RetInt);
@@ -100,15 +109,9 @@ void Provider::displayProviderDirectory() {
 
 // Implementation of Member class
 // Default Member constructor
-Member::Member(): User()
-{
+Member::Member(): User(){}
 
-}
-
-Member::Member(int ID): User(ID)
-{
-
-}
+Member::Member(int ID): User(ID){}
 
 Member::Member(Member& To_Add): User(To_Add)
 {
@@ -126,10 +129,7 @@ Member::Member(ident& toAdd)
 }
 
 //Destructor
-Member::~Member()
-{
-
-}
+Member::~Member(){}
 
 int Member::Get_Report(int ID)
 {
@@ -162,7 +162,7 @@ int Provider::memberID_Verify() {
 	int ID, memCheck;
 	std::string user_input;
 	ident sql_ret;
-	int db_RetInt, query_RetInt = 0;
+	int db_RetInt = 0, query_RetInt = 0;
 	ChocAnDB* db = new ChocAnDB(db_RetInt);
 
 	// Get the member's ID:

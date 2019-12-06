@@ -10,3 +10,8 @@
 
 # User-specific files
 *.obj
+/out/build/x64-Debug/.cmake/api/v1/reply
+/out/build/x64-Debug/CMakeFiles
+/out/build/x64-Debug/Testing/Temporary
+/out/build/x64-Debug/.cmake/api/v1/query/client-MicrosoftVS
+/out/build/x64-Debug

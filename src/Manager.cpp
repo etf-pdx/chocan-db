@@ -81,11 +81,11 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	std::cout << " You can:";
 	while (isInteractive == true)
 	{
-		std::cout << "\n\tAdd a user\t\t\t\t(Enter 'A')\n";
-		std::cout << "\tEdit a user\t\t\t\t(Enter 'E')\n";
+		std::cout << "\n\tAdd a user\t\t\t(Enter 'A')\n";
+		std::cout << "\tEdit a user\t\t\t(Enter 'E')\n";
 		std::cout << "\tRemove a user\t\t\t(Enter 'R')\n";
-		std::cout << "\tAdd a new service\t\t(Enter 'S')\n";
-		std::cout << "\tExit interactive mode\t(Enter 'X')\n";
+		std::cout << "\tAdd a new service key\t\t(Enter 'S')\n";
+		std::cout << "\tExit interactive mode\t\t(Enter 'X')\n";
 		std::cout << "$";	// To prompt user to enter, common practice for command or console program
 
 		std::cin >> choice;
@@ -106,7 +106,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 		float fee = 0.0;
 		int error = 0;
 		std::string s_name;
-        char type = 'm';
+        char type = 'a';
 
         switch (choice)
 		{
@@ -116,37 +116,60 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			
 			std::cout << "Enter User's NAME: ";
 			std::cin >> To_Add.name;
-			std::cin.ignore(MAX_NAME, '\n');
+			To_Add.name.resize(MAX_NAME);
+			std::cin.ignore(100, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
 			std::cin >> To_Add.address;
-			std::cin.ignore(MAX_NAME, '\n');
+			To_Add.address.resize(100);
+			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter user's CITY: ";
 			std::cin >> To_Add.city;
-			std::cin.ignore(MAX_CITY, '\n');
-			
+			To_Add.city.resize(50);
+			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
 			std::cin >> To_Add.state;
-			std::cin.ignore(2, '\n');
+			To_Add.name.resize(2);
+			std::cin.ignore(100, '\n');
 			
-			std::cout << "Enter User's ZIP CODE: ";
-			std::cin >> To_Add.zip;
-			std::cin.ignore(5, '\n');
+			do
+			{
+				std::cout << "Enter User's ZIP CODE: ";
+				if (!isdigit(std::cin.peek()))
+				{
+					valid = false;
+					std::cout << "ERROR: Not a number\n\n";
+				}
+				else
+				{
+					std::cin >> To_Add.zip;
+					if (To_Add.zip < 97000 || To_Add.zip > 97999)
+					{
+						valid = false;
+						std::cout << "ERROR: Invalid Zip Code\n\n";
+					}
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);
 
 			char member_type;
             std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
             std::cout << "$";
             std::cin >> member_type;
+			std::cin.ignore(100, '\n');
             member_type = toupper(member_type);
 			if (member_type == 'P')	// Add a Provider
 				AddProvider(To_Add, database);
 			else if (member_type == 'M')	// Add a Member
 				AddMember(To_Add, database);
 			break;
+			// ----- END ADD USER -----
 
 		case 'E':
 			IDnum = 0;
@@ -273,17 +296,41 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			break;
 
         case 'S':
-            std::cout << "Enter service name:\n";
-            std::cin >> user_input;
-            s_name = new char[strlen(user_input.c_str()) + 1];
-            std::cin.ignore(MAX_SVC_NAME, '\n');
-            std::cout << "Enter service code:\n";
-            std::cin >> svc_code;
-            std::cin.ignore(100,'\n');
-            std::cout << "Enter service fee:\n";
-            std::cin >> fee;
-            std::cin.ignore(100,'\n');
-            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
+            std::cout << "Enter service type: ";
+			std::getline(std::cin, s_name, '\n');
+			s_name.resize(MAX_SVC_NAME);
+            std::cin.ignore(100, '\n');
+			do
+			{
+				std::cout << "Enter service code: ";
+				if (!isdigit(std::cin.peek()))
+				{
+					std::cout << "ERROR: Not a number\n\n";
+					valid = false;
+				}
+				else
+				{
+					std::cin >> svc_code;
+					if (svc_code <= 0 || svc_code > MAX_SERVICE)
+						std::cout << "ERROR: Invalid Service Fee\n\n";
+					else
+						valid = true;
+				}
+				std::cin.ignore(100, '\n');
+			} while (valid == false);      
+			do
+			{
+				std::cout << "Enter service fee: ";
+				if (!isdigit(std::cin.peek()))
+					std::cout << "ERROR: Not a number\n\n";
+				else
+					std::cin >> fee;
+				std::cin.ignore(100, '\n');
+				if (fee <= 0 || fee > MAX_FEE)
+					std::cout << "ERROR: Invalid Service Fee\n\n";
+			} while (fee <= 0 || fee > MAX_FEE);
+
+            database.AddServ(svc_code, user_input.c_str(), fee, error); // write service to db
             break;
 
 		default:
