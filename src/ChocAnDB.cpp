@@ -51,25 +51,25 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     RetInt = DB_OK;
     char buff[1024];
     int IDnum;
-    char *stmt = prepUser(type, UserID);
+    char *Stmt = prepUser(type, UserID);
     std::cout << "UPDATING DATABASE:";
 
     switch (type) {
         case 'm' :
-            RetInt = sqlite3_exec(DB, stmt, nullptr, nullptr, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MEMBER_FAILED;
             }
-            delete stmt;
+            delete Stmt;
             IDnum = sqlite3_last_insert_rowid(DB);
-            stmt = "\0";
+            Stmt = "\0";
             buff[0] = '\0';
             sprintf(buff, "INSERT INTO STATUS (START_DATE, MONTHS_PAID, MEMBER_ID)"
                           "VALUES (CURRENT_DATE,1,%d);",IDnum);
-            stmt = new char(strlen(buff)+1);
-            strcpy(stmt,buff);
-            RetInt = sqlite3_exec(DB, stmt, nullptr, nullptr, &ErrMsg);
+            Stmt = new char(strlen(buff)+1);
+            strcpy(Stmt,buff);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MEMBER_FAILED;
@@ -77,7 +77,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             break;
 
         case 'p' :
-            RetInt = sqlite3_exec(DB, stmt, nullptr, nullptr, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = PROVIDER_FAILED ;
@@ -85,7 +85,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             IDnum = sqlite3_last_insert_rowid(DB);
             break;
         case 'g':
-            RetInt = sqlite3_exec(DB, stmt, nullptr, nullptr, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
             if (RetInt != DB_OK) {
                 std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MANAGER_FAILED;
@@ -96,13 +96,12 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             return UNDEFINED;
     }
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tID NUMBER:\t" << IDnum << std::endl;
-    delete(stmt);
+    delete(Stmt);
     return IDnum;
 }
 
 int ChocAnDB::ModUser(char type, ident UserID, int &RetInt) {
-    char* Stmt;
-    Stmt = ModPrep(UserID);
+    char* Stmt = ModPrep(UserID);
     switch(type){
         case 'm':
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
