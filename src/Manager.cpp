@@ -118,15 +118,11 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			std::getline(std::cin, To_Add.name, '\n');
 			To_Add.name.resize(MAX_NAME);
 
-			std::cout << "TEST NAME: " << To_Add.name << std::endl;
-
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
 			std::getline(std::cin, To_Add.address, '\n');
 			To_Add.address.resize(200);
-
-			std::cout << "TEST ADDRESS: " << To_Add.address << std::endl;
 
 			std::cout << "Enter user's CITY: ";
 			std::getline(std::cin, To_Add.city, '\n');
@@ -134,7 +130,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
 			std::getline(std::cin, To_Add.state, '\n');
-			To_Add.name.resize(2);
+			To_Add.state.resize(2);
 			
 			do
 			{
@@ -297,9 +293,8 @@ int Manager::InteractiveMode(ChocAnDB & database)
 
         case 'S':
             std::cout << "Enter service type: ";
-			std::cin >> s_name;
-			s_name.resize(MAX_SVC_NAME);
-            std::cin.ignore(100, '\n');
+			std::getline(std::cin, s_name, '\n');
+			s_name.resize(MAX_NAME);
 			do
 			{
 				std::cout << "Enter service code: ";
@@ -330,7 +325,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "ERROR: Invalid Service Fee\n\n";
 			} while (fee <= 0 || fee > MAX_FEE);
 
-            database.AddServ(svc_code, user_input.c_str(), fee, error); // write service to db
+            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
             break;
 
 		default:
