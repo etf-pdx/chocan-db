@@ -96,6 +96,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             return UNDEFINED;
     }
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tID NUMBER:\t" << IDnum << std::endl;
+    delete(stmt);
     return IDnum;
 }
 
