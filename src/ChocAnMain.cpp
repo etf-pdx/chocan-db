@@ -9,18 +9,18 @@
 #include <cctype>
 #include <iostream>
 #include <time.h>
-#include <string>					// tsw- for easy string use
-#include <cctype>					// tsw- to check if char is letter or digit (date format)
+#include <string>	// tsw- for easy string use
+#include <cctype>	// tsw- to check if char is letter or digit (date format)
 #include "Manager.h"
 using namespace std;
 
-int getUserID();								//seperating code into smaller functions for unit testing. functionality unchanged
-int managerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
-int providerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
+int getUserID();		//seperating code into smaller functions for unit testing. functionality unchanged
+int managerMenu(int ID);	//seperating code into smaller functions for unit testing. functionality unchanged
+int providerMenu(int ID);	//seperating code into smaller functions for unit testing. functionality unchanged
 
 int main()
 {
-	int ID;		                // User's ID number, report request ID number
+	int ID;		       // User's ID number, report request ID number
 
 	// Welcome the user
 	cout << "\n\tWelcome to Chocaholics Anonymous.\n";
@@ -36,7 +36,7 @@ int main()
 
 int getUserID() {
 	int ID;
-	string user_input;			// tsw- takes user's input before conv to other type (safer)
+	string user_input;		// tsw- takes user's input before conv to other type (safer)
 
 	// Obtain a valid ID number:
 	ID = -1;
