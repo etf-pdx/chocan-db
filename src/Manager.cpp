@@ -115,26 +115,26 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			char input[MAX_NAME];
 			
 			std::cout << "Enter User's NAME: ";
-			std::cin >> To_Add.name;
+			std::getline(std::cin, To_Add.name, '\n');
 			To_Add.name.resize(MAX_NAME);
-			std::cin.ignore(100, '\n');
+
+			std::cout << "TEST NAME: " << To_Add.name << std::endl;
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin >> To_Add.address;
-			To_Add.address.resize(100);
-			std::cin.ignore(100, '\n');
-			
+			std::getline(std::cin, To_Add.address, '\n');
+			To_Add.address.resize(200);
+
+			std::cout << "TEST ADDRESS: " << To_Add.address << std::endl;
+
 			std::cout << "Enter user's CITY: ";
-			std::cin >> To_Add.city;
-			To_Add.city.resize(50);
-			std::cin.ignore(100, '\n');
+			std::getline(std::cin, To_Add.city, '\n');
+			To_Add.city.resize(MAX_CITY);
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
-			std::cin >> To_Add.state;
+			std::getline(std::cin, To_Add.state, '\n');
 			To_Add.name.resize(2);
-			std::cin.ignore(100, '\n');
 			
 			do
 			{
@@ -297,7 +297,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 
         case 'S':
             std::cout << "Enter service type: ";
-			std::getline(std::cin, s_name, '\n');
+			std::cin >> s_name;
 			s_name.resize(MAX_SVC_NAME);
             std::cin.ignore(100, '\n');
 			do
@@ -312,7 +312,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				{
 					std::cin >> svc_code;
 					if (svc_code <= 0 || svc_code > MAX_SERVICE)
-						std::cout << "ERROR: Invalid Service Fee\n\n";
+						std::cout << "ERROR: Invalid Service code\n\n";
 					else
 						valid = true;
 				}
