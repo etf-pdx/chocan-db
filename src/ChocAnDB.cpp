@@ -434,7 +434,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER ("//If Table does not exist it will be created
+    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER (" //If Table does not exist it will be created
                          "    ID      INTEGER CHECK (ID < 299999999)"
                          "                      primary key AUTOINCREMENT,"                 //Primary key makes ID's unique
                          "    NAME    CHARACTER(25) NOT NULL ,"
@@ -452,7 +452,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *MgmrTB = "create table IF NOT EXISTS MANAGER ("
+    const char *MgmrTB = "create table IF NOT EXISTS MANAGER (" //If Table does not exist it will be created
                          "    ID      INTEGER CHECK (ID < 199999999)"
                          "        primary key autoincrement,"
                          "    NAME    CHARACTER(25) not null,"
@@ -470,7 +470,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *StatTB = "create table IF NOT EXISTS STATUS("
+    const char *StatTB = "create table IF NOT EXISTS STATUS(" //If Table does not exist it will be created
                          "    STATUS_ID        INT PRIMARY KEY     NOT NULL, "
                          "    START_DATE       DATE NOT NULL, "
                          "    MONTHS_PAID      INT,"
@@ -492,7 +492,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"
                          "    FOREIGN KEY(SERVICE_CODE)     REFERENCES SERVICE);";
     
-    const char *ServTB = "create table IF NOT EXISTS SERVICE ("
+    const char *ServTB = "create table IF NOT EXISTS SERVICE (" //If Table does not exist it will be created
                          "    SERVICE_CODE INTEGER NOT NULL "
                          "        primary key,"
                          "    SERVICE_NAME TEXT(20) NOT NULL, "
@@ -500,8 +500,6 @@ int ChocAnDB::OpenDB(int RetInt) {
 
     int exit = DB_OK;
     std::cout << "PREPARING DATABASE:";
-    //trent- error checking? possible ret values for this open func?.
-    //learn how to handle return val in meaningful way for errors
 
     //Open the DB file (new/existing)
     switch (RetInt) {
