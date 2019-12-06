@@ -319,14 +319,6 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
 
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     std::cout << "CALLING DATABASE:\t";
-/*
-    RetInt = DB_OK;
-    char buff[1024];
-    ident *data = new ident;
-    int *ID = new int(-1);
-    char *Stmt;
-
-*/
     std::string Stmt;
     ident *data = new ident;
 
@@ -359,8 +351,8 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
 	    Stmt = "SELECT * FROM MEMBER WHERE ID = " + std::to_string(UserID);
             RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             break;
-/*
         case 'p':
+/*
             Stmt = new char[44];
             sprintf(buff,"SELECT * FROM PROVIDER WHERE ID = %d",UserID);
             strcpy(Stmt,buff);
@@ -373,7 +365,12 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             delete(Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
+*/
+	    Stmt = "SELECT * FROM PROVIDER WHERE ID = " + std::to_string(UserID);
+            RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            break;
         case 'g':
+/*
             Stmt = new char[43];
             sprintf(buff,"SELECT * FROM MANAGER WHERE ID = %d",UserID);
             strcpy(Stmt,buff);
@@ -385,8 +382,10 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
                 RetInt = MANAGER_FAILED;
             delete(Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
-            break;
 */
+	    Stmt = "SELECT * FROM PROVIDER WHERE ID = " + std::to_string(UserID);
+            RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            break;
         default:
             RetInt = UNDEFINED;
     }
