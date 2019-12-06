@@ -391,24 +391,18 @@ Form* ChocAnDB::ProvDir(int &RetInt) {
 }
 
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
-    char* Stmt = nullptr;
-    char* buff = new char('\0');
+    std::string Stmt;
     ServRep *Ret = new ServRep;
     switch(type){
         case 'm':
-            sprintf(buff,"SELECT * FROM RECORD WHERE MEMBER_ID = %d",UserID);
-            Stmt = new char[strlen(buff)+1];
-            strcpy(Stmt,buff);
+            Stmt = "SELECT * FROM RECORD WHERE MEMBER_ID = " + UserID;
             break;
         case 'p':
-            sprintf(buff,"SELECT * FROM RECORD WHERE PROVIDER_ID = %d",UserID);
-            Stmt = new char[strlen(buff)+1];
-            strcpy(Stmt,buff);
-            break;
+            Stmt = "SELECT * FROM RECORD WHERE PROVIDER_ID = " + UserID;
         default:
             return nullptr;
     }
-    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), Ret, &ErrMsg);
+    RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), Ret, &ErrMsg);
     return Ret;
 }
 

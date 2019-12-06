@@ -13,8 +13,8 @@ public:
 	User(User& To_Add);
 	virtual ~User();
 
-    virtual int Get_Report(int ID) = 0;
-    virtual int Write_Report(int ID) = 0;
+        virtual int Get_Report(int ID) = 0;
+        virtual int Write_Report(int ID) = 0;
 
 	bool dateFormatCheck(std::string input_date);
 
