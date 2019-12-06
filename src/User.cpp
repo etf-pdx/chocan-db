@@ -99,28 +99,31 @@ int Provider::Write_Report(int ID)
 		// If Provider ID is not match, delete and move on
 
 		// ----- CURRENTLY WRITING EVERY SERVICE -----
-		std::cout << var << std::endl;
-		if (count == 0)
+		if(count != 0)
+			std::cout << var << std::endl;
+
+		if (count == 1)
 			out << "SERVICE SUMMARY: " << var << std::endl;
-		else if (count == 1)
-			out << "SERVICE CODE: " << var << std::endl;
 		else if (count == 2)
-			out << "DATE PROVIDED: " << var << std::endl;
+			out << "SERVICE CODE: " << var << std::endl;
 		else if (count == 3)
-			out << "LOGGED DATE: " << var << std::endl;
+			out << "DATE PROVIDED: " << var << std::endl;
 		else if (count == 4)
-			out << "PROVIDED FOR: " << var << std::endl;
+			out << "LOGGED DATE: " << var << std::endl;
 		else if (count == 5)
-			out << "PROVIDED BY: " << var << std::endl;
+			out << "PROVIDED FOR: " << var << std::endl;
 		else if (count == 6)
-			out << "FEE: " << var << std::endl;
+			out << "PROVIDED BY: " << var << std::endl;
 		else if (count == 7)
+			out << "FEE: " << var << std::endl;
+		else if (count == 8)
 			out << "COMMENTS: " << var << std::endl << std::endl;
 
 		++count;
-		count = count % 8;
+		count = count % 9;
 	}
 	delete db;
+	delete directory;
 	out.close();
     return 0;
 }

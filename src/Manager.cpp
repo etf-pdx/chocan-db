@@ -397,31 +397,34 @@ int Manager::Write_Report(int ID)
 	// Get Manager
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
-	ident provider = database->GetUser('p', ID, RetInt);
+	Form* directory = database->ProvDir(RetInt);
+	int count = 0;
 
-	// Output provider data to file
-	out << "PROVIDER NAME: " << provider.name << std::endl;
-	out << "ID: " << provider.number << std::endl;
-	out << "ADDRESS: " << provider.address << std::endl;
-	out << "CITY: " << provider.city << std::endl;
-	out << "STATE: " << provider.state << std::endl;
-	out << "ZIP: " << provider.zip << std::endl << std::endl;
+	for (auto var : *directory) {
+		// Input everything into a temp ptr
+		// If Provider ID matched, write it into report
+		// If Provider ID is not match, delete and move on
 
-	// Get service base on providerID
-	ServRep* report;
-	report = database->GetServRep('p', provider.number, RetInt);
-	//ident member = database->GetUser('m', report member id, RetInt);
-    // todo whatever needs to be done here
-	// Get ALL Services for that provider
-	/*
-	 * SERVICE PROVIDED FOR: // member.name
-	 * SERVICE SUMMARY: // service->getName();
-	 * PROVIDED DATE: // service->getProvDate();
-	 * LOGGED DATE: // service->getLogDate();
-	 * FEE: // service->getFee();
-	 * COMMENTS: // service->getComments();
-	 */
+		// ----- CURRENTLY WRITING EVERY SERVICE -----
+		if (count == 0)
+			out << "PROVIDER ID: " << var << std::endl;
+		else if (count == 1)
+			out << "PROVIDER NAME: " << var << std::endl;
+		else if (count == 2)
+			out << "ADDRESS: " << var << std::endl;
+		else if (count == 3)
+			out << "CITY: " << var << std::endl;
+		else if (count == 4)
+			out << "STATE: " << var << std::endl;
+		else if (count == 5)
+			out << "ZIP: " << var << std::endl;
 
+		++count;
+		count = count % 6;
+	}
+
+	delete database;
+	delete directory;
 	out.close();
 	return 0;
 }
