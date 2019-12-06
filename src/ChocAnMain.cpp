@@ -48,11 +48,11 @@ int getUserID() {
 		try {
 			ID = stoi(user_input);
 		}
-		catch (invalid_argument e) {
+		catch (const invalid_argument& e) {
 			cout << "Input was invalid.\n";
 			ID = -1;
 		}
-		catch (out_of_range e) {
+		catch (const out_of_range& e) {
 			cout << "\nInput is out of int's range.\n";
 			ID = -1;
 		}
@@ -105,11 +105,11 @@ int managerMenu(int ID) {
 				try {
 					repID = stoi(user_input);
 				}
-				catch (invalid_argument e) {
+				catch (const invalid_argument& e) {
 					cout << "Invalid input\n";
 					repID = -1;
 				}
-				catch (out_of_range e) {
+				catch (const out_of_range& e) {
 					cout << "\nInput is out of int's range.\n";
 					repID = -1;
 				}
@@ -131,11 +131,11 @@ int managerMenu(int ID) {
 				try {
 					repID = stoi(user_input);
 				}
-				catch (invalid_argument e) {
+				catch (const invalid_argument& e) {
 					cout << "Invalid input\n";
 					repID = -1;
 				}
-				catch (out_of_range e) {
+				catch (const out_of_range& e) {
 					cout << "\nInput is out of int's range.\n";
 					repID = -1;
 				}

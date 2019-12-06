@@ -78,7 +78,7 @@ int Provider::Get_Report(int ID)
     My_Service->display();
     if (!Write_Report(ID))
         return -1;
-	return 0;
+    return 0;
 }
 
 int Provider::Write_Report(int ID)
@@ -192,7 +192,7 @@ int Member::Write_Report(int ID)
 // communicating member status to the user.
 // Requirements Doc: 4.3.2    Requesting ID Verification:
 int Provider::memberID_Verify() {
-	int ID, memCheck;
+	int ID;
 	std::string user_input;
 	ident sql_ret;
 	int db_RetInt = 0, query_RetInt = 0;
@@ -212,11 +212,11 @@ int Provider::memberID_Verify() {
 			try {
 				ID = stoi(user_input);
 			}
-			catch (std::invalid_argument e) {
+			catch (const std::invalid_argument& e) {
 				std::cout << "Input is not a number.\n";
 				ID = -1;
 			}
-			catch (std::out_of_range e) {
+			catch (const std::out_of_range& e) {
 				std::cout << "\nInput is out of int's range.\n";
 				ID = -1;
 			}
@@ -284,11 +284,11 @@ int Provider::logService() {
 			try {
 				serviceCode = stoi(user_input);
 			}
-			catch (std::invalid_argument e) {
+			catch (const std::invalid_argument& e) {
 				std::cout << "Input is not a number.\n";
 				serviceCode = -1;
 			}
-			catch (std::out_of_range e) {
+			catch (const std::out_of_range& e) {
 				std::cout << "\nInput is out of int's range.\n";
 				serviceCode = -1;
 			}

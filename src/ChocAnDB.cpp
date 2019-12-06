@@ -15,7 +15,14 @@
 #define STATUS_FAILED       7
 
 
-ChocAnDB::ChocAnDB() { ChocAnDB(RetInt); }
+//tsw- fixing warning. RetInt not defined before it is passed.
+//don't think any time we want to create db without passing in an int
+//unused. commenting out for now.
+/*
+ChocAnDB::ChocAnDB() { 
+    ChocAnDB(0); 
+}
+*/
 
 ChocAnDB::ChocAnDB(int &RetInt) {
     RetInt = 0;
