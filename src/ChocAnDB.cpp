@@ -287,8 +287,6 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
-    if (RetInt)
-        return -1;
     std::cout << "UPDATING DATABASE:";
     sprintf(Buff, "INSERT INTO RECORD"
                   "(SERVICE_PROVIDED,"
@@ -303,8 +301,8 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
                   "DATETIME('%s'),"
                   "CURRENT_DATE,"
                   "'%d','%d',"
-                  "(SELECT NAME FROM PROVIDER WHERE PROVIDER_ID = '%d'),'%d',"
-                  "(SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_ID = '%d'),'%s');",
+                  "(SELECT NAME FROM PROVIDER WHERE ID = '%d'),'%d',"
+                  "(SELECT NAME FROM MEMBER WHERE ID = '%d'),'%s');",
                   datetime, ServCD, ProvID, ProvID, MembID, MembID, comm);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
