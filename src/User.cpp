@@ -162,7 +162,7 @@ int Provider::memberID_Verify() {
 	int ID, memCheck;
 	std::string user_input;
 	ident sql_ret;
-	int db_RetInt, query_RetInt = 0;
+	int db_RetInt = 0, query_RetInt = 0;
 	ChocAnDB* db = new ChocAnDB(db_RetInt);
 
 	// Get the member's ID:

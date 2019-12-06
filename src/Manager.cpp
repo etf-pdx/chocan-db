@@ -275,7 +275,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
         case 'S':
             std::cout << "Enter service name:\n";
             std::cin >> user_input;
-            s_name = new char[strlen(user_input.c_str()) + 1];
             std::cin.ignore(MAX_SVC_NAME, '\n');
             std::cout << "Enter service code:\n";
             std::cin >> svc_code;
@@ -283,7 +282,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
             std::cout << "Enter service fee:\n";
             std::cin >> fee;
             std::cin.ignore(100,'\n');
-            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
+            database.AddServ(svc_code, user_input.c_str(), fee, error); // write service to db
             break;
 
 		default:
