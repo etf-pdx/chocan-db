@@ -365,8 +365,9 @@ int Manager::Write_Report(int ID)
 {
 	std::ofstream out;
 
-	out.open("Summary_Report.txt");
-	out << ("Testing writing to file\n");
+	out.open("ManagerReport.txt");
+	if (out.fail())
+		return -1;
 
 	// Get Manager
 	int RetInt = 0;

@@ -213,7 +213,7 @@ int providerMenu(int ID) {
 		}
 
 		if (choice == 'R') {    // Log a service
-			CurrentProvider->Write_Report(CurrentProvider->GetIDnumber());
+			CurrentProvider->Write_Report(ID);
 		}
 
 		if (choice == 'D') {    // Provider directory

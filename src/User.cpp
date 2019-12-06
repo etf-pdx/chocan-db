@@ -83,15 +83,45 @@ int Provider::Get_Report(int ID)
 
 int Provider::Write_Report(int ID)
 {
-    // TODO: Write the provider report to a file, if DB doesn't do this already
+	std::ofstream out;
+	int count = 0;
+
+	out.open("ProviderReport.txt");
+	if (out.fail())
+		return -1;
+
 	int RetInt = 0;
 	ChocAnDB* db = new ChocAnDB(RetInt);
 	ServRep* directory = db->GetServRep('p', ID, RetInt);
 	for (auto var : *directory) {
+		// Input everything into a temp ptr
+		// If Provider ID matched, write it into report
+		// If Provider ID is not match, delete and move on
+
+		// ----- CURRENTLY WRITING EVERY SERVICE -----
 		std::cout << var << std::endl;
+		if (count == 0)
+			out << "SERVICE SUMMARY: " << var << std::endl;
+		else if (count == 1)
+			out << "SERVICE CODE: " << var << std::endl;
+		else if (count == 2)
+			out << "DATE PROVIDED: " << var << std::endl;
+		else if (count == 3)
+			out << "LOGGED DATE: " << var << std::endl;
+		else if (count == 4)
+			out << "PROVIDED FOR: " << var << std::endl;
+		else if (count == 5)
+			out << "PROVIDED BY: " << var << std::endl;
+		else if (count == 6)
+			out << "FEE: " << var << std::endl;
+		else if (count == 7)
+			out << "COMMENTS: " << var << std::endl << std::endl;
+
+		++count;
+		count = count % 8;
 	}
-	std::cout << std::endl;
 	delete db;
+	out.close();
     return 0;
 }
 
