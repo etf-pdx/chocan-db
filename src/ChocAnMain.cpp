@@ -74,7 +74,7 @@ int managerMenu(int ID) {
 		cout << "\tGenerate a provider report\t(Enter 'P')\n";
 		cout << "\tGenerate a summary report\t(Enter 'S')\n";
 		cout << "\tEnter Interactive Mode\t\t(Enter 'I')\n";
-		cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
+		cout << "\tExit the terminal\t\t(Enter 'X')\n";
 		cout << "$";
 
 		do {
@@ -172,7 +172,8 @@ int providerMenu(int ID) {
 		cout << "You can:\n";
 		cout << "\tCheck in a member\t\t\t(Enter 'M')\n";
 		cout << "\tLog a service\t\t\t\t(Enter 'S')\n";
-		cout << "\tView the provider directory\t(Enter 'D')\n";
+		cout << "\tView the provider directory\t\t(Enter 'D')\n";
+		cout << "\tGenerate your report\t\t\t(Enter 'R')\n";
 		cout << "\tExit the terminal\t\t\t(Enter 'X')\n";
 		cout << "$";
 		
@@ -191,7 +192,7 @@ int providerMenu(int ID) {
 			choice = toupper(user_input[0]);
 			//make sure its one of the valid choices
 			if (choice != 'M' && choice != 'S'
-				&& choice != 'D' && choice != 'X') {
+				&& choice != 'D' && choice != 'X' && choice != 'R') {
 				cout << "Please select from the above options.\n";
 				cout << "$";
 			}
@@ -210,10 +211,14 @@ int providerMenu(int ID) {
 		if (choice == 'S') {    // Log a service
 			CurrentProvider->logService();
 		}
+
+		if (choice == 'R') {    // Log a service
+			CurrentProvider->Write_Report(CurrentProvider->GetIDnumber());
+		}
+
 		if (choice == 'D') {    // Provider directory
 			CurrentProvider->displayProviderDirectory();
 		}
 	} while (choice != 'X');
 	return 0;
 }
-
