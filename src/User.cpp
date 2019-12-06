@@ -262,18 +262,22 @@ int Provider::memberID_Verify() {
 	std::cout << "\nContacting Chocaholics Anonymous...\n";
 	sql_ret = db->GetUser('m', ID, query_RetInt);
 
-	if (query_RetInt == false) {
-		std::cout << "Member does not exist in DB \n";
+	//tsw- idk how sql_ret error code works so using something i know
+	// seems to return 0 if it works or not. instead-
+	//if number == 0 no record found. else updated to ID number
+	if (sql_ret.number == 0) {
 		delete db;
 		return -1;
 	}
+	delete db;
+	return 0;
+/*
 	if (sql_ret.status == false) {
 		std::cout << "\nMember suspended\n";
 		delete db;
 		return -2;
 	}
-	delete db;
-	return 0;
+*/
 }
 
 // logService() obtains the necessary info to

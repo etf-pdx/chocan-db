@@ -205,11 +205,12 @@ int providerMenu(int ID) {
 		// Call the appropriate function:
 		if (choice == 'M') {    // Check in a member
 			err = CurrentProvider->memberID_Verify();
+			//tsw- 0 is good. see codes in db file
 			if(err == 0){
-			    cout << "Member is suspended or nonexistent" << endl;
+                		cout << "Member exists in database." << endl;
 			}else{
-                cout << "Member exists in database." << endl;
-            }
+			    cout << "Member is suspended or nonexistent" << endl;
+            		}
 		}
 		if (choice == 'S') {    // Log a service
 			CurrentProvider->logService();
