@@ -115,24 +115,24 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			char input[MAX_NAME];
 			
 			std::cout << "Enter User's NAME: ";
-			std::getline(std::cin, To_Add.name, '\n');
+			std::cin >> To_Add.name;
 			To_Add.name.resize(MAX_NAME);
 			std::cin.ignore(100, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::getline(std::cin, To_Add.address, '\n');
+			std::cin >> To_Add.address;
 			To_Add.address.resize(100);
 			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter user's CITY: ";
-			std::getline(std::cin, To_Add.city, '\n');
+			std::cin >> To_Add.city;
 			To_Add.city.resize(50);
 			std::cin.ignore(100, '\n');
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
-			std::getline(std::cin, To_Add.state, '\n');
+			std::cin >> To_Add.state;
 			To_Add.name.resize(2);
 			std::cin.ignore(100, '\n');
 			
@@ -169,6 +169,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			else if (member_type == 'M')	// Add a Member
 				AddMember(To_Add, database);
 			break;
+			// ----- END ADD USER -----
 
 		case 'E':
 			IDnum = 0;
