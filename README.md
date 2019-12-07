@@ -11,4 +11,4 @@ Then run "make" which will run the makefile present in the src directory
 This will compile the binary executable.
 It will be named "output". Type ./output to begin executing the program in the terminal.
 
-For more information about this software, please read the documents in the "doc" folder.
+For more information about this software, and to view the project retrospective and presentation slides, please read the documents in the "doc" folder.
