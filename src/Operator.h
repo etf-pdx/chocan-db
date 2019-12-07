@@ -31,7 +31,7 @@ struct ident
     ident(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus);
 
 	std::string name;
-	int number;
+	int number;//ID number 
 	std::string address;
 	std::string city;
 	std::string state;
