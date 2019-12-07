@@ -67,6 +67,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             buff[0] = '\0';
             sprintf(buff, "INSERT INTO STATUS (START_DATE, MONTHS_PAID, MEMBER_ID)"
                           "VALUES (CURRENT_DATE,1,%d);",IDnum);
+
             Stmt = new char(strlen(buff)+1);
             strcpy(Stmt,buff);
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -317,79 +318,70 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
     return DB_OK;
 }
 
+
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
-    std::cout << "CALLING DATABASE:\n";
-    std::string Stmt;
+    std::cout << "CALLING DATABASE:\t";
+    RetInt = DB_OK;
+    char buff[1024];
     ident *data = new ident;
-
     int *ID = new int(-1);
-    switch (type){
+    char *Stmt;
+    switch (type) {
         case 'm':
-/*
             Stmt = new char[42];
-            sprintf(buff,"SELECT * FROM MEMBER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
+            sprintf(buff, "SELECT * FROM MEMBER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
 
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-            if(!data->number)
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,
+                                  &ErrMsg);
+            if (!data->number)
                 RetInt = MEMBER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             if (RetInt)
                 return *data;
-            sprintf(buff,"SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
-                   "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
-                   "- (julianday('NOW'))AS INTEGER)",data->number,data->number);
-            Stmt = new char[strlen(buff)+1];
-            strcpy(Stmt,buff);
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
+            sprintf(buff, "SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
+                          "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
+                          "- (julianday('NOW'))AS INTEGER)", data->number, data->number);
+            Stmt = new char[strlen(buff) + 1];
+            strcpy(Stmt, buff);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID,
+                                  &ErrMsg);
             if (0 > *ID)
                 data->status = false;
             if (0 <= *ID)
                 data->status = true;
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
-*/
-	    Stmt = "SELECT * FROM MEMBER WHERE ID = " + std::to_string(UserID);
-            RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             break;
         case 'p':
-/*
             Stmt = new char[44];
-            sprintf(buff,"SELECT * FROM PROVIDER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
+            sprintf(buff, "SELECT * FROM PROVIDER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
 
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,&ErrMsg);
             if (RetInt != DB_OK)
                 return *data;
-            if(!data->number)
+            if (!data->number)
                 RetInt = PROVIDER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
-*/
-	    Stmt = "SELECT * FROM PROVIDER WHERE ID = " + std::to_string(UserID);
-            RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-            break;
-        case 'g':
-/*
-            Stmt = new char[43];
-            sprintf(buff,"SELECT * FROM MANAGER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
 
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+        case 'g':
+            Stmt = new char[43];
+            sprintf(buff, "SELECT * FROM MANAGER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,&ErrMsg);
             if (RetInt != DB_OK)
                 return *data;
-            if(!data->number)
+            if (!data->number)
                 RetInt = MANAGER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
-*/
-	    Stmt = "SELECT * FROM PROVIDER WHERE ID = " + std::to_string(UserID);
-            RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
             break;
+
         default:
             RetInt = UNDEFINED;
     }
-
     RetInt = DB_OK;
     return *data;
 }

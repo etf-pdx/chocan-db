@@ -76,7 +76,7 @@ int DBtester::test(){
 
     //Create a record
     HappyID.number = 300000001;
-    DB->AddRecd(HappyID.number,200000001,598470,"Relaxing","2019-11-11",RetInt);
+    DB->AddRecd(HappyID.number,200000001,598470,"Relaxing","2019-11-11 13:00",RetInt);
     if (RetInt == 0)
         fprintf(log,"PASSED DATABASE ADD RECORD: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     else
