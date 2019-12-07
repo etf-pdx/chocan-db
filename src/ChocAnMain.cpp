@@ -153,7 +153,7 @@ int managerMenu(int ID) {
 			delete[] subject;
 		}
 		if (choice == 'S') {    // Summary report
-		    // todo get report
+
 			CurrentManager->Write_Report(ID);
 		}
 		if (choice == 'I') {    // Interactive mode
