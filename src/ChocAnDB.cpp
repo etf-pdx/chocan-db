@@ -318,7 +318,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
 }
 
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
-    std::cout << "CALLING DATABASE:\t";
+    std::cout << "CALLING DATABASE:\n";
     std::string Stmt;
     ident *data = new ident;
 

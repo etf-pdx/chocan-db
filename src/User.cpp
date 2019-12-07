@@ -270,7 +270,7 @@ int Provider::memberID_Verify() {
 		return -1;
 	}
 	delete db;
-	return 0;
+	return ID;
 /*
 	if (sql_ret.status == false) {
 		std::cout << "\nMember suspended\n";
@@ -288,9 +288,8 @@ int Provider::memberID_Verify() {
 int Provider::logService() {
 	int memberID = 0;
 	int serviceCode = 0;
-    int db_ret_int = 0;
-    std::string serviceDate, user_input;
-	std::string comments;
+        int db_ret_int = 0;
+        std::string serviceDate, user_input, comments;
 
 	memberID = memberID_Verify();
 	if (memberID < 0) 
@@ -301,7 +300,6 @@ int Provider::logService() {
 	do {
 		std::cout << "Please enter the date the service was provided (MM-DD-YYYY)\n";
 		std::cin >> serviceDate;
-		std::cin.ignore(INPUT_BUFFER, '\n');
 		if (!dateFormatCheck(serviceDate)) {
 			std::cout << "Input is not in correct format. \n";
 		}
