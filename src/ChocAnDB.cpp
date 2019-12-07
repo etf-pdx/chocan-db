@@ -283,7 +283,7 @@ int ChocAnDB::ReNewServ(int MembID, int &RetInt){
 }
 
 //add a service to a member
-int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, const char *datetime, int &RetInt) {
+int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, const char *loggeddate, int &RetInt) {
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
@@ -303,7 +303,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
                   "'%d','%d',"
                   "(SELECT NAME FROM PROVIDER WHERE ID = '%d'),'%d',"
                   "(SELECT NAME FROM MEMBER WHERE ID = '%d'),'%s');",
-                  datetime, ServCD, ProvID, ProvID, MembID, MembID, comm);
+                  loggeddate, ServCD, ProvID, ProvID, MembID, MembID, comm);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);

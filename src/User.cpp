@@ -35,15 +35,9 @@ User::~User()
 
 // Implementation of Provider class
 // Default Provider constructor
-Provider::Provider(): User()
-{
+Provider::Provider(): User(){}
 
-}
-
-Provider::Provider(int ID): User(ID)
-{
-
-}
+Provider::Provider(int ID): User(ID){}
 
 Provider::Provider(Provider& To_Add): User(To_Add)
 {
@@ -61,12 +55,7 @@ Provider::Provider(ident& toAdd)
 }
 
 // Destructor
-Provider::~Provider()
-{
-
-}
-
-
+Provider::~Provider(){}
 
 int Provider::Write_Report(int ID)
 {
@@ -179,6 +168,7 @@ int Member::Write_Report(int ID)
 		count = count % 6;
 	}
 
+	// ^Once above is working, uncomment and work on below
 	/*
 	out.open("MemberReport.txt");
 	if (out.fail())
