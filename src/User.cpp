@@ -31,10 +31,7 @@ User::~User()
 
 
 // 5.5.1    Member Reports
-int User::Get_Report(int ID)
-{ 
-	return 0;
-}
+
 
 // Implementation of Provider class
 // Default Provider constructor
@@ -69,37 +66,7 @@ Provider::~Provider()
 
 }
 
-int Provider::Get_Report(int ID)
-{
-/*
-	// Return -1 for error
-        //this should have already been checked
-	if (ID < 0)
-        	return -1;
 
- 	//tsw- tbh not sure what this is for
-	displayID(ID);
-	Display_Service(My_Service);
-    My_Service->display();
-    if (!Write_Report(ID))
-        return -1;
-    int RetInt = 0;
-    ChocAnDB *db = new ChocAnDB(RetInt);
-    ServRep *info; 
-    info = db->GetServRep; 
-
-    std::cout << "SERVICE SUMMARY: " << info-> << std::endl;
-    out << "SERVICE CODE: " << var << std::endl;
-    out << "DATE PROVIDED: " << var << std::endl;
-    out << "LOGGED DATE: " << var << std::endl;
-    out << "PROVIDED FOR: " << var << std::endl;
-    out << "PROVIDED BY: " << var << std::endl;
-    out << "FEE: " << var << std::endl;
-    out << "COMMENTS: " << var << std::endl << std::endl;
-*/
-
-    return 0;
-}
 
 int Provider::Write_Report(int ID)
 {
@@ -184,19 +151,6 @@ Member::Member(ident& toAdd)
 //Destructor
 Member::~Member(){}
 
-int Member::Get_Report(int ID)
-{
-	// Return -1 for error
-	if (ID < 0)
-		return -1;
-
-	displayID(ID);
-	//Display_Service(My_Service);
-	My_Service->display();
-	if (!Write_Report(ID))
-	    return -1;
-	return 0;
-}
 
 int Member::Write_Report(int ID)
 {

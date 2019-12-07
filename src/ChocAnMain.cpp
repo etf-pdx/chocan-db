@@ -117,7 +117,7 @@ int managerMenu(int ID) {
 					cout << "\nInput is not a valid member ID number.\n";
 			}
 			Member* subject = new Member(repID);
-			if (!subject->Get_Report(repID))
+			if (!subject->Write_Report(repID))
 				cout << "\nFailed to generate member report\n";
 			// todo output report to file
 
@@ -152,7 +152,7 @@ int managerMenu(int ID) {
 			// todo output report to file
 		}
 		if (choice == 'S') {    // Summary report
-		    // todo get report
+
 			CurrentManager->Write_Report(ID);
 		}
 		if (choice == 'I') {    // Interactive mode

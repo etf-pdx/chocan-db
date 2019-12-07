@@ -15,45 +15,6 @@ Manager::~Manager() { }
 
 
 
-// List of options available to manager
-int Manager::OptionSelect(ChocAnDB & database)
-{
-	int choice;
-
-	std::cout << "\n\tGenerate Report\t\t(Enter'R')\n";
-	std::cout << "\tEnter Interactive Mode (Manager Only)\t\t(Enter 'I')\n";
-	std::cout << "$";	// To prompt user to enter, common practice for command or console program
-
-	std::cin >> choice;
-	std::cin.ignore(100, '\n');
-	choice = toupper(choice);
-
-	while (choice != 'R' && choice != 'I') {
-		std::cout << "\nPlease select from the above options.\n";
-		std::cin >> choice;
-		std::cin.ignore(100, '\n');
-		choice = toupper(choice);
-	}
-
-	switch (choice)
-	{
-	case 'R':
-		/* Generate Report Here
-		 *	1. Get operator ID Number
-		 *	2. Run that class's report
-		 *	3. ???
-		 *	4. Profit
-		*/
-		break;
-	case 'I':
-		InteractiveMode(database);
-		break;
-	default:
-		break;
-	}
-	return 0;
-}
-
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -307,13 +268,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 			} while (choice != 'X');
 			EditUser(To_Add,IDnum,database);
-			/* To Test temp output
-			std::cout << To_Add.name "\n";
-			std::cout << To_Add.address "\n";
-			std::cout << To_Add.city "\n";
-			std::cout << To_Add.state "\n";
-			std::cout << To_Add.zip "\n";
-			*/
 
 			break;
 
