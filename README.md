@@ -10,3 +10,5 @@ To build the software, enter the src directory.
 Then run "make" which will run the makefile present in the src directory
 This will compile the binary executable.
 It will be named "output". Type ./output to begin executing the program in the terminal.
+
+For more information about this software, please read the documents in the "doc" folder.
