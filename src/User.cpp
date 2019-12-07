@@ -347,9 +347,9 @@ int Provider::logService() {
 	}
 
 	// Record service:
-    ChocAnDB * db = new ChocAnDB(db_ret_int);
-    db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
-    delete db;
+        ChocAnDB * db = new ChocAnDB(db_ret_int);
+        db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
+        delete db;
 	return 1;
 }
 
