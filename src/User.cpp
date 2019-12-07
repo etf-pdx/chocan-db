@@ -154,17 +154,73 @@ Member::~Member(){}
 
 int Member::Write_Report(int ID)
 {
-    // TODO: Write the member report to a file. If DB does this, make sure it's called in Provider::Get_Report()
-/*
-	//query to get all services matching id between a week ago and today
-        int RetInt = 0;
-        ServRep* 
+	std::ofstream out;
+	int count = 0;
+	int RetInt = 0;
 	ChocAnDB* db = new ChocAnDB(RetInt);
+	
+	IDList* MemberList = db->MBList(RetInt);
+	for (auto var : *MemberList)
+	{
+		if (count == 0)
+			std::cout << "MEMBER ID: " << var << std::endl;
+		else if (count == 1)
+			std::cout << "MEMBER NAME: " << var << std::endl;
+		else if (count == 2)
+			std::cout << "ADDRESS: " << var << std::endl;
+		else if (count == 3)
+			std::cout << "CITY: " << var << std::endl;
+		else if (count == 4)
+			std::cout << "STATE: " << var << std::endl;
+		else if (count == 5)
+			std::cout << "ZIP: " << var << std::endl;
 
- 
-        //write to file
-*/ 
-    return 0;
+		++count;
+		count = count % 6;
+	}
+
+	/*
+	out.open("MemberReport.txt");
+	if (out.fail())
+		return -1;
+
+	count = 0;
+	ServRep* directory = db->GetServRep('p', ID, RetInt);
+	for (auto var : *directory) {
+		// Input everything into a temp ptr
+		// If Member ID matched, write it into report
+		// If Member ID is not match, delete and move on
+
+		// ----- CURRENTLY WRITING EVERY SERVICE -----
+		if (count != 0)
+			std::cout << var << std::endl;
+
+		if (count == 1)
+			out << "SERVICE SUMMARY: " << var << std::endl;
+		else if (count == 2)
+			out << "SERVICE CODE: " << var << std::endl;
+		else if (count == 3)
+			out << "DATE PROVIDED: " << var << std::endl;
+		else if (count == 4)
+			out << "LOGGED DATE: " << var << std::endl;
+		else if (count == 5)
+			out << "PROVIDED FOR: " << var << std::endl;
+		else if (count == 6)
+			out << "PROVIDED BY: " << var << std::endl;
+		else if (count == 7)
+			out << "FEE: " << var << std::endl;
+		else if (count == 8)
+			out << "COMMENTS: " << var << std::endl << std::endl;
+
+		++count;
+		count = count % 9;
+	}
+	*/
+	delete MemberList;
+	delete db;
+	//delete directory;
+	//out.close();
+	return 0;
 }
 
 
@@ -301,9 +357,9 @@ int Provider::logService() {
 	}
 
 	// Record service:
-    ChocAnDB * db = new ChocAnDB(db_ret_int);
-    db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
-    delete db;
+        ChocAnDB * db = new ChocAnDB(db_ret_int);
+        db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
+        delete db;
 	return 1;
 }
 

@@ -394,6 +394,7 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     return *data;
 }
 
+// List of Member
 IDList* ChocAnDB::MBList(int &RetInt) {
     IDList * Ret = new IDList;
     const char* Stmt = "SELECT ID FROM MEMBER;";
@@ -401,6 +402,7 @@ IDList* ChocAnDB::MBList(int &RetInt) {
     return Ret; 
 } 
 
+// List of Service Keys
 Form* ChocAnDB::ProvDir(int &RetInt) {
     Form* Ret = new Form;
 	const char* Stmt = "SELECT * FROM SERVICE;";
@@ -408,6 +410,7 @@ Form* ChocAnDB::ProvDir(int &RetInt) {
 	return Ret;
 }
 
+// List of Service Records
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
     std::string Stmt;
     ServRep *Ret = new ServRep;

@@ -120,7 +120,7 @@ int managerMenu(int ID) {
 			if (!subject->Write_Report(repID))
 				cout << "\nFailed to generate member report\n";
 			// todo output report to file
-
+			delete[] subject;
 		}
 		if (choice == 'P') {    // Provider report
 			// Obtain a valid provider ID number:
