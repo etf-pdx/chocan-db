@@ -105,7 +105,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				else
 				{
 					std::cin >> To_Add.zip;
-					if (To_Add.zip < 00000 || To_Add.zip > 99999)
+					if (To_Add.zip < 10000 || To_Add.zip > 99999)
 					{
 						valid = false;
 						std::cout << "ERROR: Invalid Zip Code\n\n";
