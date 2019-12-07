@@ -15,7 +15,14 @@
 #define STATUS_FAILED       7
 
 
-ChocAnDB::ChocAnDB() { ChocAnDB(RetInt); }
+//tsw- fixing warning. RetInt not defined before it is passed.
+//don't think any time we want to create db without passing in an int
+//unused. commenting out for now.
+/*
+ChocAnDB::ChocAnDB() { 
+    ChocAnDB(0); 
+}
+*/
 
 ChocAnDB::ChocAnDB(int &RetInt) {
     RetInt = 0;
@@ -33,12 +40,6 @@ ChocAnDB::ChocAnDB(char t, int &RetInt) {
 }
 
 ChocAnDB::~ChocAnDB() {
-    //trent- The sqlite3_finalize() function is called to delete a [prepared statement].
-    //will be used elsewhere.
-    //sqlite3_finalize();
-
-    //trent- successful sqlite3_close() call deallocates all so no need for delete.
-    //learn how to handle SQLITE_API objects because sucessful function call rets DB_OK
     sqlite3_finalize(STMT);
     sqlite3_close(DB);
     DB = nullptr;
@@ -48,6 +49,8 @@ ChocAnDB::~ChocAnDB() {
 
 int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
     RetInt = DB_OK;
+    char buff[1024];
+    int IDnum;
     char *Stmt = prepUser(type, UserID);
     std::cout << "UPDATING DATABASE:";
 
@@ -58,6 +61,21 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
                 std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MEMBER_FAILED;
             }
+            delete Stmt;
+            IDnum = sqlite3_last_insert_rowid(DB);
+            Stmt = nullptr;
+            buff[0] = '\0';
+            sprintf(buff, "INSERT INTO STATUS (START_DATE, MONTHS_PAID, MEMBER_ID)"
+                          "VALUES (CURRENT_DATE,1,%d);",IDnum);
+
+            Stmt = new char(strlen(buff)+1);
+            strcpy(Stmt,buff);
+            RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
+            if (RetInt != DB_OK) {
+                std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
+                return RetInt = MEMBER_FAILED;
+            }
+
             break;
 
         case 'p' :
@@ -66,6 +84,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
                 std::cout << "\t-FAILED-\n" << "PROVIDER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = PROVIDER_FAILED ;
             }
+            IDnum = sqlite3_last_insert_rowid(DB);
             break;
         case 'g':
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -73,20 +92,18 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
                 std::cout << "\t-FAILED-\n" << "MANAGER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MANAGER_FAILED;
             }
+            IDnum = sqlite3_last_insert_rowid(DB);
             break;
         default:
             return UNDEFINED;
     }
-
-    int IDnum = sqlite3_last_insert_rowid(DB);
     std::cout << "\t-UPDATE SUCCESSFUL-\n" << "\tID NUMBER:\t" << IDnum << std::endl;
-
+    delete(Stmt);
     return IDnum;
 }
 
 int ChocAnDB::ModUser(char type, ident UserID, int &RetInt) {
-    char* Stmt;
-    Stmt = ModPrep(UserID);
+    char* Stmt = ModPrep(UserID);
     switch(type){
         case 'm':
             RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -112,6 +129,7 @@ int ChocAnDB::ModUser(char type, ident UserID, int &RetInt) {
         default:
             return RetInt = UNDEFINED ;
     }
+    delete(Stmt);
     return RetInt = DB_OK;
 }
 
@@ -268,12 +286,10 @@ int ChocAnDB::ReNewServ(int MembID, int &RetInt){
 }
 
 //add a service to a member
-int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, const char *datetime, int &RetInt) {
+int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, const char *loggeddate, int &RetInt) {
     RetInt = 0;
     char Buff[1024];
     char *Stmt = nullptr;
-    if (RetInt)
-        return -1;
     std::cout << "UPDATING DATABASE:";
     sprintf(Buff, "INSERT INTO RECORD"
                   "(SERVICE_PROVIDED,"
@@ -283,14 +299,15 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
                   "PROVIDER_NAME,"
                   "MEMBER_ID,"
                   "MEMBER_NAME,"
-                  "COMMENT)"
+                  "COMMENT, FEE)"
                   "VALUES ("
-                  "'%s',"
+                  "DATETIME('%s'),"
                   "CURRENT_DATE,"
                   "'%d','%d',"
                   "(SELECT NAME FROM PROVIDER WHERE ID = '%d'),'%d',"
-                  "(SELECT NAME FROM MEMBER WHERE ID = '%d'),'%s');",
-                  datetime, ServCD, ProvID, ProvID, MembID, MembID, comm);
+                  "(SELECT NAME FROM MEMBER WHERE ID = '%d'),'%s',"
+                  "(SELECT FEE FROM SERVICE WHERE SERVICE_CODE = '%d');",
+                  loggeddate, ServCD, ProvID, ProvID, MembID, MembID, comm, ServCD);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
     RetInt = sqlite3_exec(DB, Stmt, nullptr, nullptr, &ErrMsg);
@@ -304,6 +321,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
     return DB_OK;
 }
 
+
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     std::cout << "CALLING DATABASE:\t";
     RetInt = DB_OK;
@@ -311,26 +329,26 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
     ident *data = new ident;
     int *ID = new int(-1);
     char *Stmt;
-    switch (type){
+    switch (type) {
         case 'm':
             Stmt = new char[42];
-            sprintf(buff,"SELECT * FROM MEMBER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
+            sprintf(buff, "SELECT * FROM MEMBER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
 
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
-            if(!data->number)
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,
+                                  &ErrMsg);
+            if (!data->number)
                 RetInt = MEMBER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             if (RetInt)
                 return *data;
-            /*
-            sprintf(buff,"SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
-                   "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
-                   "- (julianday('NOW'))AS INTEGER)",data->number,data->number);
-            */
-            Stmt = new char[strlen(buff)+1];
-            strcpy(Stmt,buff);
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID, &ErrMsg);
+            sprintf(buff, "SELECT CAST(julianday((SELECT START_DATE FROM STATUS WHERE MEMBER_ID = %d))"
+                          "+ (30 * (SELECT MONTHS_PAID FROM STATUS WHERE MEMBER_ID = %d))"
+                          "- (julianday('NOW'))AS INTEGER)", data->number, data->number);
+            Stmt = new char[strlen(buff) + 1];
+            strcpy(Stmt, buff);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetStat), ID,
+                                  &ErrMsg);
             if (0 > *ID)
                 data->status = false;
             if (0 <= *ID)
@@ -339,38 +357,39 @@ ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
             break;
         case 'p':
             Stmt = new char[44];
-            sprintf(buff,"SELECT * FROM PROVIDER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
+            sprintf(buff, "SELECT * FROM PROVIDER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
 
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,&ErrMsg);
             if (RetInt != DB_OK)
                 return *data;
-            if(!data->number)
+            if (!data->number)
                 RetInt = PROVIDER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
+
         case 'g':
             Stmt = new char[43];
-            sprintf(buff,"SELECT * FROM MANAGER WHERE ID = %d",UserID);
-            strcpy(Stmt,buff);
-
-            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data, &ErrMsg);
+            sprintf(buff, "SELECT * FROM MANAGER WHERE ID = %d", UserID);
+            strcpy(Stmt, buff);
+            RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(FillID), data,&ErrMsg);
             if (RetInt != DB_OK)
                 return *data;
-            if(!data->number)
+            if (!data->number)
                 RetInt = MANAGER_FAILED;
-            delete(Stmt);
+            delete (Stmt);
             std::cout << "-FOUND-\n" << "\tNAME:\t\t\t" << data->name << std::endl;
             break;
+
         default:
             RetInt = UNDEFINED;
     }
-
     RetInt = DB_OK;
     return *data;
 }
 
+// List of Member
 IDList* ChocAnDB::MBList(int &RetInt) {
     IDList * Ret = new IDList;
     const char* Stmt = "SELECT ID FROM MEMBER;";
@@ -378,6 +397,7 @@ IDList* ChocAnDB::MBList(int &RetInt) {
     return Ret; 
 } 
 
+// List of Service Keys
 Form* ChocAnDB::ProvDir(int &RetInt) {
     Form* Ret = new Form;
 	const char* Stmt = "SELECT * FROM SERVICE;";
@@ -385,6 +405,7 @@ Form* ChocAnDB::ProvDir(int &RetInt) {
 	return Ret;
 }
 
+// List of Service Records
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
     char* Stmt = nullptr;
     char* buff = new char('\0');
@@ -426,7 +447,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER ("//If Table does not exist it will be created
+    const char *PrvdTB = "create table IF NOT EXISTS PROVIDER (" //If Table does not exist it will be created
                          "    ID      INTEGER CHECK (ID < 299999999)"
                          "                      primary key AUTOINCREMENT,"                 //Primary key makes ID's unique
                          "    NAME    CHARACTER(25) NOT NULL ,"
@@ -444,7 +465,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *MgmrTB = "create table IF NOT EXISTS MANAGER ("
+    const char *MgmrTB = "create table IF NOT EXISTS MANAGER (" //If Table does not exist it will be created
                          "    ID      INTEGER CHECK (ID < 199999999)"
                          "        primary key autoincrement,"
                          "    NAME    CHARACTER(25) not null,"
@@ -462,8 +483,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        'AA',"
                          "        00000);";
 
-    const char *StatTB = "create table IF NOT EXISTS STATUS("
-                         "    STATUS_ID        INT PRIMARY KEY     NOT NULL, "
+    const char *StatTB = "create table IF NOT EXISTS STATUS(" //If Table does not exist it will be created
                          "    START_DATE       DATE NOT NULL, "
                          "    MONTHS_PAID      INT,"
                          "    MEMBER_ID        INT(9) NOT NULL, "
@@ -471,20 +491,20 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        REFERENCES MEMBER);";
 
     const char *RecdTB = "create table IF NOT EXISTS RECORD (" //If Table does not exist it will be created
-                         "    RECORD_ID        INT PRIMARY KEY     NULL, "
-                         "    SERVICE_PROVIDED TEXT(25) NOT NULL ,"
+                         "    SERVICE_PROVIDED DATE NOT NULL ,"
                          "    SERVICE_LOGGED   DATE NOT NULL ,"
-                         "    SERVICE_CODE     INT(6) NOT NULL,"
+                         "    SERVICE_CODE     INT(6) NOT NULL ,"
                          "    PROVIDER_ID      INT(9) NOT NULL,"
                          "    PROVIDER_NAME    TEXT(25) NOT NULL,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
                          "    MEMBER_NAME      TEXT(25) NOT NULL,"
                          "    COMMENT          TEXT(100)," //Foreign key links to a primary key
+                         "    FEE              REAL"
                          "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
                          "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"
                          "    FOREIGN KEY(SERVICE_CODE)     REFERENCES SERVICE);";
     
-    const char *ServTB = "create table IF NOT EXISTS SERVICE ("
+    const char *ServTB = "create table IF NOT EXISTS SERVICE (" //If Table does not exist it will be created
                          "    SERVICE_CODE INTEGER NOT NULL "
                          "        primary key,"
                          "    SERVICE_NAME TEXT(20) NOT NULL, "
@@ -492,8 +512,6 @@ int ChocAnDB::OpenDB(int RetInt) {
 
     int exit = DB_OK;
     std::cout << "PREPARING DATABASE:";
-    //trent- error checking? possible ret values for this open func?.
-    //learn how to handle return val in meaningful way for errors
 
     //Open the DB file (new/existing)
     switch (RetInt) {
