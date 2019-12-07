@@ -16,8 +16,8 @@ public:
 	User(User& To_Add);
 	virtual ~User();
 
-    virtual int Get_Report(int ID) = 0;
-    virtual int Write_Report(int ID) = 0;
+       
+        virtual int Write_Report(int ID) = 0;
 
 	bool dateFormatCheck(std::string input_date);
 
@@ -39,7 +39,7 @@ public:
 	Provider(ident& To_Add);
 	~Provider();
 
-	int Get_Report(int ID);
+	
 	int Write_Report(int ID);
 
 	// Requirements Doc: 4.3.1 Requesting a Provider Directory:
@@ -61,7 +61,7 @@ public:
 	Member(ident& To_Add);
 	~Member();
 
-	int Get_Report(int ID);
+	
 	int Write_Report(int ID);
 protected:
 

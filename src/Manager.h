@@ -1,6 +1,3 @@
-#ifndef MANAGER_H
-#define MANAGER_H
-
 #include "User.h"
 #include <string>
 
@@ -21,6 +18,5 @@ protected:
     int InteractiveMode(ChocAnDB & database);
 	int AddProvider(ident& To_Add, ChocAnDB & database);
 	int AddMember(ident& To_Add, ChocAnDB & database);
+	int EditUser(ident& To_Add, int IDnum, ChocAnDB& database);
 };
-
-#endif

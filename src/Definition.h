@@ -5,7 +5,9 @@
 
 const int MIN_MANAGER = 100000000;	 // Lower bound for manager ID numbers
 const int MAX_MANAGER = 199999999;	 // Upper bound for manager ID numbers
+const int MIN_PROVIDER = 200000000;
 const int MAX_PROVIDER = 299999999;  // Upper bound for provider ID numbers
+const int MIN_MEMBER = 300000000;
 const int MAX_ID = 999999999;		 // MUST be less than 10 digits
 const int MAX_NAME = 26;		// MUST be max of 25 characters
 const int MAX_SVC_NAME = 21;    // MUST be max of 20 characters

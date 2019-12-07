@@ -4,6 +4,7 @@
 #include "Operator.h"
 #include "SQL_exstention.cpp"
 #include <cstring>
+#include <string>
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
 #include <iostream>
@@ -49,15 +50,17 @@ public:
     //adds 30 days to a member status
 
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
-    //Add a service to the Provider directory
+    //Add a service key to the Provider directory
+    //ServCD = service code | ServNm = service number 
+
 
     int AddRecd(int MembID, int ProvID, int ServCD, const char* comm, const char* datetime, int &RetInt);
-    /*Add a sevice to a memeber
+    /*Add a sevice to a member
      * Date of service format should be "YYYY-MM-DD HH:MM"
      */
 
     ident GetUser(char type, int UserID, int &RetInt);
-    /*will return mangar/provider/member information through ident.
+    /*will return managar/provider/member information through ident.
      *      *type char switch
      * 'm' - member
      * 'p' - provider

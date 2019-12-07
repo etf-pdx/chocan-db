@@ -15,45 +15,6 @@ Manager::~Manager() { }
 
 
 
-// List of options available to manager
-int Manager::OptionSelect(ChocAnDB & database)
-{
-	int choice;
-
-	std::cout << "\n\tGenerate Report\t\t(Enter'R')\n";
-	std::cout << "\tEnter Interactive Mode (Manager Only)\t\t(Enter 'I')\n";
-	std::cout << "$";	// To prompt user to enter, common practice for command or console program
-
-	std::cin >> choice;
-	std::cin.ignore(100, '\n');
-	choice = toupper(choice);
-
-	while (choice != 'R' && choice != 'I') {
-		std::cout << "\nPlease select from the above options.\n";
-		std::cin >> choice;
-		std::cin.ignore(100, '\n');
-		choice = toupper(choice);
-	}
-
-	switch (choice)
-	{
-	case 'R':
-		/* Generate Report Here
-		 *	1. Get operator ID Number
-		 *	2. Run that class's report
-		 *	3. ???
-		 *	4. Profit
-		*/
-		break;
-	case 'I':
-		InteractiveMode(database);
-		break;
-	default:
-		break;
-	}
-	return 0;
-}
-
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -74,7 +35,8 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	int IDnum;
 	bool isInteractive = true;
 	std::string user_input;
-	
+	ident sql_ret;
+	int retInt = 0;
 	 // Entering interactive mode
 	 // Prompt for options within interactive mode
 	 
@@ -115,26 +77,22 @@ int Manager::InteractiveMode(ChocAnDB & database)
 			char input[MAX_NAME];
 			
 			std::cout << "Enter User's NAME: ";
-			std::cin >> To_Add.name;
+			std::getline(std::cin, To_Add.name, '\n');
 			To_Add.name.resize(MAX_NAME);
-			std::cin.ignore(100, '\n');
 
 			To_Add.number = 0;
 
 			std::cout << "Enter User's ADDRESS: ";
-			std::cin >> To_Add.address;
-			To_Add.address.resize(100);
-			std::cin.ignore(100, '\n');
-			
+			std::getline(std::cin, To_Add.address, '\n');
+			To_Add.address.resize(200);
+
 			std::cout << "Enter user's CITY: ";
-			std::cin >> To_Add.city;
-			To_Add.city.resize(50);
-			std::cin.ignore(100, '\n');
+			std::getline(std::cin, To_Add.city, '\n');
+			To_Add.city.resize(MAX_CITY);
 			
 			std::cout << "Enter User's STATE as intials (XX): ";
-			std::cin >> To_Add.state;
-			To_Add.name.resize(2);
-			std::cin.ignore(100, '\n');
+			std::getline(std::cin, To_Add.state, '\n');
+			To_Add.state.resize(2);
 			
 			do
 			{
@@ -147,7 +105,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				else
 				{
 					std::cin >> To_Add.zip;
-					if (To_Add.zip < 97000 || To_Add.zip > 97999)
+					if (To_Add.zip < 00000 || To_Add.zip > 99999)
 					{
 						valid = false;
 						std::cout << "ERROR: Invalid Zip Code\n\n";
@@ -157,22 +115,32 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
+				char member_type;
+			do
+			{
+				std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
+				std::cout << "$";
+				std::cin >> member_type;
+				std::cin.ignore(100, '\n');
+				member_type = toupper(member_type);
+				if (member_type == 'P')	// Add a Provider
+					AddProvider(To_Add, database);
+				else if (member_type == 'M')	// Add a Member
+					AddMember(To_Add, database);
+				else if (member_type != 'M' && member_type != 'P')
+				{
+					std::cout << "Please type a valid letter either 'P' or 'M' \n";
+				}
+			} while (member_type != 'P' && member_type != 'M');
 
-			char member_type;
-            std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
-            std::cout << "$";
-            std::cin >> member_type;
-			std::cin.ignore(100, '\n');
-            member_type = toupper(member_type);
-			if (member_type == 'P')	// Add a Provider
-				AddProvider(To_Add, database);
-			else if (member_type == 'M')	// Add a Member
-				AddMember(To_Add, database);
+			
 			break;
 			// ----- END ADD USER -----
 
 		case 'E':
 			IDnum = 0;
+			char type;
+			valid = false;
 			do
 			{
 				std::cout << "Enter an ID for edit: ";
@@ -183,9 +151,29 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cin >> IDnum;
 					if (IDnum <= 0 || IDnum > MAX_ID)
 						std::cout << "Is not a valid ID.\n";
-					else
+				}
+				if (IDnum >= MIN_MANAGER && IDnum <= MAX_MANAGER) //They are a manager
+				{
+					type = 'g';
+					sql_ret = database.GetUser(type, IDnum, retInt);
+					if (sql_ret.number != 0)
 						valid = true;
 				}
+				if (IDnum >= MIN_PROVIDER && IDnum <= MAX_PROVIDER)//They are Provider
+				{
+					type = 'p';
+					sql_ret = database.GetUser(type, IDnum, retInt);
+					if (sql_ret.number != 0)
+						valid = true;
+				}
+				if (IDnum >= MIN_MEMBER && IDnum <= MAX_ID)//They are a member
+				{
+					type = 'm';
+					sql_ret = database.GetUser(type, IDnum, retInt);
+					if(sql_ret.number!=0)
+						valid = true;
+				}
+
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
 
@@ -205,8 +193,10 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					
 					//make sure its len = 1
 					do {
-						std::cin >> user_input;
-						std::cin.ignore(INPUT_BUFFER, '\n');
+						
+						
+						std::getline(std::cin, user_input, '\n');
+						To_Add.name.resize(INPUT_BUFFER);
 						if (strlen(user_input.c_str()) != 1) {
 							std::cout << "Input is not 1 char in length (and it should be)\n";
 						}
@@ -222,41 +212,62 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				if (choice == 'N') 
 				{
 					std::cout << "Enter User's NAME: ";
-					std::cin >> To_Add.name;
-					std::cin.ignore(MAX_NAME, '\n');
-
+					std::getline(std::cin, To_Add.name, '\n');
+					To_Add.name.resize(MAX_NAME);
+					valid = true;
 				}
 				if (choice == 'A') 
 				{
-					std::cout << "Enter User's ADDRESS: ";
-					std::cin >> To_Add.address;
-					std::cin.ignore(MAX_NAME, '\n');
-				}
-				if (choice == 'C') {
-					std::cout << "Enter user's CITY: ";
-					std::cin >> To_Add.city;
-					std::cin.ignore(MAX_CITY, '\n');
 
+					std::cout << "Enter User's ADDRESS: ";
+					std::getline(std::cin, To_Add.address, '\n');
+					To_Add.address.resize(200);
+					valid = true;
+				}
+				if (choice == 'C') 
+				{
+					
+					std::cout << "Enter user's CITY: ";
+					std::getline(std::cin, To_Add.city, '\n');
+					To_Add.city.resize(MAX_CITY);
+					valid = true;
 				}
 				if (choice == 'S') 
 				{
+					
 					std::cout << "Enter User's STATE as intials (XX): ";
-					std::cin >> To_Add.state;
-					std::cin.ignore(2, '\n');
+					std::getline(std::cin, To_Add.state, '\n');
+					To_Add.state.resize(2);
+					valid = true;
 
 				}
 				if (choice == 'Z')
 				{
-					std::cout << "Enter User's ZIP CODE: ";
-					std::cin >> To_Add.zip;
-					std::cin.ignore(5, '\n');
+
+					do
+					{
+						std::cout << "Enter User's ZIP CODE: ";
+						if (!isdigit(std::cin.peek()))
+						{
+							valid = false;
+							std::cout << "ERROR: Not a number\n\n";
+						}
+						else
+						{
+							std::cin >> To_Add.zip;
+							if (To_Add.zip < 10000 || To_Add.zip > 99999)
+							{
+								valid = false;
+								std::cout << "ERROR: Invalid Zip Code\n\n";
+							}
+							else
+								valid = true;
+						}
+						std::cin.ignore(100, '\n');
+					} while (valid == false);
 				}
 			} while (choice != 'X');
-			std::cout << To_Add.name;
-			std::cout << To_Add.address;
-			std::cout << To_Add.city;
-			std::cout << To_Add.state;
-			std::cout << To_Add.zip;
+			EditUser(To_Add,IDnum,database);
 
 			break;
 
@@ -298,8 +309,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
         case 'S':
             std::cout << "Enter service type: ";
 			std::getline(std::cin, s_name, '\n');
-			s_name.resize(MAX_SVC_NAME);
-            std::cin.ignore(100, '\n');
+			s_name.resize(MAX_NAME);
 			do
 			{
 				std::cout << "Enter service code: ";
@@ -312,7 +322,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				{
 					std::cin >> svc_code;
 					if (svc_code <= 0 || svc_code > MAX_SERVICE)
-						std::cout << "ERROR: Invalid Service Fee\n\n";
+						std::cout << "ERROR: Invalid Service code\n\n";
 					else
 						valid = true;
 				}
@@ -330,7 +340,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "ERROR: Invalid Service Fee\n\n";
 			} while (fee <= 0 || fee > MAX_FEE);
 
-            database.AddServ(svc_code, user_input.c_str(), fee, error); // write service to db
+            database.AddServ(svc_code, s_name.c_str(), fee, error); // write service to db
             break;
 
 		default:
@@ -366,41 +376,83 @@ int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 	
 }
 
+int Manager::EditUser(ident& To_Add,int IDnum, ChocAnDB& database)
+{
+	char type;
+	int retInt = 0;
+	
+	if (IDnum >= MIN_MANAGER && IDnum <= MAX_MANAGER) //They are a manager
+	{
+		type = 'g';
+		if (database.ModUser(type, IDnum, retInt) == 0)
+		{
+			std::cout << "USER SUCCESSFULLY EDITED";
+			return 1;
+		}
+	}
+
+	if (IDnum >= MIN_PROVIDER && IDnum <= MAX_PROVIDER)//They are Provider
+	{
+		type = 'p';
+		if (database.ModUser(type, IDnum, retInt) == 0)
+		{
+			std::cout << "USER SUCCESSFULLY EDITED";
+			return 1;
+		}
+	}
+	if (IDnum >= MIN_MEMBER && IDnum <= MAX_ID)//They are a member
+	{
+		type = 'm';
+		if (database.ModUser(type, IDnum, retInt) == 0)
+		{
+			std::cout << "USER SUCCESSFULLY EDITED";
+			return 1;
+		}
+	}
+	std::cout << "UNABLE TO EDIT";
+	return 0;
+}
+
+
 int Manager::Write_Report(int ID)
 {
 	std::ofstream out;
 
-	out.open("Summary_Report.txt");
-	out << ("Testing writing to file\n");
+	out.open("ManagerReport.txt");
+	if (out.fail())
+		return -1;
 
 	// Get Manager
 	int RetInt = 0;
 	ChocAnDB* database = new ChocAnDB(RetInt);
-	ident provider = database->GetUser('p', ID, RetInt);
+	Form* directory = database->ProvDir(RetInt);
+	int count = 0;
 
-	// Output provider data to file
-	out << "PROVIDER NAME: " << provider.name << std::endl;
-	out << "ID: " << provider.number << std::endl;
-	out << "ADDRESS: " << provider.address << std::endl;
-	out << "CITY: " << provider.city << std::endl;
-	out << "STATE: " << provider.state << std::endl;
-	out << "ZIP: " << provider.zip << std::endl << std::endl;
+	for (auto var : *directory) {
+		// Input everything into a temp ptr
+		// If Provider ID matched, write it into report
+		// If Provider ID is not match, delete and move on
 
-	// Get service base on providerID
-	ServRep* report;
-	report = database->GetServRep('p', provider.number, RetInt);
-	//ident member = database->GetUser('m', report member id, RetInt);
-    // todo whatever needs to be done here
-	// Get ALL Services for that provider
-	/*
-	 * SERVICE PROVIDED FOR: // member.name
-	 * SERVICE SUMMARY: // service->getName();
-	 * PROVIDED DATE: // service->getProvDate();
-	 * LOGGED DATE: // service->getLogDate();
-	 * FEE: // service->getFee();
-	 * COMMENTS: // service->getComments();
-	 */
+		// ----- CURRENTLY WRITING EVERY SERVICE -----
+		if (count == 0)
+			out << "PROVIDER ID: " << var << std::endl;
+		else if (count == 1)
+			out << "PROVIDER NAME: " << var << std::endl;
+		else if (count == 2)
+			out << "ADDRESS: " << var << std::endl;
+		else if (count == 3)
+			out << "CITY: " << var << std::endl;
+		else if (count == 4)
+			out << "STATE: " << var << std::endl;
+		else if (count == 5)
+			out << "ZIP: " << var << std::endl;
 
+		++count;
+		count = count % 6;
+	}
+
+	delete database;
+	delete directory;
 	out.close();
 	return 0;
 }
