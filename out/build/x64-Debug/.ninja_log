@@ -1,6 +1,0 @@
-# ninja log v5
-21	1498	597226305	CMakeFiles/ChocAn.dir/src/Service.cpp.obj	a0057a75d364e571
-14	1500	597226305	CMakeFiles/ChocAn.dir/src/Operator.cpp.obj	baa41fd01c17e57d
-6	1681	597226522	CMakeFiles/ChocAn.dir/src/Operator.cpp.obj	baa41fd01c17e57d
-10	1916	597226522	CMakeFiles/ChocAn.dir/src/Service.cpp.obj	a0057a75d364e571
-1681	4340	597226525	CMakeFiles/ChocAn.dir/src/sqlite/sqlite3.c.obj	cc9aa56dbe8e22fe
