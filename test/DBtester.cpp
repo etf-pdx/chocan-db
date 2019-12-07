@@ -89,7 +89,7 @@ int DBtester::test(){
         fprintf(log, "PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour) % 24, ptm->tm_min, ptm->tm_sec);
         fprintf(log, "\t--RETRIEVED MEMBER NUMBER/NAME : %d/%s\n", RetID.number, RetID.name.c_str());
         if (RetID.status)
-            fprintf(log, "\t--MEMBER STATUS: ACTIVE");
+            fprintf(log, "\t--MEMBER STATUS: ACTIVE\n");
         else
             fprintf(log, "\t--MEMBER STATUS: SUSPENDED");
 
@@ -99,19 +99,28 @@ int DBtester::test(){
 
     //Retreieve service list
     Form *P = DB->ProvDir(RetInt);
-    for (auto k : *P)
-        std::cout << "\n--\n" << k << std::endl;
+
     if (RetInt == 0) {
         fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
-        fprintf(log, "\t--RETRIEVED service list : \n%s\n", Stmt);
-
+        fprintf(log, "\t--RETRIEVED service list :\n");
+        for (auto k : *P)
+            fprintf(log,"\n\t--%s", k);
     }
 
     //Retrieve service report
     ServRep *Rep =  DB->GetServRep('m', HappyID.number, RetInt);
-    for (auto k : *Rep)
-        std::cout << "\t--SERVICE PROVIDED:\t" << k->dateProvided << std::endl;
+    if (RetInt == 0) {
+        fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
+        for (auto k : *Rep)
+            fprintf(log,"\t--SERVICE PROVIDED:\t%s\n",k->dateProvided.c_str());
+    }
 
+    Rep =  DB->GetServRep('p', 200000001, RetInt);
+    if (RetInt == 0) {
+        fprintf(log,"PASSED DATABASE LOOK UP: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
+        for (auto k : *Rep)
+            fprintf(log,"\t--SERVICE PROVIDED:\t%s\n",k->dateProvided.c_str());
+    }
     delete DB;
     fprintf(log, "TEST COMPLETE: %02d:%02d:%02d\n", (ptm->tm_hour)%24, ptm->tm_min, ptm->tm_sec);
     fclose(log);
