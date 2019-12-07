@@ -78,6 +78,7 @@ static int GetRep(ServRep *Ret, int argc, char **argv, char **azColName){
     tmp->providerName = argv[4];
     tmp->memberName = argv[5];
     tmp->memberNumber = atoi(argv[6]);
+    tmp->fee = atof(argv[7]);
     Ret->emplace_back(tmp);
     return 0;
 }
