@@ -117,9 +117,10 @@ int managerMenu(int ID) {
 					cout << "\nInput is not a valid member ID number.\n";
 			}
 			Member* subject = new Member(repID);
-			if (!subject->Get_Report(repID))
+			if (!subject->Write_Report(repID))
 				cout << "\nFailed to generate member report\n";
 			// todo output report to file
+			delete[] subject;
 		}
 		if (choice == 'P') {    // Provider report
 			// Obtain a valid provider ID number:
