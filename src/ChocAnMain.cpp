@@ -150,6 +150,7 @@ int managerMenu(int ID) {
 */
 			subject->Write_Report(repID);
 			// todo output report to file
+			delete[] subject;
 		}
 		if (choice == 'S') {    // Summary report
 		    // todo get report
