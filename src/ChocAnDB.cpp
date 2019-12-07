@@ -306,7 +306,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
                   "'%d','%d',"
                   "(SELECT NAME FROM PROVIDER WHERE ID = '%d'),'%d',"
                   "(SELECT NAME FROM MEMBER WHERE ID = '%d'),'%s',"
-                  "(SELECT FEE FROM SERVICE WHERE SERVICE_CODE = '%d');",
+                  "(SELECT FEE FROM SERVICE WHERE SERVICE_CODE = '%d'))",
                   loggeddate, ServCD, ProvID, ProvID, MembID, MembID, comm, ServCD);
     Stmt = new char[strlen(Buff) + 1];
     strcpy(Stmt, Buff);
