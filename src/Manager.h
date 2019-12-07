@@ -9,7 +9,6 @@ public:
 	Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState, int aZip);
 	~Manager();
 
-	int OptionSelect(ChocAnDB & database);
 	int EnterInteractiveMode();
 
 	int Write_Report(int ID);

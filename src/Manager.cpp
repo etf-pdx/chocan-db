@@ -13,47 +13,6 @@ Manager::Manager(char* aName, int aID, char* aAddress, char* aCity, char* aState
 // Destructor
 Manager::~Manager() { }
 
-
-
-// List of options available to manager
-int Manager::OptionSelect(ChocAnDB & database)
-{
-	int choice;
-
-	std::cout << "\n\tGenerate Report\t\t(Enter'R')\n";
-	std::cout << "\tEnter Interactive Mode (Manager Only)\t\t(Enter 'I')\n";
-	std::cout << "$";	// To prompt user to enter, common practice for command or console program
-
-	std::cin >> choice;
-	std::cin.ignore(100, '\n');
-	choice = toupper(choice);
-
-	while (choice != 'R' && choice != 'I') {
-		std::cout << "\nPlease select from the above options.\n";
-		std::cin >> choice;
-		std::cin.ignore(100, '\n');
-		choice = toupper(choice);
-	}
-
-	switch (choice)
-	{
-	case 'R':
-		/* Generate Report Here
-		 *	1. Get operator ID Number
-		 *	2. Run that class's report
-		 *	3. ???
-		 *	4. Profit
-		*/
-		break;
-	case 'I':
-		InteractiveMode(database);
-		break;
-	default:
-		break;
-	}
-	return 0;
-}
-
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -388,43 +347,5 @@ int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 
 int Manager::Write_Report(int ID)
 {
-	std::ofstream out;
-
-	out.open("ManagerReport.txt");
-	if (out.fail())
-		return -1;
-
-	// Get Manager
-	int RetInt = 0;
-	ChocAnDB* database = new ChocAnDB(RetInt);
-	Form* directory = database->ProvDir(RetInt);
-	int count = 0;
-
-	for (auto var : *directory) {
-		// Input everything into a temp ptr
-		// If Provider ID matched, write it into report
-		// If Provider ID is not match, delete and move on
-
-		// ----- CURRENTLY WRITING EVERY SERVICE -----
-		if (count == 0)
-			out << "PROVIDER ID: " << var << std::endl;
-		else if (count == 1)
-			out << "PROVIDER NAME: " << var << std::endl;
-		else if (count == 2)
-			out << "ADDRESS: " << var << std::endl;
-		else if (count == 3)
-			out << "CITY: " << var << std::endl;
-		else if (count == 4)
-			out << "STATE: " << var << std::endl;
-		else if (count == 5)
-			out << "ZIP: " << var << std::endl;
-
-		++count;
-		count = count % 6;
-	}
-
-	delete database;
-	delete directory;
-	out.close();
-	return 0;
+	return -1;
 }

@@ -499,7 +499,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "    MEMBER_ID        INT(9) NOT NULL ,"
                          "    MEMBER_NAME      TEXT(25) NOT NULL,"
                          "    COMMENT          TEXT(100)," //Foreign key links to a primary key
-                         "    FEE              REAL"
+                         "    FEE              REAL,"
                          "    FOREIGN KEY(MEMBER_ID)        REFERENCES MEMBER,"
                          "    FOREIGN KEY(PROVIDER_ID)      REFERENCES PROVIDER,"
                          "    FOREIGN KEY(SERVICE_CODE)     REFERENCES SERVICE);";

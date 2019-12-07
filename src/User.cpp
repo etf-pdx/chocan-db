@@ -84,48 +84,41 @@ int Provider::Get_Report(int ID)
 int Provider::Write_Report(int ID)
 {
 	std::ofstream out;
-	int count = 0;
 
 	out.open("ProviderReport.txt");
 	if (out.fail())
 		return -1;
 
 	int RetInt = 0;
+	int count = 0;
 	ChocAnDB* db = new ChocAnDB(RetInt);
 	ServRep* directory = db->GetServRep('p', ID, RetInt);
 	for (auto var : *directory) {
-		// Input everything into a temp ptr
-		// If Provider ID matched, write it into report
-		// If Provider ID is not match, delete and move on
-
+		std::cout << var << std::endl;
+		/*
 		// ----- CURRENTLY WRITING EVERY SERVICE -----
-		if(count != 0)
-			std::cout << var << std::endl;
-
-		if (count == 1)
-			out << "SERVICE SUMMARY: " << var << std::endl;
+		if (count == 0)
+			out << "PROVIDER ID: " << var << std::endl;
+		else if (count == 1)
+			out << "PROVIDER NAME: " << var << std::endl;
 		else if (count == 2)
-			out << "SERVICE CODE: " << var << std::endl;
+			out << "ADDRESS: " << var << std::endl;
 		else if (count == 3)
-			out << "DATE PROVIDED: " << var << std::endl;
+			out << "CITY: " << var << std::endl;
 		else if (count == 4)
-			out << "LOGGED DATE: " << var << std::endl;
+			out << "STATE: " << var << std::endl;
 		else if (count == 5)
-			out << "PROVIDED FOR: " << var << std::endl;
-		else if (count == 6)
-			out << "PROVIDED BY: " << var << std::endl;
-		else if (count == 7)
-			out << "FEE: " << var << std::endl;
-		else if (count == 8)
-			out << "COMMENTS: " << var << std::endl << std::endl;
-
+			out << "ZIP: " << var << std::endl;
+		*/
 		++count;
-		count = count % 9;
+		count = count % 6;
 	}
+	std::cout << std::endl;
+
 	delete db;
 	delete directory;
 	out.close();
-    return 0;
+	return 0;
 }
 
 // Display all of the services of the current provider

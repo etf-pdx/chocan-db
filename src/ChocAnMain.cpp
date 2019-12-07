@@ -143,9 +143,10 @@ int managerMenu(int ID) {
 					cout << "\nInput is not a valid provider ID number.\n";
 			}
 			Provider* subject = new Provider(repID);
-			if (!subject->Get_Report(repID))
+			if (!subject->Write_Report(repID))
 				cout << "\nFailed to generate provider report\n";
 			// todo output report to file
+			delete subject;
 		}
 		if (choice == 'S') {    // Summary report
 		    // todo get report
