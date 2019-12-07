@@ -63,7 +63,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
             }
             delete Stmt;
             IDnum = sqlite3_last_insert_rowid(DB);
-            Stmt = "\0";
+            Stmt = nullptr;
             buff[0] = '\0';
             sprintf(buff, "INSERT INTO STATUS (START_DATE, MONTHS_PAID, MEMBER_ID)"
                           "VALUES (CURRENT_DATE,1,%d);",IDnum);
@@ -75,6 +75,7 @@ int ChocAnDB::AddUser(char type, ident UserID, int &RetInt) {
                 std::cout << "\t-FAILED-\n" << "MEMBER TABLE FAILED:\t" << ErrMsg;
                 return RetInt = MEMBER_FAILED;
             }
+
             break;
 
         case 'p' :
@@ -128,6 +129,7 @@ int ChocAnDB::ModUser(char type, ident UserID, int &RetInt) {
         default:
             return RetInt = UNDEFINED ;
     }
+    delete(Stmt);
     return RetInt = DB_OK;
 }
 
@@ -475,7 +477,6 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        00000);";
 
     const char *StatTB = "create table IF NOT EXISTS STATUS(" //If Table does not exist it will be created
-                         "    STATUS_ID        RANDOM INT PRIMARY KEY, "
                          "    START_DATE       DATE NOT NULL, "
                          "    MONTHS_PAID      INT,"
                          "    MEMBER_ID        INT(9) NOT NULL, "
