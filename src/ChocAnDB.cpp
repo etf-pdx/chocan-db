@@ -318,7 +318,7 @@ int ChocAnDB::AddRecd(int MembID, int ProvID, int ServCD, const char *comm, cons
 }
 
 ident ChocAnDB::GetUser(char type, int UserID, int &RetInt) {
-    std::cout << "CALLING DATABASE:\t";
+    std::cout << "CALLING DATABASE:\n";
     std::string Stmt;
     ident *data = new ident;
 
@@ -480,7 +480,7 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        00000);";
 
     const char *StatTB = "create table IF NOT EXISTS STATUS(" //If Table does not exist it will be created
-                         "    STATUS_ID        INT PRIMARY KEY     NOT NULL, "
+                         "    STATUS_ID        RANDOM INT PRIMARY KEY, "
                          "    START_DATE       DATE NOT NULL, "
                          "    MONTHS_PAID      INT,"
                          "    MEMBER_ID        INT(9) NOT NULL, "
@@ -488,10 +488,9 @@ int ChocAnDB::OpenDB(int RetInt) {
                          "        REFERENCES MEMBER);";
 
     const char *RecdTB = "create table IF NOT EXISTS RECORD (" //If Table does not exist it will be created
-                         "    RECORD_ID        INT PRIMARY KEY     NOT NULL, "
                          "    SERVICE_PROVIDED DATE NOT NULL ,"
                          "    SERVICE_LOGGED   DATE NOT NULL ,"
-                         "    SERVICE_CODE     INT(6) NOT NULL,"
+                         "    SERVICE_CODE     INT(6) PRIMARY KEY NOT NULL,"
                          "    PROVIDER_ID      INT(9) NOT NULL,"
                          "    PROVIDER_NAME    TEXT(25) NOT NULL,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
