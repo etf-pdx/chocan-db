@@ -29,15 +29,22 @@ User::~User()
 		delete My_Service;
 }
 
-
-// 5.5.1    Member Reports
-
+int User::Get_Report(int ID)
+{ 
+	return 0;
+}
 
 // Implementation of Provider class
 // Default Provider constructor
-Provider::Provider(): User(){}
+Provider::Provider(): User()
+{
 
-Provider::Provider(int ID): User(ID){}
+}
+
+Provider::Provider(int ID): User(ID)
+{
+
+}
 
 Provider::Provider(Provider& To_Add): User(To_Add)
 {
@@ -55,7 +62,24 @@ Provider::Provider(ident& toAdd)
 }
 
 // Destructor
-Provider::~Provider(){}
+Provider::~Provider()
+{
+
+}
+
+int Provider::Get_Report(int ID)
+{
+	// Return -1 for error
+	if (ID < 0)
+		return -1;
+
+	displayID(ID);
+	//Display_Service(My_Service);
+    My_Service->display();
+    if (!Write_Report(ID))
+        return -1;
+	return 0;
+}
 
 int Provider::Write_Report(int ID)
 {
@@ -140,77 +164,24 @@ Member::Member(ident& toAdd)
 //Destructor
 Member::~Member(){}
 
+int Member::Get_Report(int ID)
+{
+	// Return -1 for error
+	if (ID < 0)
+		return -1;
+
+	displayID(ID);
+	//Display_Service(My_Service);
+	My_Service->display();
+	if (!Write_Report(ID))
+	    return -1;
+	return 0;
+}
 
 int Member::Write_Report(int ID)
 {
-	std::ofstream out;
-	int count = 0;
-	int RetInt = 0;
-	ChocAnDB* db = new ChocAnDB(RetInt);
-	
-	IDList* MemberList = db->MBList(RetInt);
-	for (auto var : *MemberList)
-	{
-		if (count == 0)
-			std::cout << "MEMBER ID: " << var << std::endl;
-		else if (count == 1)
-			std::cout << "MEMBER NAME: " << var << std::endl;
-		else if (count == 2)
-			std::cout << "ADDRESS: " << var << std::endl;
-		else if (count == 3)
-			std::cout << "CITY: " << var << std::endl;
-		else if (count == 4)
-			std::cout << "STATE: " << var << std::endl;
-		else if (count == 5)
-			std::cout << "ZIP: " << var << std::endl;
-
-		++count;
-		count = count % 6;
-	}
-
-	// ^Once above is working, uncomment and work on below
-	/*
-	out.open("MemberReport.txt");
-	if (out.fail())
-		return -1;
-
-	count = 0;
-	ServRep* directory = db->GetServRep('p', ID, RetInt);
-	for (auto var : *directory) {
-		// Input everything into a temp ptr
-		// If Member ID matched, write it into report
-		// If Member ID is not match, delete and move on
-
-		// ----- CURRENTLY WRITING EVERY SERVICE -----
-		if (count != 0)
-			std::cout << var << std::endl;
-
-		if (count == 1)
-			out << "SERVICE SUMMARY: " << var << std::endl;
-		else if (count == 2)
-			out << "SERVICE CODE: " << var << std::endl;
-		else if (count == 3)
-			out << "DATE PROVIDED: " << var << std::endl;
-		else if (count == 4)
-			out << "LOGGED DATE: " << var << std::endl;
-		else if (count == 5)
-			out << "PROVIDED FOR: " << var << std::endl;
-		else if (count == 6)
-			out << "PROVIDED BY: " << var << std::endl;
-		else if (count == 7)
-			out << "FEE: " << var << std::endl;
-		else if (count == 8)
-			out << "COMMENTS: " << var << std::endl << std::endl;
-
-		++count;
-		count = count % 9;
-	}
-	*/
-	delete MemberList;
-	delete db;
-	//delete directory;
-	//out.close();
-	return 0;
+    // TODO: Write the provider report to a file. If DB does this, make sure it's called in Provider::Get_Report()
+    return 0;
 }
 
 
@@ -221,7 +192,7 @@ int Member::Write_Report(int ID)
 // communicating member status to the user.
 // Requirements Doc: 4.3.2    Requesting ID Verification:
 int Provider::memberID_Verify() {
-	int ID;
+	int ID, memCheck;
 	std::string user_input;
 	ident sql_ret;
 	int db_RetInt = 0, query_RetInt = 0;
@@ -241,11 +212,11 @@ int Provider::memberID_Verify() {
 			try {
 				ID = stoi(user_input);
 			}
-			catch (const std::invalid_argument& e) {
+			catch (std::invalid_argument e) {
 				std::cout << "Input is not a number.\n";
 				ID = -1;
 			}
-			catch (const std::out_of_range& e) {
+			catch (std::out_of_range e) {
 				std::cout << "\nInput is out of int's range.\n";
 				ID = -1;
 			}
@@ -262,22 +233,18 @@ int Provider::memberID_Verify() {
 	std::cout << "\nContacting Chocaholics Anonymous...\n";
 	sql_ret = db->GetUser('m', ID, query_RetInt);
 
-	//tsw- idk how sql_ret error code works so using something i know
-	// seems to return 0 if it works or not. instead-
-	//if number == 0 no record found. else updated to ID number
-	if (sql_ret.number == 0) {
+	if (query_RetInt != false) {
+		std::cout << "Member does not exist in DB \n";
 		delete db;
 		return -1;
 	}
-	delete db;
-	return ID;
-/*
 	if (sql_ret.status == false) {
 		std::cout << "\nMember suspended\n";
 		delete db;
 		return -2;
 	}
-*/
+	delete db;
+	return ID;
 }
 
 // logService() obtains the necessary info to
@@ -288,8 +255,9 @@ int Provider::memberID_Verify() {
 int Provider::logService() {
 	int memberID = 0;
 	int serviceCode = 0;
-        int db_ret_int = 0;
-        std::string serviceDate, user_input, comments;
+    int db_ret_int = 0;
+    std::string serviceDate, user_input;
+	std::string comments;
 
 	memberID = memberID_Verify();
 	if (memberID < 0) 
@@ -300,6 +268,7 @@ int Provider::logService() {
 	do {
 		std::cout << "Please enter the date the service was provided (MM-DD-YYYY)\n";
 		std::cin >> serviceDate;
+		std::cin.ignore(INPUT_BUFFER, '\n');
 		if (!dateFormatCheck(serviceDate)) {
 			std::cout << "Input is not in correct format. \n";
 		}
@@ -315,11 +284,11 @@ int Provider::logService() {
 			try {
 				serviceCode = stoi(user_input);
 			}
-			catch (const std::invalid_argument& e) {
+			catch (std::invalid_argument e) {
 				std::cout << "Input is not a number.\n";
 				serviceCode = -1;
 			}
-			catch (const std::out_of_range& e) {
+			catch (std::out_of_range e) {
 				std::cout << "\nInput is out of int's range.\n";
 				serviceCode = -1;
 			}
@@ -347,9 +316,9 @@ int Provider::logService() {
 	}
 
 	// Record service:
-        ChocAnDB * db = new ChocAnDB(db_ret_int);
-        db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
-        delete db;
+    ChocAnDB * db = new ChocAnDB(db_ret_int);
+    db->AddRecd(memberID, this->ID.number, serviceCode, comments.c_str(), serviceDate.c_str(), db_ret_int);
+    delete db;
 	return 1;
 }
 

@@ -61,15 +61,19 @@ Service::Service(const Service* To_Add)
 	if (!To_Add)
 		return;
 
-	service_name = To_Add->service_name;
+	service_name = new char[MAX_NAME];
+	strcpy(service_name, To_Add->service_name);
+
 	service_code = To_Add->service_code;
-	provided_date = To_Add->provided_date;
+
+	provided_date = new char[MAX_DATE];
+	strcpy(provided_date, To_Add->provided_date);
 	/*
 		Check date format here
 	*/
 	
-	logged_date = To_Add->logged_date;
-
+	logged_date = new char[MAX_DATE];
+	strcpy(logged_date, To_Add->logged_date);
 	/*
 		Check date format here
 	*/

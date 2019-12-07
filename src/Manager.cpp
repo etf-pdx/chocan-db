@@ -15,6 +15,45 @@ Manager::~Manager() { }
 
 
 
+// List of options available to manager
+int Manager::OptionSelect(ChocAnDB & database)
+{
+	int choice;
+
+	std::cout << "\n\tGenerate Report\t\t(Enter'R')\n";
+	std::cout << "\tEnter Interactive Mode (Manager Only)\t\t(Enter 'I')\n";
+	std::cout << "$";	// To prompt user to enter, common practice for command or console program
+
+	std::cin >> choice;
+	std::cin.ignore(100, '\n');
+	choice = toupper(choice);
+
+	while (choice != 'R' && choice != 'I') {
+		std::cout << "\nPlease select from the above options.\n";
+		std::cin >> choice;
+		std::cin.ignore(100, '\n');
+		choice = toupper(choice);
+	}
+
+	switch (choice)
+	{
+	case 'R':
+		/* Generate Report Here
+		 *	1. Get operator ID Number
+		 *	2. Run that class's report
+		 *	3. ???
+		 *	4. Profit
+		*/
+		break;
+	case 'I':
+		InteractiveMode(database);
+		break;
+	default:
+		break;
+	}
+	return 0;
+}
+
 // Wrapper for interactive mode.
 // Opens DB, passes as arg to InteractiveMode(DB).
 // Called from ChocAnMain.cpp
@@ -35,8 +74,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 	int IDnum;
 	bool isInteractive = true;
 	std::string user_input;
-	ident sql_ret;
-	int retInt = 0;
+	
 	 // Entering interactive mode
 	 // Prompt for options within interactive mode
 	 
@@ -105,7 +143,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				else
 				{
 					std::cin >> To_Add.zip;
-					if (To_Add.zip < 10000 || To_Add.zip > 99999)
+					if (To_Add.zip < 97000 || To_Add.zip > 97999)
 					{
 						valid = false;
 						std::cout << "ERROR: Invalid Zip Code\n\n";
@@ -115,32 +153,22 @@ int Manager::InteractiveMode(ChocAnDB & database)
 				}
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
-				char member_type;
-			do
-			{
-				std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
-				std::cout << "$";
-				std::cin >> member_type;
-				std::cin.ignore(100, '\n');
-				member_type = toupper(member_type);
-				if (member_type == 'P')	// Add a Provider
-					AddProvider(To_Add, database);
-				else if (member_type == 'M')	// Add a Member
-					AddMember(To_Add, database);
-				else if (member_type != 'M' && member_type != 'P')
-				{
-					std::cout << "Please type a valid letter either 'P' or 'M' \n";
-				}
-			} while (member_type != 'P' && member_type != 'M');
 
-			
+			char member_type;
+            std::cout << "Enter the type of user: \t (p - provider) (m - member)\n";
+            std::cout << "$";
+            std::cin >> member_type;
+			std::cin.ignore(100, '\n');
+            member_type = toupper(member_type);
+			if (member_type == 'P')	// Add a Provider
+				AddProvider(To_Add, database);
+			else if (member_type == 'M')	// Add a Member
+				AddMember(To_Add, database);
 			break;
 			// ----- END ADD USER -----
 
 		case 'E':
 			IDnum = 0;
-			char type;
-			valid = false;
 			do
 			{
 				std::cout << "Enter an ID for edit: ";
@@ -151,29 +179,9 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cin >> IDnum;
 					if (IDnum <= 0 || IDnum > MAX_ID)
 						std::cout << "Is not a valid ID.\n";
-				}
-				if (IDnum >= MIN_MANAGER && IDnum <= MAX_MANAGER) //They are a manager
-				{
-					type = 'g';
-					sql_ret = database.GetUser(type, IDnum, retInt);
-					if (sql_ret.number != 0)
+					else
 						valid = true;
 				}
-				if (IDnum >= MIN_PROVIDER && IDnum <= MAX_PROVIDER)//They are Provider
-				{
-					type = 'p';
-					sql_ret = database.GetUser(type, IDnum, retInt);
-					if (sql_ret.number != 0)
-						valid = true;
-				}
-				if (IDnum >= MIN_MEMBER && IDnum <= MAX_ID)//They are a member
-				{
-					type = 'm';
-					sql_ret = database.GetUser(type, IDnum, retInt);
-					if(sql_ret.number!=0)
-						valid = true;
-				}
-
 				std::cin.ignore(100, '\n');
 			} while (valid == false);
 
@@ -214,7 +222,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "Enter User's NAME: ";
 					std::getline(std::cin, To_Add.name, '\n');
 					To_Add.name.resize(MAX_NAME);
-					valid = true;
+
 				}
 				if (choice == 'A') 
 				{
@@ -222,7 +230,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "Enter User's ADDRESS: ";
 					std::getline(std::cin, To_Add.address, '\n');
 					To_Add.address.resize(200);
-					valid = true;
 				}
 				if (choice == 'C') 
 				{
@@ -230,7 +237,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "Enter user's CITY: ";
 					std::getline(std::cin, To_Add.city, '\n');
 					To_Add.city.resize(MAX_CITY);
-					valid = true;
+
 				}
 				if (choice == 'S') 
 				{
@@ -238,7 +245,6 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					std::cout << "Enter User's STATE as intials (XX): ";
 					std::getline(std::cin, To_Add.state, '\n');
 					To_Add.state.resize(2);
-					valid = true;
 
 				}
 				if (choice == 'Z')
@@ -255,7 +261,7 @@ int Manager::InteractiveMode(ChocAnDB & database)
 						else
 						{
 							std::cin >> To_Add.zip;
-							if (To_Add.zip < 10000 || To_Add.zip > 99999)
+							if (To_Add.zip < 97000 || To_Add.zip > 97999)
 							{
 								valid = false;
 								std::cout << "ERROR: Invalid Zip Code\n\n";
@@ -267,7 +273,11 @@ int Manager::InteractiveMode(ChocAnDB & database)
 					} while (valid == false);
 				}
 			} while (choice != 'X');
-			EditUser(To_Add,IDnum,database);
+			std::cout << To_Add.name;
+			std::cout << To_Add.address;
+			std::cout << To_Add.city;
+			std::cout << To_Add.state;
+			std::cout << To_Add.zip;
 
 			break;
 
@@ -375,44 +385,6 @@ int Manager::AddMember(ident& To_Add, ChocAnDB & database)
 	return result;
 	
 }
-
-int Manager::EditUser(ident& To_Add,int IDnum, ChocAnDB& database)
-{
-	char type;
-	int retInt = 0;
-	
-	if (IDnum >= MIN_MANAGER && IDnum <= MAX_MANAGER) //They are a manager
-	{
-		type = 'g';
-		if (database.ModUser(type, IDnum, retInt) == 0)
-		{
-			std::cout << "USER SUCCESSFULLY EDITED";
-			return 1;
-		}
-	}
-
-	if (IDnum >= MIN_PROVIDER && IDnum <= MAX_PROVIDER)//They are Provider
-	{
-		type = 'p';
-		if (database.ModUser(type, IDnum, retInt) == 0)
-		{
-			std::cout << "USER SUCCESSFULLY EDITED";
-			return 1;
-		}
-	}
-	if (IDnum >= MIN_MEMBER && IDnum <= MAX_ID)//They are a member
-	{
-		type = 'm';
-		if (database.ModUser(type, IDnum, retInt) == 0)
-		{
-			std::cout << "USER SUCCESSFULLY EDITED";
-			return 1;
-		}
-	}
-	std::cout << "UNABLE TO EDIT";
-	return 0;
-}
-
 
 int Manager::Write_Report(int ID)
 {

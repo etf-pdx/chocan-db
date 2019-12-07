@@ -53,7 +53,7 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
           for (int i = 0; i < argc; i++) {
             sprintf(buff1,"%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
             strcat(buff2,buff1);
-        }
+        } //TODO: fix formating so ret does not chop the ends
           strcpy(buff1,buff2);
           ret = new char[strlen(buff1)+1];
           strcpy(ret,buff1);
@@ -63,6 +63,9 @@ static int SVlist(Form *Ret, int argc, char **argv, char **azColName) {
         // abort select on failure, don't let exception propogate thru sqlite3 call-stack
         return -1;
     }
+//    delete buff1;//TODO: deletes error out?
+//    delete buff2;
+//    delete ret;
     return 0;
 }
 

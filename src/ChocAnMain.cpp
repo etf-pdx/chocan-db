@@ -9,18 +9,18 @@
 #include <cctype>
 #include <iostream>
 #include <time.h>
-#include <string>	// tsw- for easy string use
-#include <cctype>	// tsw- to check if char is letter or digit (date format)
+#include <string>					// tsw- for easy string use
+#include <cctype>					// tsw- to check if char is letter or digit (date format)
 #include "Manager.h"
 using namespace std;
 
-int getUserID();		//seperating code into smaller functions for unit testing. functionality unchanged
-int managerMenu(int ID);	//seperating code into smaller functions for unit testing. functionality unchanged
-int providerMenu(int ID);	//seperating code into smaller functions for unit testing. functionality unchanged
+int getUserID();								//seperating code into smaller functions for unit testing. functionality unchanged
+int managerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
+int providerMenu(int ID);						//seperating code into smaller functions for unit testing. functionality unchanged
 
 int main()
 {
-	int ID;		       // User's ID number, report request ID number
+	int ID;		                // User's ID number, report request ID number
 
 	// Welcome the user
 	cout << "\n\tWelcome to Chocaholics Anonymous.\n";
@@ -36,7 +36,7 @@ int main()
 
 int getUserID() {
 	int ID;
-	string user_input;		// tsw- takes user's input before conv to other type (safer)
+	string user_input;			// tsw- takes user's input before conv to other type (safer)
 
 	// Obtain a valid ID number:
 	ID = -1;
@@ -48,11 +48,11 @@ int getUserID() {
 		try {
 			ID = stoi(user_input);
 		}
-		catch (const invalid_argument& e) {
+		catch (invalid_argument e) {
 			cout << "Input was invalid.\n";
 			ID = -1;
 		}
-		catch (const out_of_range& e) {
+		catch (out_of_range e) {
 			cout << "\nInput is out of int's range.\n";
 			ID = -1;
 		}
@@ -105,11 +105,11 @@ int managerMenu(int ID) {
 				try {
 					repID = stoi(user_input);
 				}
-				catch (const invalid_argument& e) {
+				catch (invalid_argument e) {
 					cout << "Invalid input\n";
 					repID = -1;
 				}
-				catch (const out_of_range& e) {
+				catch (out_of_range e) {
 					cout << "\nInput is out of int's range.\n";
 					repID = -1;
 				}
@@ -117,10 +117,9 @@ int managerMenu(int ID) {
 					cout << "\nInput is not a valid member ID number.\n";
 			}
 			Member* subject = new Member(repID);
-			if (!subject->Write_Report(repID))
+			if (!subject->Get_Report(repID))
 				cout << "\nFailed to generate member report\n";
 			// todo output report to file
-			delete[] subject;
 		}
 		if (choice == 'P') {    // Provider report
 			// Obtain a valid provider ID number:
@@ -132,11 +131,11 @@ int managerMenu(int ID) {
 				try {
 					repID = stoi(user_input);
 				}
-				catch (const invalid_argument& e) {
+				catch (invalid_argument e) {
 					cout << "Invalid input\n";
 					repID = -1;
 				}
-				catch (const out_of_range& e) {
+				catch (out_of_range e) {
 					cout << "\nInput is out of int's range.\n";
 					repID = -1;
 				}
@@ -144,16 +143,12 @@ int managerMenu(int ID) {
 					cout << "\nInput is not a valid provider ID number.\n";
 			}
 			Provider* subject = new Provider(repID);
-/*
-			if (!(subject->Get_Report(repID)))
+			if (!subject->Get_Report(repID))
 				cout << "\nFailed to generate provider report\n";
-*/
-			subject->Write_Report(repID);
 			// todo output report to file
-			delete[] subject;
 		}
 		if (choice == 'S') {    // Summary report
-
+		    // todo get report
 			CurrentManager->Write_Report(ID);
 		}
 		if (choice == 'I') {    // Interactive mode
@@ -207,13 +202,11 @@ int providerMenu(int ID) {
 		// Call the appropriate function:
 		if (choice == 'M') {    // Check in a member
 			err = CurrentProvider->memberID_Verify();
-			//tsw- my error code. may deviate from pattern. in interest of time, goin with it  
-			//becuase elsewhere wants the ret to be the ID
-			if(err == -1){
-			        cout << "Member is suspended or nonexistent" << endl;
+			if(err == 0){
+			    cout << "Member is suspended or nonexistent" << endl;
 			}else{
-                		cout << "Member exists in database." << endl;
-            		}
+                cout << "Member exists in database." << endl;
+            }
 		}
 		if (choice == 'S') {    // Log a service
 			CurrentProvider->logService();

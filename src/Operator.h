@@ -31,7 +31,7 @@ struct ident
     ident(std::string aName, int aNumber, std::string aAddress, std::string aCity, std::string aState, int aZip, bool aStatus);
 
 	std::string name;
-	int number;//ID number 
+	int number;
 	std::string address;
 	std::string city;
 	std::string state;
@@ -44,27 +44,26 @@ struct ident
 // The Summary report is a different thing and does not use a ServiceReport.
 
 // IS THIS FIELD USED IN THE:  MemberReport // ProviderReport
-struct ServiceReport {		//      ?       //      ?
-    int serviceCode;		//      NO      //      YES
+struct ServiceReport {			//      ?       //      ?
+    int serviceCode;			//      NO      //      YES
     std::string memberName;     //      NO      //      YES
-    int memberNumber;		//      NO      //      YES
+    int memberNumber;			//      NO      //      YES
     std::string providerName;   //      YES     //      NO
-    int providerNumber;		//      YES     //      NO
+    int providerNumber;			//      YES     //      NO
     std::string dateProvided;   //      YES     //      YES
     std::string dateLogged;     //      NO      //      YES
-    float fee;			//      NO      //      YES
+    float fee;					//      NO      //      YES
 };
 using ServRep = std::vector<ServiceReport*>;
 
 struct MemberReport {
     ident memberID;
-    ServRep servicesReceived;    // Array of services member received that week
+    ServiceReport* servicesReceived;    // Array of services member received that week
 };
 
 struct ProviderReport {
-    ProviderReport(const ServRep & initServRep);
     ident providerID;
-    ServRep servicesProvided;    // Array of services provider logged that week
+    ServiceReport* servicesProvided;    // Array of services provider logged that week
     int numServices;
     float totalFee;
 };

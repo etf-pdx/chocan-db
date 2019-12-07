@@ -1,12 +1,9 @@
-//Database header file file
+//Database header file
 //Download SQLite from the developer at https://sqlite.org/download.html
 
 #include "Operator.h"
 #include "SQL_exstention.cpp"
 #include <cstring>
-#include <string>
-#include <stdlib.h>
-#include <stdio.h>
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
 #include <iostream>
@@ -53,8 +50,6 @@ public:
 
     int AddServ(int ServCD, const char* ServNm, float fee, int &RetInt);
     //Add a service key to the Provider directory
-    //ServCD = service code | ServNm = service number 
-
 
     int AddRecd(int MembID, int ProvID, int ServCD, const char* comm, const char* datetime, int &RetInt);
     /*Add a sevice to a member

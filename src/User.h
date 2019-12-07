@@ -1,6 +1,3 @@
-#ifndef USER_H
-#define USER_H
-
 // Header file for users and its members
 
 #include "ChocAnDB.h"
@@ -16,8 +13,8 @@ public:
 	User(User& To_Add);
 	virtual ~User();
 
-       
-        virtual int Write_Report(int ID) = 0;
+    virtual int Get_Report(int ID) = 0;
+    virtual int Write_Report(int ID) = 0;
 
 	bool dateFormatCheck(std::string input_date);
 
@@ -39,7 +36,7 @@ public:
 	Provider(ident& To_Add);
 	~Provider();
 
-	
+	int Get_Report(int ID);
 	int Write_Report(int ID);
 
 	// Requirements Doc: 4.3.1 Requesting a Provider Directory:
@@ -51,7 +48,7 @@ public:
 
 };
 
-// Member class: Member is a user
+// Member class, is a user
 class Member : public User
 {
 public:
@@ -61,10 +58,8 @@ public:
 	Member(ident& To_Add);
 	~Member();
 
-	
+	int Get_Report(int ID);
 	int Write_Report(int ID);
 protected:
 
 };
-
-#endif
