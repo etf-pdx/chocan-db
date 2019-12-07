@@ -5,6 +5,8 @@
 #include "SQL_exstention.cpp"
 #include <cstring>
 #include <string>
+#include <stdlib.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include "sqlite/sqlite3.h"
 #include <iostream>

@@ -406,18 +406,24 @@ Form* ChocAnDB::ProvDir(int &RetInt) {
 
 // List of Service Records
 ServRep* ChocAnDB::GetServRep(char type, int UserID,int &RetInt) {
-    std::string Stmt;
+    char* Stmt = nullptr;
+    char* buff = new char('\0');
     ServRep *Ret = new ServRep;
     switch(type){
         case 'm':
-            Stmt = "SELECT * FROM RECORD WHERE MEMBER_ID = " + UserID;
+            sprintf(buff,"SELECT * FROM RECORD WHERE MEMBER_ID = %d",UserID);
+            Stmt = new char[strlen(buff)+1];
+            strcpy(Stmt,buff);
             break;
         case 'p':
-            Stmt = "SELECT * FROM RECORD WHERE PROVIDER_ID = " + UserID;
+            sprintf(buff,"SELECT * FROM RECORD WHERE PROVIDER_ID = %d",UserID);
+            Stmt = new char[strlen(buff)+1];
+            strcpy(Stmt,buff);
+            break;
         default:
             return nullptr;
     }
-    RetInt = sqlite3_exec(DB, Stmt.c_str(), reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), Ret, &ErrMsg);
+    RetInt = sqlite3_exec(DB, Stmt, reinterpret_cast<int (*)(void *, int, char **, char **)>(GetRep), Ret, &ErrMsg);
     return Ret;
 }
 
@@ -486,7 +492,7 @@ int ChocAnDB::OpenDB(int RetInt) {
     const char *RecdTB = "create table IF NOT EXISTS RECORD (" //If Table does not exist it will be created
                          "    SERVICE_PROVIDED DATE NOT NULL ,"
                          "    SERVICE_LOGGED   DATE NOT NULL ,"
-                         "    SERVICE_CODE     INT(6) PRIMARY KEY NOT NULL,"
+                         "    SERVICE_CODE     INT(6) NOT NULL ,"
                          "    PROVIDER_ID      INT(9) NOT NULL,"
                          "    PROVIDER_NAME    TEXT(25) NOT NULL,"
                          "    MEMBER_ID        INT(9) NOT NULL ,"
